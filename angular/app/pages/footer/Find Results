@@ -1,0 +1,331 @@
+Searching 65764 files for "Almsaeed Studio"
+
+/Applications/MAMP/htdocs/auto-repair/angular/app/pages/footer/footer.page.html:
+    3      <b>Version</b> 2.3.3
+    4    </div>
+    5:   <strong>Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights reserved.
+    6  </footer>
+    7  
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/build/less/AdminLTE-without-plugins.less:
+    1  /*!
+    2   *   AdminAutobody v2.3.5 Without Third-Party Plugins
+    3:  *   Author: Almsaeed Studio
+    4:  *	 Website: Almsaeed Studio <http://almsaeedstudio.com>
+    5   *   License: Open source - MIT
+    6   *           Please visit http://opensource.org/licenses/MIT for more information
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/build/less/AdminLTE.less:
+    1  /*!
+    2   *   AdminLTE v2.3.8
+    3:  *   Author: Almsaeed Studio
+    4:  *	 Website: Almsaeed Studio <http://almsaeedstudio.com>
+    5   *   License: Open source - MIT
+    6   *           Please visit http://opensource.org/licenses/MIT for more information
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/dist/css/AdminLTE.css:
+    2  /*!
+    3   *   AdminLTE v2.3.8
+    4:  *   Author: Almsaeed Studio
+    5:  *	 Website: Almsaeed Studio <http://almsaeedstudio.com>
+    6   *   License: Open source - MIT
+    7   *           Please visit http://opensource.org/licenses/MIT for more information
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/dist/css/AdminLTE.min.css:
+    1  @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic);/*!
+    2   *   AdminLTE v2.3.8
+    3:  *   Author: Almsaeed Studio
+    4:  *	 Website: Almsaeed Studio <http://almsaeedstudio.com>
+    5   *   License: Open source - MIT
+    6   *           Please visit http://opensource.org/licenses/MIT for more information
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/dist/css/alt/AdminLTE-without-plugins.css:
+    2  /*!
+    3   *   AdminLTE v2.3.5 Without Third-Party Plugins
+    4:  *   Author: Almsaeed Studio
+    5:  *	 Website: Almsaeed Studio <http://almsaeedstudio.com>
+    6   *   License: Open source - MIT
+    7   *           Please visit http://opensource.org/licenses/MIT for more information
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/dist/css/alt/AdminLTE-without-plugins.min.css:
+    1  @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic);/*!
+    2   *   AdminLTE v2.3.5 Without Third-Party Plugins
+    3:  *   Author: Almsaeed Studio
+    4:  *	 Website: Almsaeed Studio <http://almsaeedstudio.com>
+    5   *   License: Open source - MIT
+    6   *           Please visit http://opensource.org/licenses/MIT for more information
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/dist/js/app.js:
+    5   * options and implements exclusive AdminLTE plugins.
+    6   *
+    7:  * @Author  Almsaeed Studio
+    8   * @Support <http://www.almsaeedstudio.com>
+    9   * @Email   <abdullah@almsaeedstudio.com>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/dist/js/app.min.js:
+    5   * options and implements exclusive AdminLTE plugins.
+    6   *
+    7:  * @Author  Almsaeed Studio
+    8   * @Support <http://www.almsaeedstudio.com>
+    9   * @Email   <abdullah@almsaeedstudio.com>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/index.html:
+ 1018        <b>Version</b> 2.3.8
+ 1019      </div>
+ 1020:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+ 1021      reserved.
+ 1022    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/index2.html:
+ 1333        <b>Version</b> 2.3.8
+ 1334      </div>
+ 1335:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+ 1336      reserved.
+ 1337    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/calendar.html:
+  593        <b>Version</b> 2.3.8
+  594      </div>
+  595:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  596      reserved.
+  597    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/charts/chartjs.html:
+  495        <b>Version</b> 2.3.8
+  496      </div>
+  497:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  498      reserved.
+  499    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/charts/flot.html:
+  638        <b>Version</b> 2.3.8
+  639      </div>
+  640:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  641      reserved.
+  642    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/charts/inline.html:
+  876        <b>Version</b> 2.3.8
+  877      </div>
+  878:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  879      reserved.
+  880    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/charts/morris.html:
+  608        <b>Version</b> 2.3.8
+  609      </div>
+  610:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  611      reserved.
+  612    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/examples/404.html:
+  543        <b>Version</b> 2.3.8
+  544      </div>
+  545:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  546      reserved.
+  547    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/examples/500.html:
+  544        <b>Version</b> 2.3.8
+  545      </div>
+  546:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  547      reserved.
+  548    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/examples/blank.html:
+  438        <b>Version</b> 2.3.8
+  439      </div>
+  440:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  441      reserved.
+  442    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/examples/invoice.html:
+  673        <b>Version</b> 2.3.8
+  674      </div>
+  675:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  676      reserved.
+  677    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/examples/lockscreen.html:
+   61    </div>
+   62    <div class="lockscreen-footer text-center">
+   63:     Copyright &copy; 2014-2016 <b><a href="http://almsaeedstudio.com" class="text-black">Almsaeed Studio</a></b><br>
+   64      All rights reserved
+   65    </div>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/examples/pace.html:
+  451        <b>Version</b> 2.3.8
+  452      </div>
+  453:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  454      reserved.
+  455    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/examples/profile.html:
+  872        <b>Version</b> 2.3.8
+  873      </div>
+  874:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  875      reserved.
+  876    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/forms/advanced.html:
+  920        <b>Version</b> 2.3.8
+  921      </div>
+  922:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  923      reserved.
+  924    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/forms/editors.html:
+  572        <b>Version</b> 2.3.8
+  573      </div>
+  574:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  575      reserved.
+  576    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/forms/general.html:
+  903        <b>Version</b> 2.3.8
+  904      </div>
+  905:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  906      reserved.
+  907    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/layout/boxed.html:
+  439        <b>Version</b> 2.3.8
+  440      </div>
+  441:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  442      reserved.
+  443    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/layout/collapsed-sidebar.html:
+  445        <b>Version</b> 2.3.8
+  446      </div>
+  447:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  448      reserved.
+  449    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/layout/fixed.html:
+  445        <b>Version</b> 2.3.8
+  446      </div>
+  447:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  448      reserved.
+  449    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/layout/top-nav.html:
+  267          <b>Version</b> 2.3.8
+  268        </div>
+  269:       <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  270        reserved.
+  271      </div>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/mailbox/compose.html:
+  534        <b>Version</b> 2.3.8
+  535      </div>
+  536:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  537      reserved.
+  538    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/mailbox/mailbox.html:
+  677        <b>Version</b> 2.3.8
+  678      </div>
+  679:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  680      reserved.
+  681    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/mailbox/read-mail.html:
+  601        <b>Version</b> 2.3.8
+  602      </div>
+  603:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  604      reserved.
+  605    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/tables/data.html:
+ 1406        <b>Version</b> 2.3.8
+ 1407      </div>
+ 1408:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+ 1409      reserved.
+ 1410    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/tables/simple.html:
+  841        <b>Version</b> 2.3.8
+  842      </div>
+  843:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  844      reserved.
+  845    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/UI/buttons.html:
+ 1496        <b>Version</b> 2.3.8
+ 1497      </div>
+ 1498:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+ 1499      reserved.
+ 1500    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/UI/general.html:
+ 1444        <b>Version</b> 2.3.8
+ 1445      </div>
+ 1446:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+ 1447      reserved.
+ 1448    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/UI/icons.html:
+ 2819        <b>Version</b> 2.3.8
+ 2820      </div>
+ 2821:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+ 2822      reserved.
+ 2823    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/UI/modals.html:
+  687        <b>Version</b> 2.3.8
+  688      </div>
+  689:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  690      reserved.
+  691    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/UI/sliders.html:
+  610        <b>Version</b> 2.3.8
+  611      </div>
+  612:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  613      reserved.
+  614    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/UI/timeline.html:
+  691        <b>Version</b> 2.3.8
+  692      </div>
+  693:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+  694      reserved.
+  695    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/pages/widgets.html:
+ 1573        <b>Version</b> 2.3.8
+ 1574      </div>
+ 1575:     <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+ 1576      reserved.
+ 1577    </footer>
+
+/Applications/MAMP/htdocs/auto-repair/bower_components/AdminLTE/README.md:
+    9  **AdminLTE** -- is a fully responsive admin template. Based on **[Bootstrap 3](https://github.com/twbs/bootstrap)** framework. Highly customizable and easy to use. Fits many screen resolutions from small mobile devices to large desktops. Check out the live preview now and see for yourself.
+   10  
+   11: **Download & Preview on [Almsaeed Studio](https://almsaeedstudio.com)**
+   12  
+   13  Looking for Premium Templates?
+   14  ------------------------------
+   15: **Almsaeed studio just opened a new premium templates page. Hand picked to insure the best quality and the most affordable prices. Visit https://almsaeedstudio.com/premium for more information.**
+   16  
+   17  
+   ..
+   26  ####Download:
+   27  
+   28: Download from Github or [visit Almsaeed Studio](https://almsaeedstudio.com) and download the latest release.
+   29  
+   30  ####Using The Command Line:
+   ..
+   80  #### Contribution Requirements:
+   81  
+   82: - When you contribute, you agree to give a non-exclusive license to Almsaeed Studio to use that contribution in any context as we (Almsaeed Studio) see appropriate.
+   83  - If you use content provided by another party, it must be appropriately licensed using an [open source](http://opensource.org/licenses) license.
+   84  - Contributions are only accepted through Github pull requests.
+   ..
+   87  License
+   88  -------
+   89: AdminLTE is an open source project by [Almsaeed Studio](https://almsaeedstudio.com) that is licensed under [MIT](http://opensource.org/licenses/MIT). Almsaeed Studio
+   90  reserves the right to change the license of future releases.
+   91  
+

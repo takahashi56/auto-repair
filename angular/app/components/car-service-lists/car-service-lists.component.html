@@ -1,0 +1,83 @@
+<section class="content-header">
+  <h1>Our Services</h1>
+  <ol class="breadcrumb">
+    <li><a ui-sref="app.landing"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active">Our Services</li>
+  </ol>
+</section>
+<section class="content">
+  <div class="row">
+    <div class="col-lg-5">
+      <div class="box box-info">
+        <div class="box-header with-border">
+          <h3 class="box-title">Main Services</h3>
+          <div class="box-tools pull-right">
+            <a ui-sref="app.carservicemainadd" class="btn btn-block btn-success btn-xs"><i class="fa fa-plus"></i> Add New</a>
+          </div>
+        </div>
+        
+        <div class="box-body table-responsive">
+          <table class="table table-hover">
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Actions</th>
+            </tr>
+            
+            <tr ng-repeat="main_service in vm.main_services" ng-click="vm.onRow(main_service.id, main_service.title)">
+              <td>{{main_service.id}} </td>
+              <td>{{main_service.title}} </td>
+              <td>
+                  <a class="btn btn-xs btn-warning" ui-sref="app.carservicemainedit({serviceId: {{main_service.id}}})">
+                      <i class="fa fa-edit"></i>
+                  </a>
+                  &nbsp;
+                  <button class="btn btn-xs btn-danger" ng-click="vm.delete(main_service.id)">
+                      <i class="fa fa-trash-o"></i>
+                  </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-lg-7">
+      <div class="box box-info">
+        <div class="box-header with-border">
+          <h3 class="box-title">{{vm.serviceName}}</h3>
+          
+          <div class="box-tools pull-right">
+            <a ui-sref="app.carservicesubadd({serviceId: {{vm.serviceId}}})" class="btn btn-block btn-success btn-xs" ng-if="vm.serviceId"><i class="fa fa-plus"></i> Add New</a>
+          </div>
+        </div>
+        
+        <div class="box-body table-responsive">
+          <table class="table table-hover">
+            <tr>
+              <th>ID</th>
+              <th>Title</th>
+              <th>Price</th>
+              <th>Actions</th>
+            </tr>
+            
+            <tr ng-repeat="sub_service in vm.sub_services">
+              <td>{{sub_service.id}} </td>
+              <td>{{sub_service.title}} </td>
+              <td>{{sub_service.price}} </td>
+              <td>
+	              <a class="btn btn-xs btn-warning" ui-sref="app.carservicesubedit({serviceId: {{sub_service.id}}})">
+	                  <i class="fa fa-edit"></i>
+	              </a>
+	              &nbsp;
+	              <button class="btn btn-xs btn-danger" ng-click="vm.subdelete(sub_service.id)">
+	                  <i class="fa fa-trash-o"></i>
+	              </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
