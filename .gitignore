@@ -26,3 +26,6 @@ public/js
 public/fonts
 public/css
 public/build
+/config/database.php
+gulpfile.js
+package.json
