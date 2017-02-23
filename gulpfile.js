@@ -38,7 +38,7 @@ elixir(function (mix) {
       './public/dist/js/app.js'
     ],
     styles = [
-      './public/css/vendor.css',
+      './public/css/vendor1.css',
       './public/css/app.css'
     ],
     karmaJsDir = [
