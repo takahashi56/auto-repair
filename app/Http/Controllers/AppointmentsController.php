@@ -17,6 +17,36 @@ class AppointmentsController extends Controller
     	
 	}
 	
+	public function getCustomers() {
+		$customers = DB::select("select users.id, users.name, sum(appointment.open) as open, 										   sum(appointment.total) as total
+		 						from users 
+							    left join role_user on users.id = role_user.user_id 
+							    left join roles on role_user.role_id = roles.id 
+							    left join (
+							    				select customer_id, count(customer_id) as open, 0 as total  
+							    				from appointment 
+							    				inner join appointment_status on appointment.status = appointment_status.id 
+							    				where appointment_status.name not like 'Closed' 
+							    				group by appointment.customer_id
+							    				union 
+							    				select customer_id, 0 as open, count(customer_id) as total  
+							    				from appointment 
+							    				group by appointment.customer_id
+							    		  ) as appointment on users.id = appointment.customer_id 
+							    where roles.slug = 'admin.customer'
+							    group by users.id");
+								
+		return $customers;
+	}
+	
+	public function getCustomerInfo(Request $request) {
+		$customer = DB::table('users')
+						->where('users.id', $request->customerId)
+						->first();
+		
+		return response()->success($customer);
+	}
+	
 	public function getAdvisors() {
 		$advisors = DB::select("select users.id, users.name, sum(appointment.open) as open, 										   sum(appointment.total) as total
 		 						from users 
@@ -107,6 +137,19 @@ class AppointmentsController extends Controller
 							->join('appointment_status', 'appointment.status', '=', 'appointment_status.id')
 							->join('users', 'appointment.customer_id', '=', 'users.id')	
 							->where('advisor_id', $request->advisorId)
+							->select('appointment.id', 'users.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id')
+							->orderBy('appointment.id', 'asc')
+							->get();
+		
+		
+		return $appointments;
+	}
+	
+	public function getAppointmentsByCustomer(Request $request) {
+		$appointments = DB::table('appointment')
+							->join('appointment_status', 'appointment.status', '=', 'appointment_status.id')
+							->join('users', 'appointment.customer_id', '=', 'users.id')	
+							->where('customer_id', $request->customerId)
 							->select('appointment.id', 'users.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id')
 							->orderBy('appointment.id', 'asc')
 							->get();

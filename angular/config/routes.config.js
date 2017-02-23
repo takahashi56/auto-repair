@@ -154,6 +154,28 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
         alerts: null
       }
     })
+    .state('app.carcustomerlists', {
+      url: '/car-customer-lists',
+      data: {
+        auth: true
+      },
+      views: {
+        'main@app': {
+          template: '<car-customer-lists></car-customer-lists>'
+        }
+      }
+    })
+    .state('app.carcustomerappointments', {
+      url: '/car-customer-appointments/:customerId',
+      data: {
+        auth: true
+      },
+      views: {
+        'main@app': {
+          template: '<car-customer-appointments></car-customer-appointments>'
+        }
+      }
+    })
     .state('app.caradvisorlists', {
       url: '/car-advisor-lists',
       data: {

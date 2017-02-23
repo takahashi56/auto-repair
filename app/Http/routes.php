@@ -40,6 +40,10 @@ $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
 $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
     $api->controller('appointments', 'AppointmentsController');
     
+    $api->get('appointments/all_customers', 'AppointmentsController@getCustomers');
+    $api->get('appointments/customer_info', 'AppointmentsController@getCustomerInfo');
+    $api->get('appointments/all_appointments_by_customer', 'AppointmentsController@getAppointmentsByCustomer');
+    
     $api->get('appointments/all_advisors', 'AppointmentsController@getAdvisors');
     $api->get('appointments/advisor_info', 'AppointmentsController@getAdvisorInfo');
     $api->get('appointments/role_info', 'AppointmentsController@getUserRole');

@@ -36,6 +36,8 @@ import { CarServiceSubAddComponent } from './app/components/car-service-sub-add/
 import { CarServiceSubEditComponent } from './app/components/car-service-sub-edit/car-service-sub-edit.component'
 import { CarAdvisorListsComponent } from './app/components/car-advisor-lists/car-advisor-lists.component'
 import { CarAdvisorAppointmentsComponent } from './app/components/car-advisor-appointments/car-advisor-appointments.component'
+import { CarCustomerListsComponent } from './app/components/car-customer-lists/car-customer-lists.component'
+import { CarCustomerAppointmentsComponent } from './app/components/car-customer-appointments/car-customer-appointments.component'
 
 angular.module('app.components')
   .component('tablesSimple', TablesSimpleComponent)
@@ -49,6 +51,8 @@ angular.module('app.components')
   .component('carServiceSubEdit', CarServiceSubEditComponent)
   .component('carAdvisorLists', CarAdvisorListsComponent)
   .component('carAdvisorAppointments', CarAdvisorAppointmentsComponent)
+  .component('carCustomerLists', CarCustomerListsComponent)
+  .component('carCustomerAppointments', CarCustomerAppointmentsComponent)
   .component('uiModal', UiModalComponent)
   .component('uiTimeline', UiTimelineComponent)
   .component('uiButtons', UiButtonsComponent)
