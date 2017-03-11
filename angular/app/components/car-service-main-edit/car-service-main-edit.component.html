@@ -26,6 +26,16 @@
                 <input type="text" class="form-control" ng-model="vm.service.data.title" name="service" placeholder="Type Service Name here!" required>
                 <p ng-show="serviceForm.service.$error.required && ( vm.formSubmitted || serviceForm.service.$touched)" class="help-block">ServiceName is required.</p>
               </div>
+              <div class="col-lg-12">
+                <br/>
+                <div class="col-lg-3">
+                  <h5>Is Shown?</h5>
+                </div>
+                <div class="col-lg-9" style="height: 35px;">
+                  <span style="position: absolute; top: 6px;"><a href="" ng-click="vm.toggleChange()"><img id="toggle" src='{{vm.service.data.is_show == 1 ? "img/assets/toggle_on.png" : "img/assets/toggle_off.png"}}'/></a>
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
           <div class="box-footer">

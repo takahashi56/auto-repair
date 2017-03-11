@@ -1,0 +1,79 @@
+<section class="content" style="padding: 0px !important; margin-left: 0px;">
+  <table style="width: 100%; height: 100%;">
+    <tr>
+      <td>
+        <div class="front-step3-div1 ">
+          <div class="front-step3-div2"></div>
+          <table width="100%" height="100%">
+            <tr>
+              <td>
+                <div class="front-step3-div4" >
+                        <div class="col-lg-12" style="text-align: center; ">
+                          <br/> 
+                          <h4 class="front-step3-h4">Select Date & Time</h4>
+                          <br/>
+                          <h5 style="color: #6A7F90;">Select new date of your appointment</h5>
+                          <input type="number" class="front-step3-date" placeholder="Year" value=""/>
+                          <h5 style="color: #6A7F90;">Select new time of your appointment</h5>
+                          <input type="number" class="front-step3-time" placeholder="Hour" value="" min="0" max="23"/>&nbsp;&nbsp;:&nbsp;
+                          <input type="number" class="front-step3-time" placeholder="Minute" value="" min="0" max="59"/>
+                        </div>
+
+                        <div class="col-lg-12" style="position: absolute;top:290px; bottom: 60px;overflow-y: auto;">
+                          <div class="col-lg-2"></div>
+                          <div class="col-lg-8">
+                            <div class="col-md-3" style="padding: 5px !important;" ng-repeat="time in vm.timesheets">
+                                <div class="{{time.selected == 1 ? 'front-step3-timediv-selected' : 'front-step3-timediv'}}" ng-click="vm.onSelectTimeSheet(time)">
+                                {{time.title}}
+                                </div>
+                            </div>
+
+                          </div>
+                          <div class="col-lg-2"></div>
+                          
+                        </div>
+
+                        <div style="height: 60px;position: absolute;bottom: 0px;width: 100%;">
+                          <table width="100%" height="100%">
+                            <tr>
+                              <td width="30%">
+                              </td>
+                              <td>
+                                <a ui-sref="front.step2">
+                                  <div class="front-step3-div6">
+                                    Cancel
+                                  </div>
+                                </a>
+                              </td>
+                              <td>
+                                <a ui-sref="front.step4">
+                                  <div class="front-step3-div5">
+                                    Next
+                                  </div>
+                                </a>
+                              </td>
+                              <td width="30%">
+                              </td>
+                            </tr>
+                          </table>
+                        </div>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </td>
+    </tr>
+    <tr class="front-step3-tr">
+      <td>
+        <div class="col-lg-12 front-step3-div3">
+          <span class="front-span-passed">&nbsp;</span>
+          <span class="front-span-passed">&nbsp;</span>
+          <span class="front-span-active"><span class="triangle"></span>3</span>
+          <span class="front-span-deactive">4</span>
+          <span class="front-span-deactive">5</span>
+        </div>
+      </td>
+    </tr>
+  </table> 
+</section>

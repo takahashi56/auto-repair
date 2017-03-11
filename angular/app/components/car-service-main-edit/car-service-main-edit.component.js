@@ -25,7 +25,8 @@ class CarServiceMainEditController {
     if (isValid) {
       	let data = {
       		id: this.service.data.id,
-	   		title: this.service.data.title
+	   		title: this.service.data.title,
+        is_show: this.service.data.is_show
 	    }
 	    
 	    let $state = this.$state
@@ -47,6 +48,16 @@ class CarServiceMainEditController {
   }
 
   $onInit () {}
+
+  toggleChange() {
+    if (this.service.data.is_show == 1) {
+      document.getElementById('toggle').src = "img/assets/toggle_off.png";
+      this.service.data.is_show = 0;
+    } else {
+      document.getElementById('toggle').src = "img/assets/toggle_on.png";
+      this.service.data.is_show = 1;
+    }
+  }
 }
 
 export const CarServiceMainEditComponent = {

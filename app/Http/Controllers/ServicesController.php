@@ -53,7 +53,8 @@ class ServicesController extends Controller
         $service = MainService::find($request->id);
     	
     	$serviceData = [
-            'title' => $request->title
+            'title' => $request->title,
+            'is_show' => $request->is_show
         ];
 
         MainService::where('id', '=', $request->id)->update($serviceData);

@@ -3,12 +3,12 @@ class CarAppointmentListsController {
     'ngInject'
     this.API = API
     this.$state = $state
-	this.serviceId = 0
-	this.serviceName = ""
-	
-	this.API.all('appointments').get('all_appointments').then((response) => {
-		this.appointments =  response.plain();
-	})
+  	this.serviceId = 0
+  	this.serviceName = ""
+  	
+  	this.API.all('appointments').get('all_appointments').then((response) => {
+  		this.appointments =  response.plain();
+  	})
   }
 	
   onRow (appointmentId) {

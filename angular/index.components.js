@@ -38,6 +38,14 @@ import { CarAdvisorListsComponent } from './app/components/car-advisor-lists/car
 import { CarAdvisorAppointmentsComponent } from './app/components/car-advisor-appointments/car-advisor-appointments.component'
 import { CarCustomerListsComponent } from './app/components/car-customer-lists/car-customer-lists.component'
 import { CarCustomerAppointmentsComponent } from './app/components/car-customer-appointments/car-customer-appointments.component'
+import { FrontHomeComponent } from './app/components/front-home/front-home.component'
+import { FrontWhatCarComponent } from './app/components/front-what-car/front-what-car.component'
+import { FrontNavHeaderComponent } from './app/components/front-nav-header/front-nav-header.component'
+import { FrontStep1Component } from './app/components/front-step1/front-step1.component'
+import { FrontStep2Component } from './app/components/front-step2/front-step2.component'
+import { FrontStep3Component } from './app/components/front-step3/front-step3.component'
+import { FrontStep4Component } from './app/components/front-step4/front-step4.component'
+import { FrontStep5Component } from './app/components/front-step5/front-step5.component'
 
 angular.module('app.components')
   .component('tablesSimple', TablesSimpleComponent)
@@ -48,6 +56,7 @@ angular.module('app.components')
   .component('carServiceMainAdd', CarServiceMainAddComponent)
   .component('carServiceMainEdit', CarServiceMainEditComponent)
   .component('carServiceSubAdd', CarServiceSubAddComponent)
+  .component('frontHome', FrontHomeComponent)
   .component('carServiceSubEdit', CarServiceSubEditComponent)
   .component('carAdvisorLists', CarAdvisorListsComponent)
   .component('carAdvisorAppointments', CarAdvisorAppointmentsComponent)
@@ -75,8 +84,15 @@ angular.module('app.components')
   .component('dashboard', DashboardComponent)
   .component('navSidebar', NavSidebarComponent)
   .component('navHeader', NavHeaderComponent)
+  .component('frontNavHeader', FrontNavHeaderComponent)
   .component('loginLoader', LoginLoaderComponent)
   .component('resetPassword', ResetPasswordComponent)
   .component('forgotPassword', ForgotPasswordComponent)
   .component('loginForm', LoginFormComponent)
   .component('registerForm', RegisterFormComponent)
+  .component('frontWhatCar', FrontWhatCarComponent)
+  .component('frontStep1', FrontStep1Component)
+  .component('frontStep2', FrontStep2Component)
+  .component('frontStep3', FrontStep3Component)
+  .component('frontStep4', FrontStep4Component)
+  .component('frontStep5', FrontStep5Component)

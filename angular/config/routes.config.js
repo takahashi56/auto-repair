@@ -9,6 +9,10 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
     return `./views/app/pages/layout/${layout}.page.html`
   }
 
+  var getFrontLayout = (layout) => {
+    return `./views/app/pages/front-layout/${layout}.page.html`
+  }
+
   $urlRouterProvider.otherwise('/')
 
   $stateProvider
@@ -31,7 +35,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('app.landing', {
-      url: '/',
+      url: '/admin',
       data: {
         auth: true
       },
@@ -141,7 +145,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('app.profile', {
-      url: '/profile',
+      url: '/admin/profile',
       data: {
         auth: true
       },
@@ -155,7 +159,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('app.carcustomerlists', {
-      url: '/car-customer-lists',
+      url: '/admin/car-customer-lists',
       data: {
         auth: true
       },
@@ -166,7 +170,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('app.carcustomerappointments', {
-      url: '/car-customer-appointments/:customerId',
+      url: '/admin/car-customer-appointments/:customerId',
       data: {
         auth: true
       },
@@ -177,7 +181,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('app.caradvisorlists', {
-      url: '/car-advisor-lists',
+      url: '/admin/car-advisor-lists',
       data: {
         auth: true
       },
@@ -188,7 +192,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('app.caradvisorappointments', {
-      url: '/car-advisor-appointments/:advisorId',
+      url: '/admin/car-advisor-appointments/:advisorId',
       data: {
         auth: true
       },
@@ -199,7 +203,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('app.carappointmentlists', {
-      url: '/car-appointment-lists',
+      url: '/admin/car-appointment-lists',
       data: {
         auth: true
       },
@@ -210,7 +214,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('app.carappointmentdetail', {
-      url: '/car-appointment-detail/:appointmentId',
+      url: '/admin/car-appointment-detail/:appointmentId',
       data: {
         auth: true
       },
@@ -221,7 +225,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('app.carappointmentreport', {
-      url: '/car-appointment-report/:appointmentId',
+      url: '/admin/car-appointment-report/:appointmentId',
       data: {
         auth: true
       },
@@ -232,7 +236,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('app.carservicelists', {
-      url: '/car-service-lists',
+      url: '/admin/car-service-lists',
       data: {
         auth: true
       },
@@ -243,7 +247,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('app.carservicemainadd', {
-      url: '/car-service-main-add',
+      url: '/admin/car-service-main-add',
       data: {
         auth: true
       },
@@ -254,7 +258,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('app.carservicemainedit', {
-      url: '/car-service-main-edit/:serviceId',
+      url: '/admin/car-service-main-edit/:serviceId',
       data: {
         auth: true
       },
@@ -265,7 +269,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('app.carservicesubadd', {
-      url: '/car-service-sub-add/:serviceId',
+      url: '/admin/car-service-sub-add/:serviceId',
       data: {
         auth: true
       },
@@ -276,7 +280,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('app.carservicesubedit', {
-      url: '/car-service-sub-edit/:serviceId',
+      url: '/admin/car-service-sub-edit/:serviceId',
       data: {
         auth: true
       },
@@ -404,7 +408,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('login', {
-      url: '/login',
+      url: '/admin/login',
       views: {
         'layout': {
           templateUrl: getView('login')
@@ -498,6 +502,105 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
               $state.go('login')
             })
           }
+        }
+      }
+    })
+    .state('front', {
+      abstract: true,
+      views: {
+        'layout': {
+          templateUrl: getFrontLayout('front-layout')
+        },
+        'header@front': {
+          templateUrl: getView('front-header')
+        },
+        'footer@front': {
+          templateUrl: getView('front-footer')
+        },
+        main: {}
+      },
+      data: {
+        bodyClass: 'hold-transition skin-blue'
+      }
+    })
+    .state('front.home', {
+      url: '/',
+      data: {
+        bodyClass: 'hold-transition login-page sidebar-collapse'
+      },
+      views: {
+        'main@front': {
+          template: '<front-home></front-home>'
+        }
+      }
+    })
+    .state('front.whatcar', {
+      url: '/whatcar',
+      data: {
+        bodyClass: 'hold-transition login-page sidebar-collapse'
+      },
+      views: {
+        'main@front': {
+          template: '<front-what-car></front-what-car>'
+        }
+      }
+    })
+    .state('front.step1', {
+      url: '/step1',
+      data: {
+        bodyClass: 'hold-transition login-page sidebar-collapse'
+      },
+      views: {
+        'main@front': {
+          template: '<front-step1></front-step1>'
+        }
+      }
+    })
+
+    .state('front.step2', {
+      url: '/step2',
+      data: {
+        bodyClass: 'hold-transition login-page sidebar-collapse'
+      },
+      views: {
+        'main@front': {
+          template: '<front-step2></front-step2>'
+        }
+      }
+    })
+
+    .state('front.step3', {
+      url: '/step3',
+      data: {
+        bodyClass: 'hold-transition login-page sidebar-collapse'
+      },
+      views: {
+        'main@front': {
+          template: '<front-step3></front-step3>'
+        }
+      }
+    })
+
+    .state('front.step4', {
+      url: '/step4',
+      data: {
+        bodyClass: 'hold-transition login-page sidebar-collapse'
+      },
+      views: {
+        'main@front': {
+          template: '<front-step4></front-step4>'
+        }
+      }
+    })
+
+    .state('front.step5', {
+      url: '/step5',
+      data: {
+        bodyClass: 'hold-transition login-page sidebar-collapse'
+      },
+      views: {
+        'main@front': {
+          template: '<front-step5></front-step5>'
         }
       }
     })
