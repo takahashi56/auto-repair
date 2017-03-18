@@ -68,6 +68,9 @@ class CarAppointmentDetailController {
   	    
   	    return total;
   }
+
+  onAcceptAppointment () {
+  }
   	
   onCreateReport () {
 	let $uibModal = this.$uibModal
