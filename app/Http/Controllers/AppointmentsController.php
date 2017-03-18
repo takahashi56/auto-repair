@@ -144,9 +144,10 @@ class AppointmentsController extends Controller
 		else {
 			$appointments = DB::table('appointment')
 							->join('appointment_status', 'appointment.status', '=', 'appointment_status.id')
-							->join('customer', 'appointment.customer_id', '=', 'customer.id')	
-							->where('advisor_id', $user->id)
-							->select('appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id')
+							->join('customer', 'appointment.customer_id', '=', 'customer.id')
+							->leftjoin('users as users_b', 'appointment.advisor_id', '=', 'users_b.id')	
+							->where('appointment.advisor_id', $user->id)
+							->select('appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id', 'users_b.name as advisor')
 							->orderBy('appointment.id', 'asc')
 							->get();
 		}
