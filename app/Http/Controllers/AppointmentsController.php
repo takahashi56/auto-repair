@@ -270,7 +270,7 @@ class AppointmentsController extends Controller
 		$car->save();
 
 		// adding customer
-		$customer = Customer::where(['phone' => $request->phone])->first();
+		$customer = Customer::where(['phone_number' => $request->phone])->first();
 		if ($customer == null) {
 			$customer = new Customer;
 			$customer->name = $request->name;

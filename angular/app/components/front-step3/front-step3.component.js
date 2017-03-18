@@ -58,6 +58,8 @@ class FrontStep3Controller {
         this.timesheets[i].selected = 0;
       }
     }
+
+    this.nums = 0
   }
 
   changeDate() {
