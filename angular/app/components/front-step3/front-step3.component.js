@@ -1,19 +1,91 @@
 class FrontStep3Controller {
-  constructor ($scope, $state, $compile, DTOptionsBuilder, DTColumnBuilder, API) {
+  constructor ($rootScope, $scope, $state, $compile, DTOptionsBuilder, DTColumnBuilder, API) {
     'ngInject'
     this.API = API
     this.$state = $state
-	 this.timesheets = [{title: "7 AM", selected: 1}, {title: "7:30 AM", selected: 0}, {title: "8 AM", selected: 0}, {title: "8:30 AM", selected: 0}, {title: "9 AM", selected: 0}, {title: "9:30 AM", selected: 0}, {title: "10 AM", selected: 0}, {title: "10:30 AM", selected: 0}, {title: "11 AM", selected: 0}, {title: "11:30 AM", selected: 0}, {title: "12 PM", selected: 1}, {title: "12:30 PM", selected: 0}, {title: "1 PM", selected: 0}, {title: "1:30 PM", selected: 0}, {title: "2 PM", selected: 1}, {title: "2:30 PM", selected: 0}, {title: "3 PM", selected: 0}, {title: "3:30 PM", selected: 0}, {title: "4 PM", selected: 0}, {title: "4:30 PM", selected: 0}, {title: "5 PM", selected: 0}, {title: "5:30 PM", selected: 0}, {title: "6 PM", selected: 0}, {title: "6:30 PM", selected: 0}, {title: "7 PM", selected: 0}, {title: "7:30 PM", selected: 0}, {title: "8 PM", selected: 0}];
+	  this.timesheets = [{title: "7:00 AM", selected: 0}, {title: "7:30 AM", selected: 0}, {title: "8:00 AM", selected: 0}, {title: "8:30 AM", selected: 0}, {title: "9:00 AM", selected: 0}, {title: "9:30 AM", selected: 0}, {title: "10:00 AM", selected: 0}, {title: "10:30 AM", selected: 0}, {title: "11:00 AM", selected: 0}, {title: "11:30 AM", selected: 0}, {title: "12:00 PM", selected: 0}, {title: "12:30 PM", selected: 0}, {title: "1:00 PM", selected: 0}, {title: "1:30 PM", selected: 0}, {title: "2:00 PM", selected: 0}, {title: "2:30 PM", selected: 0}, {title: "3:00 PM", selected: 0}, {title: "3:30 PM", selected: 0}, {title: "4:00 PM", selected: 0}, {title: "4:30 PM", selected: 0}, {title: "5:00 PM", selected: 0}, {title: "5:30 PM", selected: 0}, {title: "6:00 PM", selected: 0}, {title: "6:30 PM", selected: 0}, {title: "7:00 PM", selected: 0}, {title: "7:30 PM", selected: 0}, {title: "8:00 PM", selected: 0}];
+    this.$rootScope = $rootScope
 
+    this.nums = 0
+
+    this.months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
   }
 	
   $onInit () {
+    if (this.$rootScope.currentMainService == undefined) {
+      this.$state.go('front.home');
+      return;
+    }
+
     document.getElementById('mobile_menu').style.display = 'none';
     document.getElementById('toggle_menu_bg').style.display = 'none';
+
+    if (this.$rootScope.appointmentDate == undefined || this.$rootScope.appointmentDate == "") {
+      var date = new Date();
+      this.date = this.months[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
+
+      this.$rootScope.appointmentDate = this.date;
+    } else
+      this.date = this.$rootScope.appointmentDate;
+
+    var date = new Date();
+    this.minDate = this.months[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
+    
+    this.refreshTimesheets();
+
+    if (this.$rootScope.appointmentTimes.length > 0) {
+      for (let i = 0; i < this.timesheets.length; i++) {
+        for (let j = 0; j < this.$rootScope.appointmentTimes.length; j++) {
+          if (this.timesheets[i].title == this.$rootScope.appointmentTimes[j]) {
+            this.timesheets[i].selected = 1;
+          }
+        }
+      }
+    }
+  }
+
+  refreshTimesheets() {
+    if (this.timesheets == undefined)
+      return;
+    
+    var date = new Date();
+    
+    for (let i = 0; i < this.timesheets.length; i++) {
+      let dd = Date.parse(this.date + " " + this.timesheets[i].title);
+      if (dd < date.getTime()) {
+        this.timesheets[i].selected = 2;
+      } else {
+        this.timesheets[i].selected = 0;
+      }
+    }
+  }
+
+  changeDate() {
+    this.refreshTimesheets();
   }
 
   onSelectTimeSheet (timesheet) {
+    if (timesheet.selected == 0 && this.nums >= 4)
+      return;
+
     timesheet.selected = timesheet.selected == 1 ? 0 : 1;
+
+    if (timesheet.selected == 1)
+      this.nums++;
+    else
+      this.nums--;
+  }
+
+  onNext() {
+    this.$rootScope.appointmentDate = this.date;
+    this.$rootScope.appointmentTimes = [];
+    for (let i = 0; i < this.timesheets.length; i++) {
+      if (this.timesheets[i].selected == 1) {
+        this.$rootScope.appointmentTimes[this.$rootScope.appointmentTimes.length] = this.timesheets[i].title;
+      }
+    }
+    
+    this.$state.go('front.step4');
   }
 }
 

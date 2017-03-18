@@ -46,6 +46,9 @@ import { FrontStep2Component } from './app/components/front-step2/front-step2.co
 import { FrontStep3Component } from './app/components/front-step3/front-step3.component'
 import { FrontStep4Component } from './app/components/front-step4/front-step4.component'
 import { FrontStep5Component } from './app/components/front-step5/front-step5.component'
+import { CarOptionServiceListsComponent } from './app/components/car-option-service-lists/car-option-service-lists.component'
+import { CarOptionServiceAddComponent } from './app/components/car-option-service-add/car-option-service-add.component'
+import { CarOptionServiceEditComponent } from './app/components/car-option-service-edit/car-option-service-edit.component'
 
 angular.module('app.components')
   .component('tablesSimple', TablesSimpleComponent)
@@ -96,3 +99,6 @@ angular.module('app.components')
   .component('frontStep3', FrontStep3Component)
   .component('frontStep4', FrontStep4Component)
   .component('frontStep5', FrontStep5Component)
+  .component('carOptionServiceLists', CarOptionServiceListsComponent)
+  .component('carOptionServiceAdd', CarOptionServiceAddComponent)
+  .component('carOptionServiceEdit', CarOptionServiceEditComponent)

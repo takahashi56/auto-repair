@@ -9,122 +9,40 @@
             <h3 class="front-step1-h3">Select Services</h3>
           </div>
           <div class="col-lg-12 front-step1-div5">
-            <span class="front-step1-span-service">
-              <a ui-sref="front.step2">
+            <span class="front-step1-span-service" ng-repeat="service in vm.main_services track by $index" ng-if="$index < 4">
+              <a ng-click="vm.onNext(service.id, service.title, service.image_url)">
                 <table style="width: 100%; height: 100%;">
                   <tr width="100%" height="50%" style="vertical-align: bottom;">
                     <td>
-                      <img src="/img/assets/icon_popular_service.png"/>
+                      <img src="/img/assets/{{service.image_url}}"/>
                     </td>
                   </tr>
                   <tr width="100%" height="50%">
                     <td>
-                      Popular Service
+                      {{service.title}}
                     </td>
                   </tr>
                 </table>
               </a>
             </span>
-            <span class="front-step1-span-service">
-              <table style="width: 100%; height: 100%;">
-                <tr width="100%" height="50%" style="vertical-align: bottom;">
-                  <td>
-                    <img src="/img/assets/icon_general.png"/>
-                  </td>
-                </tr>
-                <tr width="100%" height="50%">
-                  <td>
-                    General Maintenance
-                  </td>
-                </tr>
-              </table>
-            </span>
-            <span class="front-step1-span-service">
-              <table style="width: 100%; height: 100%;">
-                <tr width="100%" height="50%" style="vertical-align: bottom;">
-                  <td>
-                    <img src="/img/assets/icon_service.png"/>
-                  </td>
-                </tr>
-                <tr width="100%" height="50%">
-                  <td>
-                    Service
-                  </td>
-                </tr>
-              </table>
-            </span>
-            <span class="front-step1-span-service">
-              <table style="width: 100%; height: 100%;">
-                <tr width="100%" height="50%" style="vertical-align: bottom;">
-                  <td>
-                    <img src="/img/assets/icon_fast_repair.png"/>
-                  </td>
-                </tr>
-                <tr width="100%" height="50%">
-                  <td>
-                    Fast Repair
-                  </td>
-                </tr>
-              </table>
-            </span>
           </div>
 
-          <div class="col-lg-12 front-step1-div5">
-            <span class="front-step1-span-service">
-              <table style="width: 100%; height: 100%;">
-                <tr width="100%" height="50%" style="vertical-align: bottom;">
-                  <td>
-                    <img src="/img/assets/icon_interior.png"/>
-                  </td>
-                </tr>
-                <tr width="100%" height="50%">
-                  <td>
-                    Interior
-                  </td>
-                </tr>
-              </table>
-            </span>
-            <span class="front-step1-span-service">
-              <table style="width: 100%; height: 100%;">
-                <tr width="100%" height="50%" style="vertical-align: bottom;">
-                  <td>
-                    <img src="/img/assets/icon_exterior.png"/>
-                  </td>
-                </tr>
-                <tr width="100%" height="50%">
-                  <td>
-                    Exterior
-                  </td>
-                </tr>
-              </table>
-            </span>
-            <span class="front-step1-span-service">
-              <table style="width: 100%; height: 100%;">
-                <tr width="100%" height="50%" style="vertical-align: bottom;">
-                  <td>
-                    <img src="/img/assets/icon_battery.png"/>
-                  </td>
-                </tr>
-                <tr width="100%" height="50%">
-                  <td>
-                    Battery
-                  </td>
-                </tr>
-              </table>
-            </span>
-            <span class="front-step1-span-service">
-              <table style="width: 100%; height: 100%;">
-                <tr width="100%" height="50%" style="vertical-align: bottom;">
-                  <td>
-                    <img src="/img/assets/icon_mobile_repair.png"/>
-                  </td>
-                </tr>
-                <tr width="100%" height="50%">
-                  <td>
-                    Mobile Repair
-                  </td>
-                </tr>
-              </table>
+          <div class="col-lg-12 front-step1-div5" ng-if="vm.main_services.length > 4">
+            <span class="front-step1-span-service" ng-repeat="service in vm.main_services track by $index" ng-if="$index >= 4">
+              <a ng-click="vm.onNext(service.id, service.title, service.image_url)">
+                <table style="width: 100%; height: 100%;">
+                  <tr width="100%" height="50%" style="vertical-align: bottom;">
+                    <td>
+                      <img src="/img/assets/{{service.image_url}}"/>
+                    </td>
+                  </tr>
+                  <tr width="100%" height="50%">
+                    <td>
+                      {{service.title}}
+                    </td>
+                  </tr>
+                </table>
+              </a>
             </span>
           </div>
         </div>

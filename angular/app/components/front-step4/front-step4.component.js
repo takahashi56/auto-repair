@@ -1,48 +1,52 @@
 class FrontStep4Controller {
-  constructor ($scope, $state, $compile, DTOptionsBuilder, DTColumnBuilder, API) {
+  constructor ($rootScope, $scope, $state, $compile, DTOptionsBuilder, DTColumnBuilder, API) {
     'ngInject'
     this.API = API
     this.$state = $state
-    this.optionalServices = [{
-        title: 'Pick and Drop',
-        desc: 'Some descriptions are here',
-        selected: 1,
-        price: 100
-      }, {
-        title: 'Refurbishment',
-        desc: 'Some descriptions are here',
-        selected: 0,
-        price: 100
-      }, {
-        title: '100 Point Inspection Report',
-        desc: 'Some descriptions are here',
-        selected: 0,
-        price: 100
-      }, {
-        title: 'Window Tinting',
-        desc: 'Some descriptions are here',
-        selected: 0,
-        price: 100
-      }, {
-        title: 'Leather Refining',
-        desc: 'Some descriptions are here',
-        selected: 0,
-        price: 100
-      }, {
-        title: 'Polish',
-        desc: 'Some descriptions are here',
-        selected: 0,
-        price: 100
-      }]
+    this.$rootScope = $rootScope
+
+    this.optionalServices = this.$rootScope.optionAllServices;
+    this.services = this.$rootScope.optionServices;
   }
 	
   $onInit () {
+    if (this.$rootScope.whatCar == undefined) {
+      this.$state.go('front.home');
+      return;
+    }
+
     document.getElementById('mobile_menu').style.display = 'none';
     document.getElementById('toggle_menu_bg').style.display = 'none';
+
+    for (let i = 0; i < this.optionalServices.length; i++) {
+      let selected = 0;
+      for (let j = 0; j < this.services.length; j++) {
+        if (this.optionalServices[i].id == this.services[j].id) {
+          selected = 1;
+          break;
+        }
+      }
+
+      this.optionalServices[i].selected = selected;
+    }
   }
 
   onSelectService (service) {
     service.selected = service.selected == 1 ? 0 : 1;
+
+    if (service.selected == 1) { // added
+      this.$rootScope.optionServices[this.$rootScope.optionServices.length] = service;
+
+      this.services = this.$rootScope.optionServices;
+    } else { // removed
+      for (let i = 0; i < this.$rootScope.optionServices.length; i++) {
+        if (this.$rootScope.optionServices[i].id == service.id) {
+          this.$rootScope.optionServices.splice(i, 1);
+        }
+      }
+
+      this.services = this.$rootScope.optionServices;
+    }
   }
 }
 

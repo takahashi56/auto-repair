@@ -19,6 +19,7 @@
               <th>Customer Name</th>
               <th>Date</th>
               <th>Status</th>
+              <th>Service Advisor</th>
               <th>Service Report</th>
             </tr>
             
@@ -29,6 +30,8 @@
               <td ui-sref="app.carappointmentdetail({appointmentId: {{appointment.id}}})">{{appointment.status}}</td>
               <td>
               	<div ng-if="appointment.advisor != 0">{{appointment.advisor}}</div>
+              </td>
+              <td>
                 <a ng-if="appointment.report_id != 0" ui-sref="app.carappointmentreport({appointmentId: {{appointment.id}}})">See report info</a></td>
             </tr>
           </table>

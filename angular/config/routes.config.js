@@ -268,6 +268,39 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
         }
       }
     })
+    .state('app.caroptionservicelists', {
+      url: '/admin/car-option-service-lists',
+      data: {
+        auth: true
+      },
+      views: {
+        'main@app': {
+          template: '<car-option-service-lists></car-option-service-lists>'
+        }
+      }
+    })
+    .state('app.caroptionserviceadd', {
+      url: '/admin/car-option-service-add',
+      data: {
+        auth: true
+      },
+      views: {
+        'main@app': {
+          template: '<car-option-service-add></car-option-service-add>'
+        }
+      }
+    })
+    .state('app.caroptionserviceedit', {
+      url: '/admin/car-option-service-edit/:serviceId',
+      data: {
+        auth: true
+      },
+      views: {
+        'main@app': {
+          template: '<car-option-service-edit></car-option-service-edit>'
+        }
+      }
+    })
     .state('app.carservicesubadd', {
       url: '/admin/car-service-sub-add/:serviceId',
       data: {

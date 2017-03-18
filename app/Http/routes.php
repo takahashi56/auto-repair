@@ -20,17 +20,33 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/api/authenticate/user', 'Auth\AuthController@getAuthenticatedUser');
 });
 
-$api->group(['middleware' => ['api', 'api.auth']], function ($api) {
+$api->group(['middleware' => ['api']], function ($api) {
     $api->controller('services', 'ServicesController');
 
     $api->get('services/mainservices', 'ServicesController@getMainServices');
+    $api->get('services/availablemainservices', 'ServicesController@getAvailableMainServices');
     $api->get('services/subservices', 'ServicesController@getSubServices');
     $api->get('services/get_main_service_info', 'ServicesController@getMainServiceInfo');
     $api->get('services/get_sub_service_info', 'ServicesController@getSubServiceInfo');
-    
+    $api->get('services/get_option_service_info', 'ServicesController@getOptionServiceInfo');
+
+    $api->get('services/alloptionservices', 'ServicesController@getAllOptionServices');
+    $api->get('services/onlyoptionservices', 'ServicesController@getOnlyOptionServices');
+    $api->get('services/allfreeservices', 'ServicesController@getFreeOptionService');
+
+    $api->post('appointment/new', 'AppointmentsController@newAppointment');
+});
+
+$api->group(['middleware' => ['api', 'api.auth']], function ($api) {
+    $api->controller('services', 'ServicesController');
+
     $api->post('services/add_main_service', 'ServicesController@addMainService');
     $api->post('services/edit_main_service', 'ServicesController@updateMainService');
     $api->post('services/delete_main_service', 'ServicesController@deleteMainService');
+
+    $api->post('services/add_option_service', 'ServicesController@addOptionService');
+    $api->post('services/edit_option_service', 'ServicesController@updateOptionService');
+    $api->post('services/delete_option_service', 'ServicesController@deleteOptionService');
     
     $api->post('services/add_sub_service', 'ServicesController@addSubService');
     $api->post('services/edit_sub_service', 'ServicesController@updateSubService');
@@ -51,6 +67,7 @@ $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
     $api->get('appointments/all_appointments_by_advisor', 'AppointmentsController@getAppointmentsByAdvisor');
     $api->get('appointments/appointment_info', 'AppointmentsController@getAppointmentInfo');
     $api->get('appointments/appointment_services', 'AppointmentsController@getAppointmentServices');
+    $api->get('appointments/appointment_times', 'AppointmentsController@getAppointmentTimes');
     
     $api->post('appointments/add_advisor', 'AppointmentsController@addAdvisor');
     $api->post('appointments/appointment_report', 'AppointmentsController@reportAppointmentInfo');

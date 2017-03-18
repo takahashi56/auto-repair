@@ -18,28 +18,33 @@
               </tr>
               <tr style="text-align: center;" height="70px">
                 <td>
-                  <input type="text" class="front-whatcar-input" placeholder="Make" value=""/>
+                  <input type="text" class="front-whatcar-input" placeholder="Make" value="" ng-model="vm.selectedMake" required ng-change="vm.onChangeInput()"/>
+                  <p ng-show="vm.isMakeRequired" class="required-block">Make is required.</p>
                 </td>
               </tr>
               <tr style="text-align: center;" height="70px">
                 <td>
-                  <input type="number" class="front-whatcar-input" placeholder="Year" value=""/>
+                  <select class="front-whatcar-input" style="height: 40px;" ng-model="vm.selectedYear">
+                    <option ng-value="year" ng-repeat="year in vm.yearList">{{year}}</option>
+                  </select>
                 </td>
               </tr>
               <tr style="text-align: center;" height="70px">
                 <td>
-                  <input type="text" class="front-whatcar-input" placeholder="Model" value=""/>
+                  <input type="text" class="front-whatcar-input" placeholder="Model" value="" ng-model="vm.selectedModel" required ng-change="vm.onChangeInput()"/>
+                  <p ng-show="vm.isModelRequired" class="required-block">Model is required.</p>
                 </td>
               </tr>
               <tr style="text-align: center;" height="70px">
                 <td>
-                  <input type="text" class="front-whatcar-input" placeholder="Trim" value=""/>
+                  <input type="text" class="front-whatcar-input" placeholder="Trim" value="" ng-model="vm.selectedTrim" required ng-change="vm.onChangeInput()"/>
+                  <p ng-show="vm.isTrimRequired" class="required-block">Trim is required.</p>
                 </td>
               </tr>
               <tr style="text-align: center;">
                 <td>
                   <div class="front-whatcar-continue-div">
-                  <a ui-sref="front.step1"><h5 class="front-whatcar-try">CONTINUE</h5></a>
+                  <a ng-click="vm.onContinue()"><h5 class="front-whatcar-try">CONTINUE</h5></a>
                   </div>
                 </td>
               </tr>

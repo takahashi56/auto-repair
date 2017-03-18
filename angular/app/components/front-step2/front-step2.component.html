@@ -11,7 +11,16 @@
                   <tr>
                     <td class="front-step2-td2">
                       <div class="col-lg-12">
-                        <h4 class="front-step2-h3">Popular Service</h4>
+                        <table width="100%" height="100%">
+                          <tr>
+                            <td width="30%">
+                              <img src="/img/assets/{{vm.mainService.image_url}}"/>
+                            </td>
+                            <td width="70%">
+                              <h4 class="front-step2-h3">{{vm.mainService.title}}</h4>
+                            </td>
+                          </tr>
+                        </table>
                       </div>
                     </td>
                   </tr>
@@ -19,25 +28,9 @@
                     <td>
                       <section class="sidebar">
                         <ul class="sidebar-menu">
-                          <li class="active">
-                            <a>
-                               <span>Pre - Purchase Car Inspaction</span>
-                            </a>
-                          </li>
-
-                          <li>
-                            <a>
-                              <span>Change Oil & Filter</span>
-                            </a>
-                          </li>
-                          <li>
-                            <a>
-                             <span>Timing Belt Replacement</span>
-                            </a>
-                          </li>
-                          <li>
-                            <a>
-                              <span>Air Filter Replacement</span>
+                          <li class="{{$index == vm.selectedSubServiceIndex ? 'active' : ''}}" ng-repeat="subService in vm.sub_services track by $index">
+                            <a style="cursor: pointer;" ng-click="vm.onSelectSubService(subService.id, $index)">
+                               <span>{{subService.title}}</span>
                             </a>
                           </li>
                         </ul>
@@ -52,16 +45,16 @@
                   <tr>
                     <td>
                     </td>
-                    <td width="90%" style="background-color: #fff;min-height:250px;opacity: 0.99;vertical-align: top;">
+                    <td width="90%" style="background-color: #fff;min-height:250px;opacity: 0.99;vertical-align: top;" ng-show="vm.selectedSubService != undefined">
                       <div class="col-lg-12" style="margin-top: 20px;">
                         <table width="100%" height="100%">
                           <tr>
                             <td width="90%">
-                              <h4 style="color: #6A7F90;">Pre - Purchase Car Inspaction</h4>
+                              <h5 style="color: #6A7F90;">{{vm.selectedSubService.title}}  (Price: <font style="color: #3c8dbc;">AED {{vm.selectedSubService.price}}</font>)</h5>
                             </td>
                             <td width="10%">
-                              <a href="#">
-                                <img src="/img/assets/add.png"/>
+                              <a style="cursor: pointer;" ng-click="vm.addSubService(vm.selectedSubService.added)">
+                                <img src="/img/assets/{{vm.selectedSubService.added == 1 ? 'checked' : 'add'}}.png"/>
                               </a>
                             </td>
                           </tr>
@@ -74,7 +67,7 @@
                       <div class="col-lg-12">
                         <div class="col-lg-12">
                           <h6 style="color: #6A7F90;">
-                            Sample descriptionSample descriptionSample descriptionSample descriptionSample descriptionSample descriptionSample descriptionSample descriptionSample descriptionSample descriptionSample descriptionSample descriptionSample descriptionSample descriptionSample descriptionSample descriptionSample descriptionSample descriptionSample descriptionSample descriptionSample descriptionSample descriptionSample descriptionSample descriptionSample descriptionSample descriptionSample description
+                            {{vm.selectedSubService.description}}
                           </h6>
                         </div>
                       </div>
@@ -94,7 +87,6 @@
               <td class="front-step2-td3" headers="100%">
                 <div class="front-step2-div6">
                   <div class="front-step2-div7">
-                    <h6 style="color: #fff">View Price break down</h6>
                     <h5 style="color: #fff;text-align: right;">Your Total Price</h5>
                     <table width="100%">
                       <tr>
@@ -102,7 +94,7 @@
                           <img style="margin-left: 10px;" src="/img/assets/summary.png"/>
                         </td>
                         <td style="vertical-align: top;">
-                          <h3 style="color: #fff;text-align: right;">AED 56.75</h3>
+                          <h3 style="color: #fff;text-align: right;">AED {{vm.totalPrice}}</h3>
                         </td>
                       </tr>
                     </table>
@@ -113,7 +105,7 @@
                           <h6 style="color: #fff;text-align: left;margin: 0px;">Agency Price</h6>
                         </td>
                         <td>
-                          <h6 style="color: #fff;text-align: left;margin: 0px;">AED 100</h6>
+                          <h6 style="color: #fff;text-align: left;margin: 0px;">AED {{vm.agencyPrice}}</h6>
                         </td>
                       </tr>
                       <tr>
@@ -122,7 +114,7 @@
                           <h6 style="color: #fff;text-align: left;margin: 10px 0px 0px 0px;">You Save</h6>
                         </td>
                         <td>
-                          <h6 style="color: #fff;text-align: left;margin: 10px 0px 0px 0px;">%125</h6>
+                          <h6 style="color: #fff;text-align: left;margin: 10px 0px 0px 0px;">AED {{vm.save}}</h6>
                         </td>
                       </tr>
                     </table>
@@ -135,52 +127,44 @@
 
                   <div class="front-step2-div9">
                     <h5>Summary</h5>
-                    <h6 style="color: #839DB0">2008 Audi</h6>
-                    <h5>Services</h5>
-                    <div class="col-lg-12">
+                    <h6 style="color: #839DB0">{{vm.car.year}}&nbsp;{{vm.car.make}}&nbsp;{{vm.car.model}}&nbsp;{{vm.car.trim}}</h6>
+                    <h5 class="front-step2-h5">Services</h5>
+                    <div class="col-lg-12 front-step2-div11">
                       <table width="100%">
-                        <tr>
+                        <tr ng-repeat="service in vm.services">
                           <td style="width: 45px;">
-                            <a href="#"><img src="/img/assets/toggle_on.png"/></a>
+                            <a style="cursor: pointer;" ng-click="vm.toggleSubService(service)"><img src="/img/assets/{{service.added == 1 ? 'toggle_on' : 'toggle_off'}}.png"/></a>
                           </td>
                           <td style="text-align: left;">
-                            <h6 style="color: #839DB0">Change Oil and Filter</h6>
+                            <h6 style="color: #839DB0">{{service.title}} (<font style="color: #3c8dbc">AED {{service.price}}</font>)</h6>
                           </td>
                         </tr>
                       </table>
                     </div>
 
-                    <h5>Option Services</h5>
-                    <div class="col-lg-12">
+                    <h5 class="front-step2-h5">Option Services</h5>
+                    <div class="col-lg-12 front-step2-div11">
                       <table width="100%">
-                        <tr>
+                        <tr ng-repeat="optionService in vm.optionServices">
                           <td style="width: 45px;">
-                            <a href="#"><img src="/img/assets/toggle_off.png"/></a>
+                            <a style="cursor: pointer;" ng-click="vm.toggleOptionService(optionService)"><img src="/img/assets/toggle_on.png"/></a>
                           </td>
                           <td style="text-align: left;">
-                            <h6 style="color: #839DB0">Rotate Tires</h6>
+                            <h6 style="color: #839DB0">{{optionService.title}} (<font style="color: #3c8dbc">AED {{optionService.price}}</font>)</h6>
                           </td>
                         </tr>
                       </table>
                     </div>
 
-                    <h5>Include</h5>
-                    <div class="col-lg-12">
+                    <h5 class="front-step2-h5">Include</h5>
+                    <div class="col-lg-12 front-step2-div11">
                       <table width="100%">
-                        <tr>
+                        <tr ng-repeat="freeService in vm.freeServices">
                           <td style="width: 75px;">
                             <img src="/img/assets/free.png"/>
                           </td>
                           <td style="text-align: left;">
-                            <h6 style="color: #839DB0">50 point inspiration</h6>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td style="width: 75px;">
-                            <img src="/img/assets/free.png"/>
-                          </td>
-                          <td style="text-align: left;">
-                            <h6 style="color: #839DB0">Service Report</h6>
+                            <h6 style="color: #839DB0">{{freeService.title}}</h6>
                           </td>
                         </tr>
                       </table>
@@ -196,7 +180,7 @@
     <tr class="front-step2-tr">
       <td>
         <div class="col-lg-12 front-step2-div3">
-          <span class="front-span-passed">&nbsp;</span>
+          <a ui-sref="front.step1"><span class="front-span-passed">&nbsp;</span></a>
           <span class="front-span-active"><span class="triangle"></span>2</span>
           <span class="front-span-deactive">3</span>
           <span class="front-span-deactive">4</span>

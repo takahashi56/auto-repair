@@ -35,11 +35,13 @@ elixir(function (mix) {
       './public/js/vendor.js',
       './public/js/partials.js',
       './public/js/app.js',
-      './public/dist/js/app.js'
+      './public/dist/js/app.js',
+      './public/datepicker/js/angular-datepicker.js'
     ],
     styles = [
       './public/css/vendor1.css',
-      './public/css/app.css'
+      './public/css/app.css',
+      './public/datepicker/css/angular-datepicker.css'
     ],
     karmaJsDir = [
       jsOutputFolder + '/vendor.js',

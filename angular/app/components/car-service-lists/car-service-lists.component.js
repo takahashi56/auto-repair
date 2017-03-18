@@ -40,7 +40,7 @@ class CarServiceListsController {
 	    }
 	    
 	    API.all('services/delete_main_service').post(data).then(() => {
-	      let alert = { type: 'success', 'title': 'Success!', msg: 'Main Service has been added.' }
+	      let alert = { type: 'success', 'title': 'Success!', msg: 'Main Service has been deleted.' }
 	      
 	      swal({
 	        title: 'Deleted!',
@@ -75,7 +75,7 @@ class CarServiceListsController {
   	    }
   	    
   	    API.all('services/delete_sub_service').post(data).then(() => {
-  	      let alert = { type: 'success', 'title': 'Success!', msg: 'Main Service has been added.' }
+  	      let alert = { type: 'success', 'title': 'Success!', msg: 'Sub Service has been deleted.' }
   	      
   	      swal({
   	        title: 'Deleted!',

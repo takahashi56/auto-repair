@@ -12,12 +12,12 @@
                 
         <li class="dropdown user user-menu" uib-dropdown>
           <a href="" class="dropdown-toggle" data-toggle="dropdown" uib-dropdown-toggle>
-            <img src="{{vm.userData.avatar}}" class="user-image" alt="User Image" onError="this.src='//placeholdit.imgix.net/~text?txtfont=monospace,bold&bg=DD4B39&txtclr=ffffff&txt=A&w=45&h=45&txtsize=16'">
+            <img src="{{vm.userData.avatar}}" class="user-image" alt="User Image">
             <span class="hidden-xs">{{vm.userData.name | capitalize}}</span>
           </a>
           <ul class="dropdown-menu" uib-dropdown-menu>
             <li class="user-header">
-              <img src="{{vm.userData.avatar}}" class="img-circle" alt="User Image" onError="this.src='//placeholdit.imgix.net/~text?txtfont=monospace,bold&bg=DD4B39&txtclr=ffffff&txt=A&w=90&h=90&txtsize=36'">
+              <img src="{{vm.userData.avatar}}" class="img-circle" alt="User Image">
               <p>
                 {{vm.userData.name | capitalize}}
                 <small>Member since {{vm.userData.created_at | datemillis |date:'MMMM yyyy' }}</small>

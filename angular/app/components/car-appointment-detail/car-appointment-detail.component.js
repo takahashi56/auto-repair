@@ -18,6 +18,10 @@ class CarAppointmentDetailController {
 	this.API.all('appointments').get('appointment_info', {appointmentId}).then((response) => {
 		this.appointment = API.copy(response)
 	})
+
+  this.API.all('appointments').get('appointment_times', {appointmentId}).then((response) => {
+    this.appointmentTime = response;
+  })
 	 
 	this.API.all('appointments').get('appointment_services', {appointmentId}).then((response) => {
 		this.services =  response.plain();

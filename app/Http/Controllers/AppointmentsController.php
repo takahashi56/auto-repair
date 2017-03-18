@@ -4,12 +4,19 @@ namespace App\Http\Controllers;
 
 use DB;
 use App\User;
+use App\Car;
+use App\Customer;
+use App\Appointment;
+use App\AppointmentService;
+use App\AppointmentOptionService;
+use App\AppointmentTime;
 use Auth;
 use Hash;
 
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Carbon\Carbon;
 
 class AppointmentsController extends Controller
 {
@@ -18,7 +25,7 @@ class AppointmentsController extends Controller
 	}
 	
 	public function getCustomers() {
-		$customers = DB::select("select users.id, users.name, sum(appointment.open) as open, 										   sum(appointment.total) as total
+		/*$customers = DB::select("select users.id, users.name, sum(appointment.open) as open, 										   sum(appointment.total) as total
 		 						from users 
 							    left join role_user on users.id = role_user.user_id 
 							    left join roles on role_user.role_id = roles.id 
@@ -34,14 +41,29 @@ class AppointmentsController extends Controller
 							    				group by appointment.customer_id
 							    		  ) as appointment on users.id = appointment.customer_id 
 							    where roles.slug = 'admin.customer'
-							    group by users.id");
+							    group by users.id");*/
+
+		$customers = DB::select("select customer.id, customer.name, sum(appointment.open) as open, 										   sum(appointment.total) as total
+		 						from customer 
+							    left join (
+							    				select customer_id, count(customer_id) as open, 0 as total  
+							    				from appointment 
+							    				inner join appointment_status on appointment.status = appointment_status.id 
+							    				where appointment_status.name not like 'Closed' 
+							    				group by appointment.customer_id
+							    				union 
+							    				select customer_id, 0 as open, count(customer_id) as total  
+							    				from appointment 
+							    				group by appointment.customer_id
+							    		  ) as appointment on customer.id = appointment.customer_id 
+							    group by customer.id");
 								
 		return $customers;
 	}
 	
 	public function getCustomerInfo(Request $request) {
-		$customer = DB::table('users')
-						->where('users.id', $request->customerId)
+		$customer = DB::table('customer')
+						->where('customer.id', $request->customerId)
 						->first();
 		
 		return response()->success($customer);
@@ -113,18 +135,18 @@ class AppointmentsController extends Controller
 		if ($role->slug == 'admin.super') {
 			$appointments = DB::table('appointment')
 							->join('appointment_status', 'appointment.status', '=', 'appointment_status.id')
-							->join('users as users_a', 'appointment.customer_id', '=', 'users_a.id')
+							->join('customer', 'appointment.customer_id', '=', 'customer.id')
 							->leftjoin('users as users_b', 'appointment.advisor_id', '=', 'users_b.id')
-							->select('appointment.id', 'users_a.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id', 'users_b.name as advisor')
+							->select('appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id', 'users_b.name as advisor')
 							->orderBy('appointment.id', 'asc')
 							->get();
 		}
 		else {
 			$appointments = DB::table('appointment')
 							->join('appointment_status', 'appointment.status', '=', 'appointment_status.id')
-							->join('users', 'appointment.customer_id', '=', 'users.id')	
+							->join('customer', 'appointment.customer_id', '=', 'customer.id')	
 							->where('advisor_id', $user->id)
-							->select('appointment.id', 'users.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id')
+							->select('appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id')
 							->orderBy('appointment.id', 'asc')
 							->get();
 		}
@@ -135,9 +157,9 @@ class AppointmentsController extends Controller
 	public function getAppointmentsByAdvisor(Request $request) {
 		$appointments = DB::table('appointment')
 							->join('appointment_status', 'appointment.status', '=', 'appointment_status.id')
-							->join('users', 'appointment.customer_id', '=', 'users.id')	
+							->join('customer', 'appointment.customer_id', '=', 'customer.id')	
 							->where('advisor_id', $request->advisorId)
-							->select('appointment.id', 'users.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id')
+							->select('appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id')
 							->orderBy('appointment.id', 'asc')
 							->get();
 		
@@ -148,9 +170,9 @@ class AppointmentsController extends Controller
 	public function getAppointmentsByCustomer(Request $request) {
 		$appointments = DB::table('appointment')
 							->join('appointment_status', 'appointment.status', '=', 'appointment_status.id')
-							->join('users', 'appointment.customer_id', '=', 'users.id')	
+							->join('customer', 'appointment.customer_id', '=', 'customer.id')	
 							->where('customer_id', $request->customerId)
-							->select('appointment.id', 'users.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id')
+							->select('appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id')
 							->orderBy('appointment.id', 'asc')
 							->get();
 		
@@ -165,12 +187,32 @@ class AppointmentsController extends Controller
 		$appointment = DB::table('appointment')
 						->join('appointment_status', 'appointment.status', '=', 'appointment_status.id')
 						->leftjoin('users as users_a', 'appointment.advisor_id', '=', 'users_a.id')	
-						->join('users as users_c', 'appointment.customer_id', '=', 'users_c.id')	
+						->join('customer', 'appointment.customer_id', '=', 'customer.id')
+						->join('car', 'appointment.car_id', '=', 'car.id')	
 						->where('appointment.id', $request->appointmentId)
-						->select('appointment.id', 'users_a.name as advisor', 'users_c.name as customer', 'users_c.email', 'users_c.phone_number', 'appointment.book_time', 'appointment.accept_time', 'appointment_status.name as status', 'appointment.report_id', 'appointment.completion_time', 'appointment.completion_description')
+						->select('appointment.id', 'users_a.name as advisor', 'customer.name as customer', 'customer.email', 'customer.phone_number', 'appointment.book_time', 'appointment.accept_time', 'appointment_status.name as status', 'appointment.report_id', 'appointment.completion_time', 'appointment.completion_description', 'car.make as make', 'car.model as model', 'car.trim as trim', 'car.year as year')
 						->first();
 		
 		return response()->success($appointment);
+	}
+
+	public function getAppointmentTimes(Request $request) {
+		$at = AppointmentTime::where(['appointment_id' => $request->appointmentId])->get();
+
+		$res = "";
+		for ($i = 0; $i < sizeof($at); $i++) {
+			$date = Carbon::parse($at[$i]->appointment_time); //new DateTime($at[$i]->appointment_time);
+			if ($i == 0) {
+				$res = $date->format("F d, Y") . " ";
+			}
+
+			$res .= $date->format("h:i A");
+
+			if ($i != sizeof($at) - 1)
+				$res .= " / "; 
+		}
+
+		return $res;
 	}
 	
 	public function getAppointmentServices(Request $request) {
@@ -181,6 +223,19 @@ class AppointmentsController extends Controller
 									->select('main_service.title as main', 'sub_service.title as sub', 'sub_service.price')
 									->orderBy('appointment_service.appointment_id', 'asc')
 									->get();
+
+		$option_services = DB::table("appointment_option_service")
+								->join('option_service', 'option_service.id', '=', 'appointment_option_service.option_service_id')
+								->where('appointment_option_service.appointment_id', $request->appointmentId)
+								->select('option_service.title as main', 'option_service.title as sub', 'option_service.price')
+								->get();
+
+		$index = sizeof($appointment_services);
+		for ($i = 0; $i < sizeof($option_services); $i++) {
+			$option_services[$i]->main = "Optional Service";
+			$appointment_services[$index] = $option_services[$i];
+			$index++;
+		}
 		
 		return $appointment_services;
 	}
@@ -203,5 +258,63 @@ class AppointmentsController extends Controller
 		            ->update(array('report_id' => $request->appointmentId, 'status' => $status->id, 'completion_time' => $request->completionTime, 'completion_description' => $request->completionDescription));
 		            
 		return response()->success(compact('id'));
+	}
+
+	public function newAppointment(Request $request) {
+		// adding car info
+		$car = new Car;
+		$car->make = $request->make;
+		$car->year = $request->year;
+		$car->model = $request->model;
+		$car->trim = $request->trim;
+		$car->save();
+
+		// adding customer
+		$customer = Customer::where(['phone' => $request->phone])->first();
+		if ($customer == null) {
+			$customer = new Customer;
+			$customer->name = $request->name;
+			$customer->email = $request->email;
+			$customer->phone_number = $request->phone;
+			$customer->save();
+		}
+
+		// adding Appointment
+		$appointment = new Appointment;
+		$appointment->customer_id = $customer->id;
+		$appointment->car_id = $car->id;
+		$appointment->book_time = date("Y-m-d H:i:s");
+		$appointment->comment = $request->comment;
+		$appointment->status = 1;
+		$appointment->contact_method = $request->contact_method;
+		$appointment->report_id = 0;
+		$appointment->save();
+
+		// adding appointmentservice
+		for ($i = 0; $i < sizeof($request->service); $i++) {
+			$as = new AppointmentService;
+			$as->appointment_id = $appointment->id;
+			$as->sub_service_id = $request->service[$i];
+			$as->save();
+		}
+
+		// adding appointmentoptionservice
+		for ($i = 0; $i < sizeof($request->option_services); $i++) {
+			$aos = new AppointmentOptionService;
+			$aos->appointment_id = $appointment->id;
+			$aos->option_service_id = $request->option_services[$i];
+			$aos->save();
+		}
+
+		// adding appointmenttime
+		$date = strtotime($request->date);
+		for ($i = 0; $i < sizeof($request->times); $i++) {
+			$at = new AppointmentTime;
+			$at->appointment_id = $appointment->id;
+			$at->appointment_date = date("Y-m-d", $date);
+			$dt = strtotime($request->date . " " . $request->times[$i]);
+			$at->appointment_time = date("Y-m-d H:i:s", $dt);
+			$at->save();
+		}
 	}
 }

@@ -13,16 +13,18 @@
                           <h4 class="front-step3-h4">Select Date & Time</h4>
                           <br/>
                           <h5 style="color: #6A7F90;">Select new date of your appointment</h5>
-                          <input type="number" class="front-step3-date" placeholder="Year" value=""/>
-                          <h5 style="color: #6A7F90;">Select new time of your appointment</h5>
+                          <datepicker date-format="MMMM dd, yyyy" date-min-limit="{{vm.minDate}}">
+                            <input ng-model="vm.date" class="front-step3-date" type="text" placeholder="MMMM dd, yyyy" ng-change="vm.changeDate()"/>
+                          </datepicker>
+                          <!--<h5 style="color: #6A7F90;">Select new time of your appointment</h5>
                           <input type="number" class="front-step3-time" placeholder="Hour" value="" min="0" max="23"/>&nbsp;&nbsp;:&nbsp;
-                          <input type="number" class="front-step3-time" placeholder="Minute" value="" min="0" max="59"/>
+                          <input type="number" class="front-step3-time" placeholder="Minute" value="" min="0" max="59"/>-->
                         </div>
 
-                        <div class="col-lg-12" style="position: absolute;top:290px; bottom: 60px;overflow-y: auto;">
+                        <div class="col-lg-12" style="position: absolute;top:180px; bottom: 60px;overflow-y: auto;">
                           <div class="col-lg-2"></div>
                           <div class="col-lg-8">
-                            <div class="col-md-3" style="padding: 5px !important;" ng-repeat="time in vm.timesheets">
+                            <div class="col-md-3" style="padding: 5px !important;" ng-repeat="time in vm.timesheets" ng-show="time.selected != 2">
                                 <div class="{{time.selected == 1 ? 'front-step3-timediv-selected' : 'front-step3-timediv'}}" ng-click="vm.onSelectTimeSheet(time)">
                                 {{time.title}}
                                 </div>
@@ -46,7 +48,7 @@
                                 </a>
                               </td>
                               <td>
-                                <a ui-sref="front.step4">
+                                <a ng-click="vm.onNext()" style="cursor: pointer;">
                                   <div class="front-step3-div5">
                                     Next
                                   </div>
@@ -67,8 +69,8 @@
     <tr class="front-step3-tr">
       <td>
         <div class="col-lg-12 front-step3-div3">
-          <span class="front-span-passed">&nbsp;</span>
-          <span class="front-span-passed">&nbsp;</span>
+          <a ui-sref="front.step1"><span class="front-span-passed">&nbsp;</span></a>
+          <a ui-sref="front.step2"><span class="front-span-passed">&nbsp;</span></a>
           <span class="front-span-active"><span class="triangle"></span>3</span>
           <span class="front-span-deactive">4</span>
           <span class="front-span-deactive">5</span>

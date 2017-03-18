@@ -1,14 +1,25 @@
 class FrontStep1Controller {
-  constructor ($scope, $state, $compile, DTOptionsBuilder, DTColumnBuilder, API) {
+  constructor ($rootScope, $scope, $state, $compile, DTOptionsBuilder, DTColumnBuilder, API) {
     'ngInject'
     this.API = API
     this.$state = $state
-	
+	  this.$rootScope = $rootScope
+    this.main_services = this.$rootScope.main_services
   }
 	
   $onInit () {
+    if (this.$rootScope.main_services == undefined) {
+      this.$state.go('front.home');
+      return;
+    }
     document.getElementById('mobile_menu').style.display = 'none';
     document.getElementById('toggle_menu_bg').style.display = 'none';
+  }
+
+  onNext(serviceId, title, imageUrl) {
+    this.$rootScope.currentMainService = {'id': serviceId, 'title' : title, 'image_url': imageUrl};
+
+    this.$state.go('front.step2');
   }
 }
 
