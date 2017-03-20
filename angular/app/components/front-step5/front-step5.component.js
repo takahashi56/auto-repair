@@ -36,11 +36,13 @@ class FrontStep5Controller {
 
     this.price = 0;
     for (let j = 0; j < this.$rootScope.services.length; j++) {
-      this.price += this.$rootScope.services[j].price;        
+      if (this.$rootScope.services[j].added == 1)
+        this.price += this.$rootScope.services[j].price;        
     }
 
     for (let i = 0; i < this.$rootScope.optionServices.length; i++) {
-      this.price += this.$rootScope.optionServices[i].price;
+      if (this.$rootScope.optionServices[i].added == 1)
+        this.price += this.$rootScope.optionServices[i].price;
     }
 
     this.totalPrice = this.price;
@@ -52,14 +54,26 @@ class FrontStep5Controller {
   }
 
   toggleSubService(service) {
-    for (let i = 0; i < this.$rootScope.services.length; i++) {
-      if (this.$rootScope.services[i].id == service.id) {
-        this.price -= this.$rootScope.services[i].price;
-        //this.$rootScope.services[i].added = 0;
-        this.$rootScope.services.splice(i, 1);
-        break;
+    if (service.added == 1) {
+      for (let i = 0; i < this.$rootScope.services.length; i++) {
+        if (this.$rootScope.services[i].id == service.id) {
+          this.price -= this.$rootScope.services[i].price;
+          this.$rootScope.services[i].added = 0;
+          //this.$rootScope.services.splice(i, 1);
+          break;
+        }
+      }
+    } else {
+      for (let i = 0; i < this.$rootScope.services.length; i++) {
+        if (this.$rootScope.services[i].id == service.id) {
+          this.price += this.$rootScope.services[i].price;
+          this.$rootScope.services[i].added = 1;
+          //this.$rootScope.services.splice(i, 1);
+          break;
+        }
       }
     }
+    
     
     this.services = this.$rootScope.services;
 
@@ -67,15 +81,34 @@ class FrontStep5Controller {
   }
 
   toggleOptionService(service) {
-    for (let i = 0; i < this.$rootScope.optionServices.length; i++) {
-      if (this.$rootScope.optionServices[i].id == service.id) {
-        this.price -= this.$rootScope.optionServices[i].price;
-        this.$rootScope.optionServices.splice(i, 1);
+    if (service.added == 1) { // added
+      for (let i = 0; i < this.$rootScope.optionServices.length; i++) {
+        if (this.$rootScope.optionServices[i].id == service.id) {
+          this.price -= this.$rootScope.optionServices[i].price;
+          this.$rootScope.optionServices[i].added = 0;
+        }
       }
-    }
 
-    this.totalPrice = this.price;
-    this.optionServices = this.$rootScope.optionServices;
+      this.totalPrice = this.price;
+      this.optionServices = this.$rootScope.optionServices;
+
+      this.agencyPrice = this.price + parseInt(this.price * 40 / 100);
+      this.save = this.agencyPrice - this.totalPrice;
+    } else {
+      for (let i = 0; i < this.$rootScope.optionServices.length; i++) {
+        if (this.$rootScope.optionServices[i].id == service.id) {
+          this.price += this.$rootScope.optionServices[i].price;
+          this.$rootScope.optionServices[i].added = 1;
+        }
+      }
+
+      this.totalPrice = this.price;
+      this.optionServices = this.$rootScope.optionServices;
+
+      this.agencyPrice = this.price + parseInt(this.price * 40 / 100);
+      this.save = this.agencyPrice - this.totalPrice;
+    }
+    
   }
 
   onConfirm() {
@@ -135,13 +168,17 @@ class FrontStep5Controller {
     }
 
     let services = [];
+    let services_selected = [];
     for (let i = 0; i < this.$rootScope.services.length; i++) {
       services[services.length] = this.$rootScope.services[i].id;
+      services_selected[services_selected.length] = this.$rootScope.services[i].added;
     }
 
     let optionService = [];
+    let optionService_selected = [];
     for (let i = 0; i < this.$rootScope.optionServices.length; i++) {
       optionService[optionService.length] = this.$rootScope.optionServices[i].id;
+      optionService_selected[optionService_selected.length] = this.$rootScope.optionServices[i].added;
     }
 
     let data = {
@@ -157,7 +194,9 @@ class FrontStep5Controller {
       date: this.$rootScope.appointmentDate,
       times: this.$rootScope.appointmentTimes,
       service: services,
-      option_services: optionService
+      option_services: optionService,
+      service_selected: services_selected,
+      option_service_selected: optionService_selected
     }
 
     console.log(data);

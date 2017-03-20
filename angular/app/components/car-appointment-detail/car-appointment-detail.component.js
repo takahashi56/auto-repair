@@ -62,8 +62,9 @@ class CarAppointmentDetailController {
   	
   	    for(var i = 0; i < this.services.length; i++){
   	        var service = this.services[i];
-  	        
-  	        total += service.price;
+  	       console.log(service);
+            if (service.selected == 1)
+              total += service.price;
   	    }
   	    
   	    return total;

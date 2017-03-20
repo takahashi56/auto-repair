@@ -35,6 +35,7 @@ class FrontStep4Controller {
     service.selected = service.selected == 1 ? 0 : 1;
 
     if (service.selected == 1) { // added
+      service.added = 1;
       this.$rootScope.optionServices[this.$rootScope.optionServices.length] = service;
 
       this.services = this.$rootScope.optionServices;

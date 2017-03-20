@@ -93,18 +93,21 @@
           	
           <table class="table table-hover">
           	<tr>
+              <th width="2%"></th>
               <th></th>
               <th></th>
               <th>Total: {{vm.getTotal()}}</th>
             </tr>
             
             <tr>
+              <th></th>
             	<th>Main Service</th>
             	<th>Sub Service</th>
             	<th>Price</th>
             </tr>
             
             <tr ng-repeat="service in vm.services">
+              <td><img src="/img/assets/checked.png" ng-show="service.selected == 1"/></td>
               <td>{{service.main}} </td>
               <td>{{service.sub}} </td>
               <td>{{service.price}}</td>

@@ -53,11 +53,13 @@ class FrontStep2Controller {
       
       this.price = 0;
       for (let j = 0; j < this.$rootScope.services.length; j++) {
-        this.price += this.$rootScope.services[j].price;        
+        if (this.$rootScope.services[j].added == 1)
+          this.price += this.$rootScope.services[j].price;        
       }
 
       for (let i = 0; i < this.$rootScope.optionServices.length; i++) {
-        this.price += this.$rootScope.optionServices[i].price;
+        if (this.$rootScope.optionServices[i].added == 1)
+          this.price += this.$rootScope.optionServices[i].price;
       }
 
       this.totalPrice = this.price;
@@ -126,8 +128,8 @@ class FrontStep2Controller {
       for (let i = 0; i < this.$rootScope.services.length; i++) {
         if (this.$rootScope.services[i].id == service.id) {
           this.price -= this.$rootScope.services[i].price;
-          //this.$rootScope.services[i].added = 0;
-          this.$rootScope.services.splice(i, 1);
+          this.$rootScope.services[i].added = 0;
+          //this.$rootScope.services.splice(i, 1);
           break;
         }
       }
@@ -166,18 +168,34 @@ class FrontStep2Controller {
   }
 
   toggleOptionService(service) {
-    for (let i = 0; i < this.$rootScope.optionServices.length; i++) {
-      if (this.$rootScope.optionServices[i].id == service.id) {
-        this.price -= this.$rootScope.optionServices[i].price;
-        this.$rootScope.optionServices.splice(i, 1);
+    if (service.added == 1) { // added
+      for (let i = 0; i < this.$rootScope.optionServices.length; i++) {
+        if (this.$rootScope.optionServices[i].id == service.id) {
+          this.price -= this.$rootScope.optionServices[i].price;
+          this.$rootScope.optionServices[i].added = 0;
+        }
       }
+
+      this.totalPrice = this.price;
+      this.optionServices = this.$rootScope.optionServices;
+
+      this.agencyPrice = this.price + parseInt(this.price * 40 / 100);
+      this.save = this.agencyPrice - this.totalPrice;
+    } else {
+      for (let i = 0; i < this.$rootScope.optionServices.length; i++) {
+        if (this.$rootScope.optionServices[i].id == service.id) {
+          this.price += this.$rootScope.optionServices[i].price;
+          this.$rootScope.optionServices[i].added = 1;
+        }
+      }
+
+      this.totalPrice = this.price;
+      this.optionServices = this.$rootScope.optionServices;
+
+      this.agencyPrice = this.price + parseInt(this.price * 40 / 100);
+      this.save = this.agencyPrice - this.totalPrice;
     }
-
-    this.totalPrice = this.price;
-    this.optionServices = this.$rootScope.optionServices;
-
-    this.agencyPrice = this.price + parseInt(this.price * 40 / 100);
-    this.save = this.agencyPrice - this.totalPrice;
+    
   }
 }
 

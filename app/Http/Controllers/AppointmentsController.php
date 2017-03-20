@@ -221,14 +221,14 @@ class AppointmentsController extends Controller
 									->join('sub_service', 'appointment_service.sub_service_id', '=', 'sub_service.id')
 									->join('main_service', 'sub_service.parent_id', '=', 'main_service.id')
 									->where('appointment_service.appointment_id', $request->appointmentId)
-									->select('main_service.title as main', 'sub_service.title as sub', 'sub_service.price')
+									->select('main_service.title as main', 'sub_service.title as sub', 'sub_service.price', 'appointment_service.is_selected as selected')
 									->orderBy('appointment_service.appointment_id', 'asc')
 									->get();
 
 		$option_services = DB::table("appointment_option_service")
 								->join('option_service', 'option_service.id', '=', 'appointment_option_service.option_service_id')
 								->where('appointment_option_service.appointment_id', $request->appointmentId)
-								->select('option_service.title as main', 'option_service.title as sub', 'option_service.price')
+								->select('option_service.title as main', 'option_service.title as sub', 'option_service.price', 'appointment_option_service.is_selected as selected')
 								->get();
 
 		$index = sizeof($appointment_services);
@@ -296,6 +296,7 @@ class AppointmentsController extends Controller
 			$as = new AppointmentService;
 			$as->appointment_id = $appointment->id;
 			$as->sub_service_id = $request->service[$i];
+			$as->is_selected = $request->service_selected[$i];
 			$as->save();
 		}
 
@@ -304,6 +305,7 @@ class AppointmentsController extends Controller
 			$aos = new AppointmentOptionService;
 			$aos->appointment_id = $appointment->id;
 			$aos->option_service_id = $request->option_services[$i];
+			$aos->is_selected = $request->option_service_selected[$i];
 			$aos->save();
 		}
 
