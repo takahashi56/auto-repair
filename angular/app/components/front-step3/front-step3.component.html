@@ -13,6 +13,7 @@
                           <h4 class="front-step3-h4">Select Date & Time</h4>
                           <br/>
                           <h5 style="color: #6A7F90;">Select new date of your appointment</h5>
+
                           <datepicker date-format="MMMM dd, yyyy" date-min-limit="{{vm.minDate}}">
                             <input ng-model="vm.date" class="front-step3-date" type="text" placeholder="MMMM dd, yyyy" ng-change="vm.changeDate()"/>
                           </datepicker>

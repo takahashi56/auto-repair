@@ -29,6 +29,7 @@ import { RegisterFormComponent } from './app/components/register-form/register-f
 import { CarAppointmentListsComponent } from './app/components/car-appointment-lists/car-appointment-lists.component'
 import { CarAppointmentDetailComponent } from './app/components/car-appointment-detail/car-appointment-detail.component'
 import { CarAppointmentReportComponent } from './app/components/car-appointment-report/car-appointment-report.component'
+import { CarAppointmentAcceptComponent } from './app/components/car-appointment-accept/car-appointment-accept.component'
 import { CarServiceListsComponent } from './app/components/car-service-lists/car-service-lists.component'
 import { CarServiceMainAddComponent } from './app/components/car-service-main-add/car-service-main-add.component'
 import { CarServiceMainEditComponent } from './app/components/car-service-main-edit/car-service-main-edit.component'
@@ -38,6 +39,7 @@ import { CarAdvisorListsComponent } from './app/components/car-advisor-lists/car
 import { CarAdvisorAppointmentsComponent } from './app/components/car-advisor-appointments/car-advisor-appointments.component'
 import { CarCustomerListsComponent } from './app/components/car-customer-lists/car-customer-lists.component'
 import { CarCustomerAppointmentsComponent } from './app/components/car-customer-appointments/car-customer-appointments.component'
+import { FrontAcceptFormComponent } from './app/components/front-accept-form/front-accept-form.component'
 import { FrontHomeComponent } from './app/components/front-home/front-home.component'
 import { FrontWhatCarComponent } from './app/components/front-what-car/front-what-car.component'
 import { FrontNavHeaderComponent } from './app/components/front-nav-header/front-nav-header.component'
@@ -55,10 +57,12 @@ angular.module('app.components')
   .component('carAppointmentLists', CarAppointmentListsComponent)
   .component('carAppointmentDetail', CarAppointmentDetailComponent)
   .component('carAppointmentReport', CarAppointmentReportComponent)
+  .component('carAppointmentAccept', CarAppointmentAcceptComponent)
   .component('carServiceLists', CarServiceListsComponent)
   .component('carServiceMainAdd', CarServiceMainAddComponent)
   .component('carServiceMainEdit', CarServiceMainEditComponent)
   .component('carServiceSubAdd', CarServiceSubAddComponent)
+  .component('frontAcceptForm', FrontAcceptFormComponent)
   .component('frontHome', FrontHomeComponent)
   .component('carServiceSubEdit', CarServiceSubEditComponent)
   .component('carAdvisorLists', CarAdvisorListsComponent)

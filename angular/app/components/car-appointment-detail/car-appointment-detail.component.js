@@ -71,6 +71,7 @@ class CarAppointmentDetailController {
   }
 
   onAcceptAppointment () {
+    let appointmentId = this.appointmentId
   }
   	
   onCreateReport () {

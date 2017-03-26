@@ -16,6 +16,20 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/')
 
   $stateProvider
+    .state('special', {
+      abstract: true,
+      views: {
+        'layout': {
+          templateUrl: getLayout('layout')
+        },
+        'header@special': {},
+        'footer@special': {},
+        main: {}
+      },
+      data: {
+        bodyClass: 'hold-transition skin-blue sidebar-mini'
+      }
+    })
     .state('app', {
       abstract: true,
       views: {
@@ -554,6 +568,29 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
       },
       data: {
         bodyClass: 'hold-transition skin-blue'
+      }
+    })
+    .state('app.carappointmentaccept', {
+      url: '/admin/car-appointment-accept/:appointmentId',
+      data: {
+        auth: true,
+        bodyClass: 'hold-transition login-page sidebar-collapse'
+      },
+      views: {
+        'main@app': {
+          template: '<car-appointment-accept></car-appointment-accept>'
+        }
+      }
+    })
+    .state('special.acceptform', {
+      url: '/accept-form/:formId',
+      data: {
+        bodyClass: 'hold-transition login-page sidebar-collapse'
+      },
+      views: {
+        'main@special': {
+          template: '<front-accept-form></front-accept-form>'
+        }
       }
     })
     .state('front.home', {

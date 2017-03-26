@@ -12,10 +12,14 @@ use App\AppointmentOptionService;
 use App\AppointmentTime;
 use Auth;
 use Hash;
+use Mail;
+use Config;
+use URL;
 
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 
 class AppointmentsController extends Controller
@@ -110,6 +114,56 @@ class AppointmentsController extends Controller
 		return response()->success($advisor);
 	}
 	
+	public function addImage(Request $request) {
+		$file = $request->file('file');
+		
+		if ($file!=null) {
+			$ext = $file->getClientOriginalExtension();
+			$image_name = str_random(15).'.'.$ext;
+
+			$destinationPath = 'uploads/accept';
+	      	$file->move($destinationPath,$image_name);
+			
+			return $destinationPath.'/'.$image_name;
+		}
+		return '';
+	}
+
+	public function updateAppointmentInfo($appointmentId, $query=array()) {
+		DB::table('appointment')
+		            ->where('id', $appointmentId)
+		            ->update($query);
+		            
+		return true;
+	}
+
+	public function addAccept(Request $request) {
+		$url = $request->url;
+
+		$id = DB::table('accept')
+		    ->insertGetId(array('app_id' => $request->app_id, 'jobno' => $request->jobno, 'date' => $request->date, 'time' => $request->time, 'customer' => $request->customer, 'vin' => $request->vin, 'advisor' => $request->advisor, 'telephone' => $request->telephone, 'model' => $request->model, 'km' => $request->km, 'email' => $request->email, 'plate' => $request->plate, 'fuel' => $request->fuel, 'primaryreq' => $request->primaryreq, 'secondaryreq' => $request->secondaryreq, 'inspection' => $request->inspection, 'file'=> $request->file, 'sign1'=>$request->sign1, 'sign2'=>$request->sign2));
+		
+		self::updateAppointmentInfo($request->app_id, array('status'=>3, 'accept_time'=>date('Y-m-d H:i:s')));
+
+		$sender = Config::get("mail.from");
+		$url .= $id;
+
+		$data = array(
+			'subject'=>'Autobody - Appointment Accepted!',
+			'sender'=>$sender,
+			'emailTo'=>$request->email,
+			'url'=>$url
+		);
+
+		Mail::send('emails.accept', $data, function ($m) use ($data){
+        	extract($data);
+            $m->from($sender, 'Autobody');
+			$m->to($emailTo, 'Customer')->subject($subject);
+        });
+
+		return $id;
+	}
+
 	public function addAdvisor(Request $request) {
 		$role = DB::table('roles')
 						->where('slug', 'admin.user')
@@ -216,6 +270,16 @@ class AppointmentsController extends Controller
 		return $res;
 	}
 	
+	public function getAppointmentInspection(Request $request){
+		$inspection = DB::select("select * from inspection order by id asc");
+		return $inspection;
+	}
+
+	public function getAccept(Request $request){
+		$data = DB::select("select * from accept where id=".$request->formId);
+		return $data;
+	}
+
 	public function getAppointmentServices(Request $request) {
 		$appointment_services = DB::table('appointment_service')
 									->join('sub_service', 'appointment_service.sub_service_id', '=', 'sub_service.id')

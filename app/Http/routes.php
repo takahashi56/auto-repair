@@ -20,6 +20,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/api/authenticate/user', 'Auth\AuthController@getAuthenticatedUser');
 });
 
+Route::post('/add_image', 'AppointmentsController@addImage');
+
 $api->group(['middleware' => ['api']], function ($api) {
     $api->controller('services', 'ServicesController');
 
@@ -70,6 +72,7 @@ $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
     $api->get('appointments/appointment_times', 'AppointmentsController@getAppointmentTimes');
     
     $api->post('appointments/add_advisor', 'AppointmentsController@addAdvisor');
+    $api->post('appointments/add_accept', 'AppointmentsController@addAccept');
     $api->post('appointments/appointment_report', 'AppointmentsController@reportAppointmentInfo');
     $api->post('appointments/update_appointment_advisor', 'AppointmentsController@updateAppointmentAdvisor');
 });
@@ -81,6 +84,8 @@ $api->group(['middleware' => ['api']], function ($api) {
     $api->post('auth/password/email', 'Auth\PasswordResetController@sendResetLinkEmail');
     $api->get('auth/password/verify', 'Auth\PasswordResetController@verify');
     $api->post('auth/password/reset', 'Auth\PasswordResetController@reset');
+    $api->get('appointments/appointment_inspection', 'AppointmentsController@getAppointmentInspection');
+    $api->get('appointments/get_accept', 'AppointmentsController@getAccept');
 });
 
 $api->group(['middleware' => ['api', 'api.auth']], function ($api) {

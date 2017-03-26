@@ -6,7 +6,8 @@ angular.module('app', [
   'app.routes',
   'app.config',
   'app.partials',
-  '720kb.datepicker'
+  '720kb.datepicker',
+  'signature'
 ])
 
 angular.module('app.run', [])
