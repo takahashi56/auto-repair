@@ -122,7 +122,7 @@ class AppointmentsController extends Controller
 			$image_name = str_random(15).'.'.$ext;
 
 			$destinationPath = 'uploads/accept';
-	      	//$file->move($destinationPath,$image_name);
+	      	$file->move($destinationPath,$image_name);
 			
 			return $destinationPath.'/'.$image_name;
 		}
