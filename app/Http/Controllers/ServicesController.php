@@ -34,6 +34,12 @@ class ServicesController extends Controller
         return $option_services;
     }
 
+    public function getAllSubServices() {
+        $sub_services = SubService::all();
+
+        return $sub_services;
+    }
+
     public function getOnlyOptionServices() {
         $option_services = OptionService::where('type', '=', 1)->get();
 

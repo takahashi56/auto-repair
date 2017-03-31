@@ -33,6 +33,7 @@ $api->group(['middleware' => ['api']], function ($api) {
     $api->get('services/get_option_service_info', 'ServicesController@getOptionServiceInfo');
 
     $api->get('services/alloptionservices', 'ServicesController@getAllOptionServices');
+    $api->get('services/allsubservices', 'ServicesController@getAllSubServices');
     $api->get('services/onlyoptionservices', 'ServicesController@getOnlyOptionServices');
     $api->get('services/allfreeservices', 'ServicesController@getFreeOptionService');
 
@@ -73,6 +74,7 @@ $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
     
     $api->post('appointments/add_advisor', 'AppointmentsController@addAdvisor');
     $api->post('appointments/add_accept', 'AppointmentsController@addAccept');
+    $api->post('appointments/add_report', 'AppointmentsController@addReport');
     $api->post('appointments/appointment_report', 'AppointmentsController@reportAppointmentInfo');
     $api->post('appointments/update_appointment_advisor', 'AppointmentsController@updateAppointmentAdvisor');
 });
@@ -86,6 +88,10 @@ $api->group(['middleware' => ['api']], function ($api) {
     $api->post('auth/password/reset', 'Auth\PasswordResetController@reset');
     $api->get('appointments/appointment_inspection', 'AppointmentsController@getAppointmentInspection');
     $api->get('appointments/get_accept', 'AppointmentsController@getAccept');
+    $api->get('appointments/get_report', 'AppointmentsController@getReport');
+    $api->get('appointments/get_accept_by_appId', 'AppointmentsController@getAcceptByAppId');
+    $api->get('appointments/get_report_aspect', 'AppointmentsController@getReportAspect');
+    $api->get('appointments/update_report', 'AppointmentsController@updateReport');
 });
 
 $api->group(['middleware' => ['api', 'api.auth']], function ($api) {

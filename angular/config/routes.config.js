@@ -241,7 +241,8 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
     .state('app.carappointmentreport', {
       url: '/admin/car-appointment-report/:appointmentId',
       data: {
-        auth: true
+        auth: true,
+        bodyClass: 'hold-transition login-page sidebar-collapse'
       },
       views: {
         'main@app': {
@@ -590,6 +591,17 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
       views: {
         'main@special': {
           template: '<front-accept-form></front-accept-form>'
+        }
+      }
+    })
+    .state('special.reportform', {
+      url: '/report-form/:reportId',
+      data: {
+        bodyClass: 'hold-transition login-page sidebar-collapse'
+      },
+      views: {
+        'main@special': {
+          template: '<front-report-form></front-report-form>'
         }
       }
     })

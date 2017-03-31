@@ -137,6 +137,42 @@ class AppointmentsController extends Controller
 		return true;
 	}
 
+	public function addReport(Request $request) {
+		$url = $request->url;
+
+		$id = DB::table('report')
+		    ->insertGetId(array('app_id' => $request->app_id, 'score' => $request->score, 'urgent'=>$request->urgent, 'required'=>$request->required, 'recommended'=>$request->recommended, 'total'=>$request->total, 'service'=>serialize($request->service), 'aspect'=>serialize($request->aspect), 'time'=>date('Y-m-d H:i:s')));
+		
+		self::updateAppointmentInfo($request->app_id, array('status'=>4, 'completion_time'=>date('Y-m-d H:i:s'), 'report_id'=>$id));
+
+		
+		$sender = Config::get("mail.from");
+		$url .= $id;
+
+		$data = array(
+			'subject'=>'Autobody - Report Created!',
+			'sender'=>$sender,
+			'emailTo'=>$request->email,
+			'url'=>$url
+		);
+
+		Mail::send('emails.accept', $data, function ($m) use ($data){
+        	extract($data);
+            $m->from($sender, 'Autobody');
+			$m->to($emailTo, 'Customer')->subject($subject);
+        });
+
+		return $id;
+	}
+
+	public function updateReport(Request $request) {
+		DB::table('report')
+		            ->where('id', $request->reportId)
+		            ->update(array('status' => 1));
+		            
+		return response()->success(compact('id'));
+	}
+
 	public function addAccept(Request $request) {
 		$url = $request->url;
 
@@ -270,13 +306,31 @@ class AppointmentsController extends Controller
 		return $res;
 	}
 	
+	public function getReportAspect(Request $request){
+		$aspect = DB::select("select * from report_aspect order by id asc");
+		return $aspect;
+	}
+
 	public function getAppointmentInspection(Request $request){
 		$inspection = DB::select("select * from inspection order by id asc");
 		return $inspection;
 	}
 
+	public function getReport(Request $request){
+		$data = DB::select("select * from report where id=".$request->reportId);
+		$data[0]->service = unserialize($data[0]->service);
+		$data[0]->aspect = unserialize($data[0]->aspect);
+
+		return $data;
+	}
+
 	public function getAccept(Request $request){
 		$data = DB::select("select * from accept where id=".$request->formId);
+		return $data;
+	}
+
+	public function getAcceptByAppId(Request $request){
+		$data = DB::select("select * from accept where app_id=".$request->appointmentId);
 		return $data;
 	}
 

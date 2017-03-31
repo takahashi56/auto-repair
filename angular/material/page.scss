@@ -3,6 +3,10 @@
 	src: url("../fonts/main/HelveticaNeue-Light.otf") format("opentype");
 }
 @font-face{
+	font-family: 'HEL_Neue_Bold';
+	src: url("../fonts/main/HelveticaNeue-Bold.otf") format("opentype");
+}
+@font-face{
 	font-family: 'HEL_Neue_LTSTD_Light';
 	src: url("../fonts/main/HelveticaNeueLTStd-Lt.otf") format("opentype");
 }
@@ -19,6 +23,7 @@
 	src: url("../fonts/main/HeveticaNeueLTstd.otf") format("opentype");
 }
 
+.font-hnbd{ font-family: "HEL_Neue_Bold", sans-serif !important; }
 .font-hnl{ font-family: "HEL_Neue_Light", sans-serif !important; }
 .font-hnLTl{ font-family: "HEL_Neue_LTSTD_Light", sans-serif !important; }
 .font-hnLTbd{ font-family: "HEL_Neue_LTSTD_Bd", sans-serif !important; }
@@ -32,6 +37,12 @@ body{
 	letter-spacing: 1px;
 }
 
-.letterSpacing{
-	letter-spacing: 2px;
+.letterSpacing{ letter-spacing: 2px;}
+.customLeft{ float: left; }
+.customRight{ float: right; }
+.customClear{ clear: both; }
+.clearfix:after{
+	content: "";
+	display: block;
+	clear: both;
 }
