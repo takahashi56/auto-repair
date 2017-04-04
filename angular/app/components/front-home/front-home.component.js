@@ -14,6 +14,7 @@ class FrontHomeController {
 
     this.API.all('services').get('availablemainservices').then((response) => {
       this.$rootScope.main_services =  response.plain().main_services;
+      this.main_services = this.$rootScope.main_services
     })
 
     this.API.all('services').get('allfreeservices').then((response) => {

@@ -22,6 +22,14 @@
 	font-family: 'HEL_Neue_LTSTD';
 	src: url("../fonts/main/HeveticaNeueLTstd.otf") format("opentype");
 }
+@font-face{
+	font-family: 'LATO_Light';
+	src: url("../fonts/main/Lato-Light.ttf") format("truetype");
+}
+@font-face{
+	font-family: 'LATO_Regular';
+	src: url("../fonts/main/Lato-Regular.ttf") format("truetype");
+}
 
 .font-hnbd{ font-family: "HEL_Neue_Bold", sans-serif !important; }
 .font-hnl{ font-family: "HEL_Neue_Light", sans-serif !important; }
@@ -29,6 +37,8 @@
 .font-hnLTbd{ font-family: "HEL_Neue_LTSTD_Bd", sans-serif !important; }
 .font-hn{ font-family: "HEL_Neue", sans-serif !important; }
 .font-hnLT{ font-family: "HEL_Neue_LTSTD", sans-serif !important; }
+.font-lb{ font-family: "LATO_Light"; }
+.font-lr{ font-family: "LATO_Regular"; }
 .font-bold { font-weight: bold; }
 
 body{
@@ -45,4 +55,11 @@ body{
 	content: "";
 	display: block;
 	clear: both;
+}
+.row{
+	margin-right: 0 !important;
+	margin-left: 0 !important;
+}
+.front-main#landing-home{
+	background: none !important;
 }
