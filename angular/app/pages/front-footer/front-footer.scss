@@ -76,4 +76,25 @@
             color: #14abf4;
         }
     }
+    @media screen and (max-width: 1139px){
+        .copyright{
+            width: 100%;
+            text-align: center;
+            p{
+                padding-right: 0 !important;
+            }
+        }
+        .links{
+            width: 50% !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            float: left !important;
+        }
+        .address{
+            float: none !important;
+            clear: both !important;   
+            padding: 0 !important;
+            padding-top: 30px !important;   
+        }
+    }
 }

@@ -1,3 +1,36 @@
+.modal-services{
+	.modal-service:nth-of-type(2n):after{
+		content: '';
+		display: block;
+		float: none;
+		clear: both;
+	}
+	.modal-service{
+		padding-bottom: 20px;
+		h1{
+			font-size: 15px;
+			color: #1f507c;
+			padding: 0 20px 0 0;
+			margin: 0;
+			position: relative;
+			height: 18px;
+			overflow: hidden;
+			img{
+				position: absolute;
+				top: 0;
+				right: 0;
+				cursor: pointer;
+			}
+		}
+		span{
+			color: #4d93cf;
+			font-size: 14px;
+			font-weight: bold;
+			display: block;
+			padding-top: 10px;
+		}
+	}
+}
 .report-form{
 	padding: 20px;
 	width: 90%;
@@ -140,6 +173,16 @@
 		}
 	}
 	.recommendation-tab{
+		.add-service{
+			text-align: center;
+			p{
+				cursor: pointer;
+				color: #1f507c;
+				img{
+					padding-left: 10px;
+				}
+			}
+		}
 		.services{
 			.one-service{
 				.col-md-10{
@@ -156,7 +199,7 @@
 						color: #1f507c;
 						padding: 0 0 0 20px;
 						margin: 0;
-						width: 250px;
+						width: 210px;
 					}
 					p{
 						color: #78909c;

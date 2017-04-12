@@ -39,6 +39,18 @@
 				margin-left: 10px;
 			}
 		}
+		@media screen and (max-width: 1139px){
+			.col-md-8{
+				width: 100% !important;
+				padding: 0 !important;
+				margin: 0 !important;
+			}
+			.col-md-4{
+				float: left !important;
+				width: 32% !important;
+				padding: 0 0.6% !important;
+			}
+		}
 	}
 	.one-circle{
 		display: inline-block;
@@ -172,6 +184,10 @@
 					color: #2a2f3a;
 				}
 			}
+			.one-aspect-table{
+				max-width: 100% !important;
+				overflow-x: auto !important;
+			}
 			table{
 				width: 100%;
 				margin-top: 20px;
@@ -225,9 +241,17 @@
 	.recommendation-tab{
 		.services{
 			.one-service{
+				display: inline-block !important;
+				float: none !important;
+				vertical-align: top !important;
 				.col-md-10{
 					position: relative;
 					margin-top: 30px;
+					.one-circle{
+						position: absolute;
+						top: 0;
+						left: 0;
+					}
 					img{
 						position: absolute;
 						top: 0;
@@ -237,9 +261,8 @@
 					h1{
 						font-size: 15px;
 						color: #1f507c;
-						padding: 0 0 0 20px;
+						padding: 0 10px 0 10px;
 						margin: 0;
-						width: 250px;
 					}
 					p{
 						color: #78909c;
@@ -252,6 +275,15 @@
 						font-size: 14px;
 						font-weight: bold;
 					}
+				}
+			}
+			@media screen and (max-width: 1139px){
+				.one-service.col-md-4{
+					width: 100% !important;
+					float: none !important;
+				}
+				.one-service{
+					display: block !important;
 				}
 			}
 		}

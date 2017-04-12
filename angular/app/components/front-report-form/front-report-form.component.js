@@ -5,11 +5,18 @@ class FrontReportFormController {
         
     this.reportId = $stateParams.reportId
     let reportId = this.reportId
-    
+
+    this.agreed_service = []
+    this.total = 0
+
     this.API.all('appointments').get('get_report', {reportId}).then((response) => {
       this.report =  response.plain()[0];
       
+      if(this.report.agreed_service != '')
+        this.report.service = this.report.agreed_service
+
       for( var i in this.report.service ){
+        this.report.service[i].selected = 0
         if(this.report.service[i].status==1){
           this.report.service[i].class='poor'
         }else if(this.report.service[i].status==2){
@@ -19,6 +26,8 @@ class FrontReportFormController {
         }
       }
 
+      this.total = this.report.agreed_total
+      
       var appointmentId = this.report.app_id
       this.API.all('appointments').get('get_accept_by_appId', {appointmentId}).then((response) => {
         this.accept = response.plain()[0];
@@ -31,14 +40,41 @@ class FrontReportFormController {
 	
   $onInit () {}
 
+  onSelectService (service) {
+    service.selected = 1 - service.selected
+
+    if(service.selected==1)
+      this.total += service.price
+    else
+      this.total -= service.price
+  }
+
   repair(isValid) {
     if(isValid){
       let $state = this.$state
 
-      var reportId = this.reportId
-      this.API.all('appointments').get('update_report', {reportId}).then((response) => {
-        $state.reload()
-      })
+      for( var i in this.report.service ){
+        if(this.report.service[i].selected==1)
+          this.agreed_service.push(this.report.service[i])
+      }
+
+      if(this.agreed_service.length>0){
+        var reportId = this.reportId
+        var agreed_service = this.agreed_service
+        var agreed_total = this.total
+        
+        let data = {
+          agreed_total: agreed_total,
+          reportId: reportId,
+          agreed_service: agreed_service
+        }
+
+        this.API.all('appointments/update_report').post(data).then((res) => {
+          $state.reload()
+        }, (res) => {
+          $state.reload()
+        })  
+      }
     }
   }
 }

@@ -49,6 +49,16 @@
 		label{
 			width: 55% !important;
 		}
+
+		@media screen and (max-width: 959px){
+			width: 100% !important;
+			span{
+				width: 100% !important;
+			}
+			input{
+				width: 100% !important;
+			}
+		}
 	}
 	.middle-row{
 		span{
@@ -95,6 +105,9 @@
 	.inspection{
 		input[type="checkbox"]{
 			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
 		}
 		h3{
 			font-size: 16px;
@@ -105,6 +118,8 @@
 		span{
 			color: #78909c;
 			font-size: 14px;
+			display: block;
+			padding-left: 10px;
 		}
 		.col-md-3{
 			margin-bottom: 20px;
@@ -167,6 +182,25 @@
 			display: block;
 			border: 1px solid #efefef;
 			margin-top: 20px;
+		}
+		@media screen and (max-width: 959px){
+			.row{
+				img{
+					float: none !important;
+					margin: 0 auto !important;
+					width: auto !important;
+					max-width: 100% !important;
+				}
+				.signpack{
+					float: none !important;
+					span{
+						text-align: center;
+					}
+					.signature{
+						margin: 0 auto !important;
+					}
+				}
+			}
 		}
 	}
 }

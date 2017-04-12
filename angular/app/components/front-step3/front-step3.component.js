@@ -22,7 +22,35 @@ class FrontStep3Controller {
 
     if (this.$rootScope.appointmentDate == undefined || this.$rootScope.appointmentDate == "") {
       var date = new Date();
-      this.date = this.months[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
+      
+      var month = date.getMonth();
+      var day = date.getDate();
+      var year = date.getFullYear();
+      var s_day = 31;
+
+      if(month%2==1){
+        if(month==1){
+          if(year%4==0)
+            s_day = 29
+          else
+            s_day = 28
+        }else{
+          s_day = 30
+        }
+      }
+
+      if(day==s_day){
+        day=1
+        if(month==11){
+          month=0
+          year++
+        }else{
+          month++
+        }
+      }else{
+        day++
+      }
+      this.date = this.months[month] + " " + day + ", " + year;
 
       this.$rootScope.appointmentDate = this.date;
     } else

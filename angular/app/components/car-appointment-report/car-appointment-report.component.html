@@ -1,3 +1,20 @@
+<script type="text/ng-template" id="modalContent.html">
+  <div class="modal-header">
+    <h3 class="modal-title">Service List</h3>
+  </div>
+  <div class="modal-body">
+    <div class="row modal-services clearfix">
+      <div class="modal-service col-md-6" ng-repeat="service in mvm.services">
+        <h1 class="font-hn">{{service.title}}<img src="img/assets/{{service.selected == 1 ? 'checked' : 'add'}}.png" alt="" ng-click="mvm.onSelectService(service)"/></h1>
+        <span class="font-hnLT">AED {{service.price}}</span>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="mvm.ok()">Add</button>
+    <button class="btn btn-warning" type="button" ng-click="mvm.cancel()">Cancel</button>
+  </div>
+</script>
 <section class="content">	
   <div class="report-form">
     <form ng-submit="vm.report(vm.reportForm.$valid)" method="post" name="vm.reportForm">
@@ -24,8 +41,11 @@
         </div>
       </div><!-- Intro End !-->
       <hr/>
+      <div class="row add-service">
+        <p ng-click="vm.showModal()">Add Service<img src="img/assets/add.png" alt=""/></p>
+      </div> <!-- Add Service End !-->
       <div class="row services">
-        <div class="col-md-4 one-service" ng-repeat="service in vm.services">
+        <div class="col-md-4 one-service" ng-repeat="service in vm.selected_service" ng-show="{{service.selected==1?true:false}}">
           <div class="col-md-10 col-md-offset-1">
             <div class="customLeft">
               <div class="one-circle {{service.class1}}" ng-click="vm.onSelectStatus(service,1)"></div>
@@ -33,7 +53,7 @@
               <div class="one-circle {{service.class3}}" ng-click="vm.onSelectStatus(service,3)"></div>
             </div>
             <h1 class="customLeft font-hn">{{service.title}}</h1>
-            <img src="img/assets/{{service.selected == 1 ? 'checked' : 'add'}}.png" alt="" ng-click="vm.onSelectService(service)"/>
+            <img src="img/assets/checked.png" alt="" ng-click="vm.onRemoveService(service)"/>
             <div class="customClear"></div>
             <p class="font-hn">{{service.description}}</p>
             <span class="font-hnLT">AED {{service.price}}</span>
@@ -86,10 +106,10 @@
               <div class="one-circle" ng-mouseleave="count=click" ng-mouseover="count=3" ng-class="count==3?'good':''" ng-click="click=3; aspect.status=click"></div>
             </div>
           </div><!-- One Aspect Header End !-->
-          <table>
+          <table ng-repeat="detail in aspect.detail">
             <thead>
               <tr>
-              <th class="font-hnl">DETAIL</th>
+              <th class="font-hnl">{{detail.heading}}</th>
               <th class="font-hnl">POOR</th>
               <th class="font-hnl">FAIR</th>
               <th class="font-hnl">GOOD</th>
@@ -97,12 +117,12 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="sub in aspect.sub">
+              <tr ng-repeat="sub in detail.sub">
                 <td class="font-hnl" width="25%">{{sub.title}}</td>
                 <td class="font-hnl" width="10%" align="center"><div class="one-circle" ng-class="sub.status==1?'poor':''" ng-click="sub.status=1"></div></td>
                 <td class="font-hnl" width="10%" align="center"><div class="one-circle" ng-class="sub.status==2?'fair':''" ng-click="sub.status=2"></div></td>
                 <td class="font-hnl" width="10%" align="center"><div class="one-circle" ng-class="sub.status==3?'good':''" ng-click="sub.status=3"></div></td>
-                <td class="font-hnl"><textarea ng-required="true" class="form-control" ng-model="sub.note"></textarea></td>
+                <td class="font-hnl"><textarea class="form-control" ng-model="sub.note"></textarea></td>
               </tr>
             </tbody>
           </table>

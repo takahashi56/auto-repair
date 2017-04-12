@@ -1,27 +1,11 @@
 <div id="main-home">
   <div class="front-main">
   <section class="content">
-    <table style="width: 100%; height: 100%">
-      <tr>
-        <td>
-          <div class="home-try-div">
-            <div class="col-lg-12 front-home-try-div-bg"></div>
-            <div class="col-lg-12" style="height: 100%;">
-              <table width="100%" height="100%">
-                <tr>
-                  <td width="80%">
-                    <h2 class="front-home-h2 font-hnl">A new approach to repairing cars.</h2>
-                  </td>
-                  <td width="20%">
-                    <a ui-sref="front.whatcar"><h5 class="front-home-try font-hnLTbd">TRY IT NOW</h5></a>
-                  </td>
-                </tr>
-              </table>
-            </div>
-          </div>
-        </td>
-      </tr>
-    </table> 
+    <div class="home-try-div-con">
+      <h2 class="font-hnl">A new approach to repairing cars.</h2>
+      <a ui-sref="front.whatcar" class="font-hnLTbd">TRY IT NOW</a>
+      <div class="customClear"></div>
+    </div>
   </section>
   </div>
   <div class="row top-intro clearfix">
@@ -47,31 +31,31 @@
     <div class="col-md-6"><img src="img/assets/ipad.jpg" alt="" class="ipad"/></div>
     <div class="col-md-6">
       <div class="col-md-10 col-md-offset-1">
-        <h1 class="font-hnl">Enjoy the first digital auto repair and maintenance experience in the world</h1>
-        <ul>
-          <li class="clearfix">
-            <div class="number font-hnl">1</div>
-            <h2 class="font-hn">BOOK APPOINTMENT</h2>
-            <p class="font-hn">Tell us what your car needs or ask for a diagnostic. Receive a free, fast, fair &amp; transparent price.</p>
-          </li>
-          <li class="clearfix">
-            <div class="number font-hnl">2</div>
-            <h2 class="font-hn">SELECT SERVICES</h2>
-            <p class="font-hn">Pic your services from out list, choose a date and time, and bring your car after confirmation. That’s it, no more waiting in repair shops. </p>
-          </li>
-          <li class="clearfix">
-            <div class="number font-hnl">3</div>
-            <h2 class="font-hn">DIGITAL REPORTS</h2>
-            <p class="font-hn">We send a digital report information you about the car, 100% transparency and advice on what’s best.</p>
-            <div class="try-button font-hn">TRY IT NOW</div>
-          </li>
-        </ul>
+      <h1 class="font-hnl">Enjoy the first digital auto repair and maintenance experience in the world</h1>
+      <ul>
+        <li class="clearfix">
+          <div class="number font-hnl">1</div>
+          <h2 class="font-hn">BOOK APPOINTMENT</h2>
+          <p class="font-hn">Tell us what your car needs or ask for a diagnostic. Receive a free, fast, fair &amp; transparent price.</p>
+        </li>
+        <li class="clearfix">
+          <div class="number font-hnl">2</div>
+          <h2 class="font-hn">SELECT SERVICES</h2>
+          <p class="font-hn">Pic your services from out list, choose a date and time, and bring your car after confirmation. That’s it, no more waiting in repair shops. </p>
+        </li>
+        <li class="clearfix">
+          <div class="number font-hnl">3</div>
+          <h2 class="font-hn">DIGITAL REPORTS</h2>
+          <p class="font-hn">We send a digital report information you about the car, 100% transparency and advice on what’s best.</p>
+          <div class="try-button font-hn">TRY IT NOW</div>
+        </li>
+      </ul>
       </div>
     </div>
   </div> <!-- Device End !-->
   <div class="row clearfix service">
     <h1 class="font-hnl">Pick A Service</h1>
-    <div class="col-lg-12 front-step1-div5">
+    <div class="front-step1-div5">
       <span class="front-step1-span-service" ng-repeat="service in vm.main_services track by $index" ng-if="$index < 4">
         <a ng-click="vm.onNext(service.id, service.title, service.image_url)">
           <table style="width: 100%; height: 100%;">
@@ -89,7 +73,7 @@
         </a>
       </span>
     </div> <!-- Front Step1 Div 5 !-->
-    <div class="col-lg-12 front-step1-div5" ng-if="vm.main_services.length > 4">
+    <div class="front-step1-div5" ng-if="vm.main_services.length > 4">
       <span class="front-step1-span-service" ng-repeat="service in vm.main_services track by $index" ng-if="$index >= 4">
         <a ng-click="vm.onNext(service.id, service.title, service.image_url)">
           <table style="width: 100%; height: 100%;">
@@ -108,31 +92,51 @@
       </span>
     </div> <!-- Front Step1 Div 5 !-->
   </div> <!-- Service End !-->
+  <div class="row" ng-init="testimonial=1">
   <div class="row clearfix discuss">
     <div class="discuss-inner">
-      <p class="font-hn"><i>“We serve most brands and models You are served by true professionals”</i></p>
-      <label class="font-hn">CHIEF MECHANIC</label>
+      <div ng-show="testimonial==1?true:false">
+        <p class="font-hn"><i>“We serve most brands and models You are served by true professionals”</i></p>
+        <label class="font-hn">CHIEF MECHANIC</label>
+      </div>
+      <div ng-show="testimonial==2?true:false">
+        <p class="font-hn"><i>“We serve most brands and models You are served by true professionals”</i></p>
+        <label class="font-hn">CHIEF MECHANIC</label>
+      </div>
+      <div ng-show="testimonial==3?true:false">
+        <p class="font-hn"><i>“We serve most brands and models You are served by true professionals”</i></p>
+        <label class="font-hn">CHIEF MECHANIC</label>
+      </div>
+      <div ng-show="testimonial==4?true:false">
+        <p class="font-hn"><i>“We serve most brands and models You are served by true professionals”</i></p>
+        <label class="font-hn">CHIEF MECHANIC</label>
+      </div>
+      <div ng-show="testimonial==5?true:false">
+        <p class="font-hn"><i>“We serve most brands and models You are served by true professionals”</i></p>
+        <label class="font-hn">CHIEF MECHANIC</label>
+      </div>
     </div> <!-- Discuss Inner End !-->
   </div> <!-- Discuss End !-->
   <div class="row clearfix testimonial">
     <div class="discuss-box">
       <div class="one-discuss">
-        <img src="img/assets/discuss1.png" alt=""/>
+        <img src="img/assets/discuss1.png" alt="" ng-click="testimonial=1"/>
       </div>
       <div class="one-discuss">
-        <img src="img/assets/discuss2.png" alt=""/>
+        <img src="img/assets/discuss2.png" alt="" ng-click="testimonial=2"/>
       </div>
       <div class="one-discuss">
-        <img src="img/assets/discuss3.png" alt=""/>
+        <img src="img/assets/discuss3.png" alt="" ng-click="testimonial=3"/>
       </div>
       <div class="one-discuss">
-        <img src="img/assets/discuss4.png" alt=""/>
+        <img src="img/assets/discuss4.png" alt="" ng-click="testimonial=4"/>
       </div>
       <div class="one-discuss">
-        <img src="img/assets/discuss5.png" alt=""/>
+        <img src="img/assets/discuss5.png" alt="" ng-click="testimonial=5"/>
       </div>
     </div> <!-- Discuss Box End !-->
   </div> <!-- Testimonial End !-->
+  </div>
   <div class="row clearfix company">
     <p class="font-lb">WORKING ON THE WORLD’S MOST PRESTIGIOUS AUTOMOTIVE COMPANIES</p>
     <div class="col-md-10 clearfix col-md-offset-1">

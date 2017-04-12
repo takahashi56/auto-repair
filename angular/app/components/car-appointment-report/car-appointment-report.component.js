@@ -1,15 +1,18 @@
 class CarAppointmentReportController {
-  constructor (API, $location, $state, $stateParams, $scope) {
+  constructor (API, $location, $state, $stateParams, $rootScope, $scope, $uibModal) {
     'ngInject'
   
     this.API = API
     this.$state = $state
   	this.$scope = $scope
+    this.$rootScope = $rootScope
+    this.$uibModal = $uibModal
   	this.$location = $location
 
   	this.appointmentId = $stateParams.appointmentId
   	this.total = 0
     this.selected_service = []
+    this.report_aspect = []
 
   	let appointmentId = this.appointmentId
   	 
@@ -18,21 +21,28 @@ class CarAppointmentReportController {
   	})
 
     this.API.all('appointments').get('get_report_aspect').then((response) => {
-      this.report_aspect = response.plain();
-      for( var i in this.report_aspect){
-        var temp = this.report_aspect[i].sub.split(',')
-        
-        this.report_aspect[i].sub=[]
-        this.report_aspect[i].status = 1
+      var temp = response.plain();
 
-        for( var j in temp){
-          var obj=new Object
-          obj.title=temp[j]
-          obj.status=1
-          obj.note=''
-
-          this.report_aspect[i].sub.push(obj)
+      for ( var i in temp ){
+        var obj = new Object
+        obj.title = temp[i].title
+        obj.status = 3
+        obj.detail = []
+        for ( var j in temp[i].sub ){
+          var obj1 = new Object
+          obj1.heading = temp[i].sub[j].heading
+          obj1.sub = []
+          for ( var k in temp[i].sub[j].sub ){
+            var obj2 = new Object
+            obj2.title = temp[i].sub[j].sub[k]
+            obj2.status = 3
+            obj2.note = ''
+            obj1.sub.push(obj2)
+          }
+          obj.detail.push(obj1)
         }
+
+        this.report_aspect.push(obj)
       }
     })
 
@@ -58,17 +68,77 @@ class CarAppointmentReportController {
       }
     })
   }
- 
+  
+  modalcontroller (API, $scope, $rootScope, $uibModalInstance) {
+      'ngInject'
+      this.API = API
+      this.$scope = $scope
+      this.$rootScope = $rootScope
+      
+      this.services = this.$rootScope.services
+      this.selected_service = []
+
+      this.onSelectService = (service) => {
+        service.selected = service.selected == 1 ? 0 : 1;
+      }
+      this.ok = () => {
+        for(var i in this.services){
+          if(this.services[i].selected==1)
+            this.selected_service.push(this.services[i])
+        }
+        $uibModalInstance.close(this.selected_service)
+      }
+      this.cancel = () => {
+        $uibModalInstance.dismiss('cancel')
+      }
+  }
+
   $onInit () {}
 
-  onSelectService (service) {
+  showModal() {
+    let $uibModal = this.$uibModal
+    let $scope = this.$scope
+    
+    for(var i in this.services){
+      var flag=0;
+      for(var j in this.selected_service){
+        if(this.services[i].id==this.selected_service[j].id && this.services[i].service_type==this.selected_service[j].service_type)
+          flag=1;        
+      }
+
+      this.services[i].selected=flag
+    }
+
+    this.$rootScope.services = this.services
+
+    var modalInstance = $uibModal.open({
+      animation: this.animationsEnabled,
+      templateUrl: 'modalContent.html',
+      controller: this.modalcontroller,
+      controllerAs: 'mvm'
+    })
+
+    modalInstance.result.then((data) => {
+      this.selected_service = data
+
+      for(var i in data)
+        this.total += data[i].price
+    })
+  }
+
+  onRemoveService (service) {
     service.selected = service.selected == 1 ? 0 : 1;
 
-    if (service.selected == 1) { // added
-      this.total+=service.price
-    } else { // removed
-      this.total-=service.price
+    var temp=[]
+    for(var i in this.selected_service){
+      if(this.selected_service[i].id==service.id && this.selected_service[i].service_type==service.service_type){
+        //Except
+      }else{
+        temp.push(this.selected_service[i])
+      }
     }
+    this.selected_service = temp
+    this.total-=service.price
   }
 
   onSelectStatus (service, status) {
@@ -97,44 +167,23 @@ class CarAppointmentReportController {
       var required=0
       var recommended=0
 
-      for( var i in this.services ){
-        if(this.services[i].selected == 1){
-          var obj=new Object
-          obj.id=this.services[i].id
-          obj.title=this.services[i].title
-          obj.description=this.services[i].description
-          obj.service_type=this.services[i].service_type
-          obj.status=this.services[i].status
-          obj.price=this.services[i].price
+      for( var i in this.selected_service ){
+        var obj = this.selected_service[i]
 
-          if(obj.status==1)
-            urgent++
-          else if(obj.status==2)
-            required++
-          else
-            recommended++
-
-          this.selected_service.push(obj)
-        }
+        if(obj.status==1)
+          urgent++
+        else if(obj.status==2)
+          required++
+        else
+          recommended++
       }
-
-      this.aspect = []
-      for( var i in this.report_aspect){
-        var obj = new Object
-        obj.id=this.report_aspect[i].id
-        obj.title=this.report_aspect[i].title
-        obj.status=this.report_aspect[i].status
-        obj.sub=this.report_aspect[i].sub
-
-        this.aspect.push(obj)
-      }
-
+      
       let data = {
         url: url,
         app_id: this.appointmentId,
         score: this.score,
         service: this.selected_service,
-        aspect: this.aspect,
+        aspect: this.report_aspect,
         urgent: urgent,
         required: required,
         recommended: recommended,

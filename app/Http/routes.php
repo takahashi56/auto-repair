@@ -91,7 +91,7 @@ $api->group(['middleware' => ['api']], function ($api) {
     $api->get('appointments/get_report', 'AppointmentsController@getReport');
     $api->get('appointments/get_accept_by_appId', 'AppointmentsController@getAcceptByAppId');
     $api->get('appointments/get_report_aspect', 'AppointmentsController@getReportAspect');
-    $api->get('appointments/update_report', 'AppointmentsController@updateReport');
+    $api->post('appointments/update_report', 'AppointmentsController@updateReport');
 });
 
 $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
@@ -103,4 +103,3 @@ $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
 $api->group(['middleware' => ['api', 'api.auth', 'role:admin.super|admin.user']], function ($api) {
     $api->controller('users', 'UserController');
 });
-

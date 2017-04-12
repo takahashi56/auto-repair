@@ -101,9 +101,9 @@
       <div class="row inspection">
         <h3 class="font-hnLT font-bold">Vehicle Inspection Report</h3>
         <div class="clearfix">
-          <div class="col-md-3 clearfix" ng-repeat="inspection in vm.inspection">
-            <div class="col-md-2"><input type="checkbox" ng-checked="vm.checked_inspection.indexOf(inspection.id) > -1" value="{{inspection.id}}" disabled="disabled" /></div>
-            <div class="col-md-10"><span class="font-hnLT font-bold">{{inspection.title}}</span></div>
+          <div class="col-md-3 clearfix" ng-repeat="inspection in vm.inspection" style="position: relative;">
+            <input type="checkbox" ng-checked="vm.checked_inspection.indexOf(inspection.id) > -1" value="{{inspection.id}}" disabled="disabled" />
+            <span class="font-hnLT font-bold">{{inspection.title}}</span>
           </div>
         </div>
       </div> <!-- Inspection End !-->

@@ -168,7 +168,7 @@ class AppointmentsController extends Controller
 	public function updateReport(Request $request) {
 		DB::table('report')
 		            ->where('id', $request->reportId)
-		            ->update(array('status' => 1));
+		            ->update(array('status' => 1, 'agreed_service' => serialize($request->agreed_service), 'agreed_total' => $request->agreed_total));
 		            
 		return response()->success(compact('id'));
 	}
@@ -308,6 +308,10 @@ class AppointmentsController extends Controller
 	
 	public function getReportAspect(Request $request){
 		$aspect = DB::select("select * from report_aspect order by id asc");
+		
+		for($i=0; $i<count($aspect); $i++){
+			$aspect[$i]->sub=unserialize($aspect[$i]->sub);
+		}
 		return $aspect;
 	}
 
@@ -319,6 +323,7 @@ class AppointmentsController extends Controller
 	public function getReport(Request $request){
 		$data = DB::select("select * from report where id=".$request->reportId);
 		$data[0]->service = unserialize($data[0]->service);
+		$data[0]->agreed_service = unserialize($data[0]->agreed_service);
 		$data[0]->aspect = unserialize($data[0]->aspect);
 
 		return $data;

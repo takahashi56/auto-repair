@@ -57,15 +57,12 @@
         </div>
       </div><!-- Intro End !-->
       <hr/>
-      <div class="row services">
-        <div class="col-md-4 one-service" ng-repeat="service in vm.report.service">
+      <div class="row services clearfix">
+        <div class="col-md-4 one-service" ng-repeat="service in vm.report.service track by $index">
           <div class="col-md-10 col-md-offset-1">
-            <div class="customLeft">
-              <div class="one-circle {{service.class}}"></div>
-            </div>
-            <h1 class="customLeft font-hn">{{service.title}}</h1>
-            <img src="img/assets/checked.png" alt=""/>
-            <div class="customClear"></div>
+            <div class="one-circle {{service.class}}"></div>
+            <img ng-show="{{vm.report.status==1?false:true}}" ng-click="vm.onSelectService(service)" src="img/assets/{{service.selected == 1 ? 'checked' : 'add'}}.png" alt=""/>
+            <h1 class="font-hn">{{service.title}}</h1>
             <p class="font-hn">{{service.description}}</p>
             <span class="font-hnLT">AED {{service.price}}</span>
           </div>
@@ -74,7 +71,7 @@
       <hr/>
       <div class="row total">
         <p class="font-hnl">YOUR TOTAL PRICE</p>
-        <span class="font-hn">{{vm.report.total}} AED</span>
+        <span class="font-hn">{{vm.total}} AED</span>
       </div>
       <div class="row">
         <form ng-submit="vm.repair(vm.repairForm.$valid)" method="post" name="vm.repairForm">
@@ -84,7 +81,7 @@
     </div><!-- Recommendation Tab End !-->
     <div ng-hide="show" class="report-tab">
       <div class="row intro">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-8 col-md-offset-2 clearfix">
           <div class="col-md-4">
             <div class="one-circle poor"></div>
             <div class="one-circle"></div>
@@ -116,10 +113,11 @@
               <div class="one-circle" ng-class="count==3?'good':''"></div>
             </div>
           </div><!-- One Aspect Header End !-->
+          <div class="one-aspect-table" ng-repeat="detail in aspect.detail">
           <table>
             <thead>
               <tr>
-              <th class="font-hnl">DETAIL</th>
+              <th class="font-hnl">{{detail.heading}}</th>
               <th class="font-hnl">POOR</th>
               <th class="font-hnl">FAIR</th>
               <th class="font-hnl">GOOD</th>
@@ -127,7 +125,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="sub in aspect.sub">
+              <tr ng-repeat="sub in detail.sub">
                 <td class="font-hnl" width="25%">{{sub.title}}</td>
                 <td class="font-hnl" width="10%" align="center"><div class="one-circle" ng-class="sub.status==1?'poor':''"></div></td>
                 <td class="font-hnl" width="10%" align="center"><div class="one-circle" ng-class="sub.status==2?'fair':''"></div></td>
@@ -136,6 +134,7 @@
               </tr>
             </tbody>
           </table>
+          </div>
         </div>
       </div><!-- One Aspect End !-->
     </div><!-- Report Tab End !-->

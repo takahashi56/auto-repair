@@ -21,9 +21,10 @@
 }
 
 .front-step1-h3 {
-	font-family: Helvetica, Roboto, Arial, sans-serif;
-    font-weight: lighter;
+	font-size: 24px;
+    color: #4d94d0;
     margin: 0 !important;
+    padding-top: 30px;
 }
 
 .front-step1-div4 {
@@ -55,4 +56,27 @@
     font-family: Helvetica, Roboto, Arial, sans-serif;
     font-weight: lighter;
     cursor: pointer;
+}
+
+td.front-step1-title{
+    font-size: 16px;
+}
+
+@media screen and (max-width: 1023px){
+    .front-step1-div5{
+        width: 480px !important;
+        margin: 0 auto !important;
+        .front-step1-span-service{
+            box-sizing: border-box !important;
+        }
+    }   
+}
+@media screen and (max-width: 479px){
+    .front-step1-div5{
+        width: 100% !important;
+        .front-step1-span-service{
+            display: block !important;
+            margin: 40px auto !important;
+        }
+    }   
 }
