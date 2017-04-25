@@ -1,7 +1,20 @@
 #front-step5-page{
-    height: 90vh;
+    .front-step5-div6::-webkit-scrollbar {
+        width: 0.7em;
+    }
+     
+    .front-step5-div6::-webkit-scrollbar-track {
+        box-shadow: none;
+        background-color: #f6fafd;
+    }
+     
+    .front-step5-div6::-webkit-scrollbar-thumb {
+      background-color: #a3c0e1;
+      outline: none;
+    }
+
     .front-step5-div1 {
-    	height: 100%;
+    	height: auto;
     	position: relative;
         padding: 0px;
         width: 100%;
@@ -30,6 +43,10 @@
 
     .front-step2-h5 {
         margin-bottom: 0px;
+        font-weight: bold;
+        color: #2a2f3a;
+        font-size: 13px;
+        font-family: "HEL_Neue_LTSTD", sans-serif !important;
     }
 
     .front-step5-div4 {

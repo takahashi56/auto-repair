@@ -9,6 +9,14 @@ class CarAdvisorListsController {
 	
 	this.API.all('appointments').get('all_advisors').then((response) => {
 		this.advisors =  response.plain();
+
+    if(this.advisors){
+      for(var i in this.advisors){
+        this.advisors[i].closed = this.advisors[i].total - this.advisors[i].open;
+        if(this.advisors[i].closed == '0' || this.advisors[i].closed == 0)
+          this.advisors[i].closed = '';
+      }
+    }
 	})
   }
 	

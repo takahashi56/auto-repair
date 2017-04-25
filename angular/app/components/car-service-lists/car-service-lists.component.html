@@ -2,7 +2,7 @@
   <h1>Our Services</h1>
   <ol class="breadcrumb">
     <li><a ui-sref="app.landing"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active">Our Services</li>
+    <li class="active">Services</li>
   </ol>
 </section>
 <section class="content">
@@ -10,7 +10,7 @@
     <div class="col-lg-5">
       <div class="box box-info">
         <div class="box-header with-border">
-          <h3 class="box-title">Main Services</h3>
+          <h3 class="box-title">Services</h3>
           <div class="box-tools pull-right">
             <!--<a ui-sref="app.carservicemainadd" class="btn btn-block btn-success btn-xs"><i class="fa fa-plus"></i> Add New</a>-->
           </div>
@@ -20,9 +20,9 @@
           <table class="table table-hover">
             <tr>
               <th>Icon</th>
-              <th>Title</th>
-              <th>Is Show</th>
-              <th>Actions</th>
+              <th>Service</th>
+              <th>Enabled</th>
+              <th>Edit</th>
             </tr>
             
             <tr ng-repeat="main_service in vm.main_services" ng-click="vm.onRow(main_service.id, main_service.title)">
@@ -57,9 +57,9 @@
         <div class="box-body table-responsive">
           <table class="table table-hover">
             <tr>
-              <th>Title</th>
+              <th>Sub Service</th>
               <th>Price</th>
-              <th>Actions</th>
+              <th>Edit</th>
             </tr>
             
             <tr ng-repeat="sub_service in vm.sub_services">

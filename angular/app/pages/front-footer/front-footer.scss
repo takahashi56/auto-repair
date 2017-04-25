@@ -38,6 +38,10 @@
             color: #637281;
             padding: 20px 0;
             padding-right: 100px;
+            span{
+                display: block;
+                font-size: 12px;
+            }
         }
         .social{
             a{
@@ -89,12 +93,14 @@
             padding: 0 !important;
             margin: 0 !important;
             float: left !important;
+            text-align: center;
         }
         .address{
             float: none !important;
             clear: both !important;   
             padding: 0 !important;
             padding-top: 30px !important;   
+            text-align: center;
         }
     }
 }

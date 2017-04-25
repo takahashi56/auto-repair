@@ -1,7 +1,7 @@
 #main-home{
 	background-color: #fff;
 	.front-main{
-		height: 90vh;
+		min-height: 90vh;
 	}
 	.home-try-div-con{
 		width: 800px;
@@ -114,7 +114,7 @@
 					background-color: transparent;
 					font-size: 12px;
 					font-weight: bold;
-					width: 120px;
+					width: 150px;
 					height: 37px;
 					line-height: 37px;
 					text-align: center;
@@ -294,6 +294,9 @@
 			padding-left: 20px;
 			font-size: 14px;
 			color: #648aec;
+		}
+		input[type="text"]:focus{
+			outline: none;
 		}
 		button{
 			width: 100%;

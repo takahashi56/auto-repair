@@ -47,7 +47,7 @@ class AppointmentsController extends Controller
 							    where roles.slug = 'admin.customer'
 							    group by users.id");*/
 
-		$customers = DB::select("select customer.id, customer.name, sum(appointment.open) as open, 										   sum(appointment.total) as total
+		$customers = DB::select("select customer.phone_number, customer.id, customer.name, sum(appointment.open) as open, 										   sum(appointment.total) as total
 		 						from customer 
 							    left join (
 							    				select customer_id, count(customer_id) as open, 0 as total  

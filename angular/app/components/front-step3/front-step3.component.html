@@ -11,11 +11,11 @@
                 <div class="front-step3-div4" >
                         <div class="col-lg-12" style="text-align: center; ">
                           <br/> 
-                          <h4 class="front-step3-h4">Select Date & Time</h4>
+                          <h4 class="front-step3-h4 font-hnLTl">Select Date & Time</h4>
                           <br/>
-                          <h5 style="color: #6A7F90;">Select new date of your appointment</h5>
+                          <h5 class="font-hnLT" style="color: #6a7f90; font-size: 14px; font-weight: bold;">Select new date of your appointment</h5>
 
-                          <datepicker date-format="MMMM dd, yyyy" date-min-limit="{{vm.minDate}}">
+                          <datepicker date-format="MMMM dd, yyyy" date-min-limit="{{vm.minDate}}" date-max-limit="{{vm.maxDate}}">
                             <input ng-model="vm.date" class="front-step3-date" type="text" placeholder="MMMM dd, yyyy" ng-change="vm.changeDate()"/>
                           </datepicker>
                           <!--<h5 style="color: #6A7F90;">Select new time of your appointment</h5>
@@ -23,7 +23,7 @@
                           <input type="number" class="front-step3-time" placeholder="Minute" value="" min="0" max="59"/>-->
                         </div>
 
-                        <div id="time-pack" class="col-lg-12" style="position: absolute;top:180px; bottom: 60px;overflow-y: auto;">
+                        <div id="time-pack" class="col-lg-12" style="position: absolute;top:200px; bottom: 60px;overflow-y: auto;">
                           <div class="col-lg-2"></div>
                           <div class="col-lg-8 clearfix">
                             <div class="col-md-3" style="padding: 5px !important;" ng-repeat="time in vm.timesheets" ng-show="time.selected != 2">
@@ -45,7 +45,7 @@
                               <td>
                                 <a ui-sref="front.step2">
                                   <div class="front-step3-div6">
-                                    Cancel
+                                    Back
                                   </div>
                                 </a>
                               </td>

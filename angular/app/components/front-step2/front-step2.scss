@@ -149,5 +149,14 @@
                 min-height: 400px !important;
             }
         }
+        .sidebar-menu, .main-sidebar .user-panel, .sidebar-menu li.header{
+            white-space: normal;
+        }
+        .front-step2-div9{
+            position: relative !important;
+            top: 0;
+            bottom: 0;
+            padding-bottom: 50px;
+        }
     }
 }

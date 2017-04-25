@@ -11,7 +11,7 @@
         </tr>
         <tr style="text-align: center;" height="50px">
           <td>
-            <h3 class="front-whatcar-h4">What car do you drive?</h3>
+            <h3 class="front-whatcar-h4 font-hnLTl">What car do you drive?</h3>
           </td>
         </tr>
         <tr style="text-align: center;" height="70px">
@@ -22,7 +22,7 @@
         </tr>
         <tr style="text-align: center;" height="70px">
           <td>
-            <select class="front-whatcar-input" style="height: 40px;" ng-model="vm.selectedYear">
+            <select class="front-whatcar-input front-whatcar-select" style="height: 40px;" ng-model="vm.selectedYear">
               <option ng-value="year" ng-repeat="year in vm.yearList">{{year}}</option>
             </select>
           </td>
@@ -35,8 +35,8 @@
         </tr>
         <tr style="text-align: center;" height="70px">
           <td>
-            <input type="text" class="front-whatcar-input" placeholder="Trim" value="" ng-model="vm.selectedTrim" required ng-change="vm.onChangeInput()"/>
-            <p ng-show="vm.isTrimRequired" class="required-block">Trim is required.</p>
+            <input type="text" class="front-whatcar-input" placeholder="Plate Number" value="" ng-model="vm.selectedTrim" required ng-change="vm.onChangeInput()"/>
+            <p ng-show="vm.isTrimRequired" class="required-block">Plate number is required.</p>
           </td>
         </tr>
         <tr style="text-align: center;">

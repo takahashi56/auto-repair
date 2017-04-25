@@ -73,6 +73,10 @@ class FrontStep2Controller {
     document.getElementById('toggle_menu_bg').style.display = 'none';
   }
 
+  goBack(){
+    this.$state.go('front.step1');
+  }
+
   onSelectSubService(subServiceId, index) {
     this.selectedSubServiceIndex = index
     this.selectedSubService = this.sub_services[index];

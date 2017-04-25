@@ -205,8 +205,8 @@ class FrontStep5Controller {
       let $state = this.$state
 
       swal({
-        title: 'New Appointment',
-        text: 'Your appointment has been sent.',
+        title: 'Appointment Booked',
+        text: 'Welcome to a new automotive experience.',
         type: 'success',
         confirmButtonText: 'OK',
         closeOnConfirm: true

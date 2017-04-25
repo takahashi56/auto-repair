@@ -8,6 +8,15 @@ class CarAppointmentListsController {
   	
   	this.API.all('appointments').get('all_appointments').then((response) => {
   		this.appointments =  response.plain();
+
+      if(this.appointments){
+        for(var i in this.appointments){
+          var temp = this.appointments[i].book_time.split(' ');
+          var temp2 = temp[0].split('-');
+          this.appointments[i].book_time1 = temp2[2]+'/'+temp2[1]+'/'+temp2[0];
+          this.appointments[i].book_time2 = temp[1];
+        }
+      }
   	})
   }
 	

@@ -51,17 +51,22 @@
         
         <div class="box-body table-responsive">
           <table class="table table-hover">
-            <tr>
-              <th>Advisor Name</th>
-              <th>Open Appointments</th>
-              <th>Total</th>
-            </tr>
-            
+            <thead>
+              <tr>
+                <th align="left">Advisor Name</th>
+                <th align="center" style="text-align:center;">Open Appointments</th>
+                <th align="center" style="text-align:center;">Closed Appointments</th>
+                <th align="center" style="text-align:center;">Total</th>
+              </tr>
+            </thead>
+            <tbody>
             <tr ng-repeat="advisor in vm.advisors" ui-sref="app.caradvisorappointments({advisorId: {{advisor.id}}})">
-              <td>{{advisor.name}}</td>
-              <td>{{advisor.open}}</td>
-              <td>{{advisor.total}}</td>
+              <td align="left">{{advisor.name}}</td>
+              <td align="center">{{advisor.open}}</td>
+              <td align="center">{{advisor.closed}}</td>
+              <td align="center">{{advisor.total}}</td>
             </tr>
+            </tbody>
           </table>
         </div>
       </div>

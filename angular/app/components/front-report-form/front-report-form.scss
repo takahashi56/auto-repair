@@ -28,6 +28,13 @@
 				padding: 0 20px;
 			}
 		}
+
+		@media screen and (max-width: 737px){
+			span.space{
+				display: block !important;
+				padding-bottom: 10px !important;
+			}
+		}
 	}
 	.intro{
 		.col-md-4{
@@ -49,6 +56,14 @@
 				float: left !important;
 				width: 32% !important;
 				padding: 0 0.6% !important;
+			}
+		}
+		@media screen and (max-width: 737px){
+			.col-md-4{
+				span{
+					display: block !important;
+					margin: 0 !important;
+				}
 			}
 		}
 	}
@@ -84,6 +99,12 @@
 		color: #2a2f3a;
 		font-size: 40px;
 		padding-top: 20px;
+
+		@media screen and (max-width: 737px){
+			span{
+				display: block;
+			}
+		}
 	}
 	h2.subtitle{
 		text-align: center;
@@ -99,7 +120,7 @@
 		}
 		.score-panel{
 			width: 504px;
-			max-width: 100%;
+			max-width: 70%;
 			margin: 0 auto;
 			margin-bottom: 30px;
 			position: relative;
@@ -154,6 +175,14 @@
 				right: 0;
 				margin-right: -50px;
 				margin-bottom: 70px;
+			}
+			@media screen and (max-width: 737px){
+				.urgent-pack{
+					margin-left: -30px !important;
+				}
+				.recommended-pack{
+					margin-right: -30px !important;
+				}
 			}
 		}
 	}
@@ -235,6 +264,20 @@
 					width: 100%;
 					height: 50px;
 				}
+
+				@media screen and (max-width: 737px){
+					table-layout: fixed !important;
+					
+					th{
+						width: 70px !important;
+					}
+					th:first-child{
+						width: 150px !important;
+					}
+					th:last-child{
+						width: 150px !important;
+					}
+				}
 			}
 		}
 	}
@@ -247,6 +290,8 @@
 				.col-md-10{
 					position: relative;
 					margin-top: 30px;
+					padding-left: 0;
+					padding-right: 0;
 					.one-circle{
 						position: absolute;
 						top: 0;
@@ -261,7 +306,7 @@
 					h1{
 						font-size: 15px;
 						color: #1f507c;
-						padding: 0 10px 0 10px;
+						padding: 0 10px 0 20px;
 						margin: 0;
 					}
 					p{

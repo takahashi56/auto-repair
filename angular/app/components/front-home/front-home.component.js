@@ -1,9 +1,10 @@
 class FrontHomeController {
-  constructor ($rootScope, $scope, $state, $compile, DTOptionsBuilder, DTColumnBuilder, API) {
+  constructor ($rootScope, $location, $scope, $state, $compile, DTOptionsBuilder, DTColumnBuilder, API) {
     'ngInject'
     this.API = API
     this.$state = $state
 	  this.$rootScope = $rootScope
+    this.$location = $location
 
     this.$rootScope.whatCar = {'make': '', 'year': 2017, 'model': '', 'trim': ''};
     this.$rootScope.services = [];
@@ -33,6 +34,11 @@ class FrontHomeController {
 	
   $onInit () {
     document.getElementById('mobile_menu').style.display = 'none';
+  }
+
+  toWhatCar () {
+    this.$location.hash('top');
+    this.$state.go('front.whatcar');
   }
 }
 

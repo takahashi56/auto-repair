@@ -129,6 +129,22 @@
  * Skin: Blue
  * ----------
  */
+
+.login-page,.register-page{
+  background-color:transparent;
+  background-image: url('/img/assets/canvas.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+.admin-canvas{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(210, 214, 222, 0.7);
+}
 .skin-blue .main-header .navbar {
   background-color: #ffffff;
   border-bottom: 1px solid #dfeffe !important;
@@ -143,7 +159,7 @@
   transition: width .3s ease-in-out;
   display: block;
   float: left;
-  height: 80px;
+  height: auto;
   font-size: 20px;
   line-height: 50px;
   text-align: center;
@@ -161,8 +177,9 @@
 }
 
 .front-header-navbar {
-  padding-top: 25px;
-  padding-left: 20px;
+  padding-top: 35px;
+  padding-left: 100px;
+  padding-right: 100px;
   margin-left: 330px !important;
 }
 
@@ -329,9 +346,18 @@ span.triangle{
   background-color: #fefefe;
   border-right: 1px solid #dfeffe !important;
 }
+.skin-blue .sidebar{
+  padding-bottom: 0;
+}
 .skin-blue .user-panel > .info,
 .skin-blue .user-panel > .info > a {
   color: #1076b6;
+}
+.skin-blue .sidebar-menu > li{
+  margin-bottom: 12px;
+}
+.skin-blue .sidebar-menu > li:last-child{
+  margin-bottom: 0px;
 }
 .skin-blue .sidebar-menu > li.header {
   color: #4b646f;
@@ -339,16 +365,20 @@ span.triangle{
 }
 .skin-blue .sidebar-menu > li > a {
   border-left: 3px solid transparent;
+  font-size: 14px;
+  color: #6a7f90;
+  padding-left: 50px;
+  padding-right: 20px;
 }
 .skin-blue .sidebar-menu > li:hover > a {
-  color: #6A7F90;
-  background: #eeeeee;
-  border-left-color: #aaaaaa;
+  color: #4d94d0;
+  background: #f6faff;
+  border-left-color: #3c8dbc;
   cursor: pointer;
 }
 
 .skin-blue .sidebar-menu > li.active > a {
-  color: #1076b6;
+  color: #4d94d0;
   background: #dfeffe;
   border-left-color: #3c8dbc;
   cursor: pointer;

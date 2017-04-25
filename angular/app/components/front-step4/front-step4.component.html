@@ -14,20 +14,21 @@
                     <h3 class="front-step4-h4 font-hnLTl">Select optional services</h3>
                     <br/>
                   </div>
-
                   <div id="service-pack" style="position: absolute;top:80px; bottom: 60px; overflow-y: auto;width: 100%;" class="clearfix">
-                    <div class="col-md-4" style="padding: 20px !important;" ng-repeat="service in vm.optionalServices">
-                      <div class="col-md-10" style="color: {{service.selected == 1 ? '#4D94D0' : '#6A7F90'}};">
-                        <h5 class="font-hnLT" style="font-weight:bold">{{service.title}}</h5>
-                      </div>
-                      <div class="col-md-2" style="height: 35px; line-height: 35px;">
-                        <img src="/img/assets/{{service.selected == 1 ? 'checked' : 'add'}}.png" style="cursor: pointer;" ng-click="vm.onSelectService(service)"/>
-                      </div>
-                      <div class="col-md-12" style="color: #6A7F90;">
-                        <h6 class="font-hn">{{service.description}}</h6>
-                      </div>
-                      <div class="col-md-12" style="color: #4D94D0;">
-                        <h6 class="font-hn">AED {{service.price}}</h6>
+                    <div class="col-md-10 col-md-offset-1">
+                      <div class="col-md-4" style="padding: 20px !important;" ng-repeat="service in vm.optionalServices">
+                        <div class="col-md-10" style="color: {{service.selected == 1 ? '#4D94D0' : '#6A7F90'}};">
+                          <h5 class="font-hnLT" style="font-weight:bold">{{service.title}}</h5>
+                        </div>
+                        <div class="col-md-2" style="height: 35px; line-height: 35px;">
+                          <img src="/img/assets/{{service.selected == 1 ? 'checked' : 'add'}}.png" style="cursor: pointer;" ng-click="vm.onSelectService(service)"/>
+                        </div>
+                        <div class="col-md-12" style="color: #6A7F90;">
+                          <h6 class="font-hn">{{service.description}}</h6>
+                        </div>
+                        <div class="col-md-12" style="color: #4D94D0;">
+                          <h6 class="font-hn">AED {{service.price}}</h6>
+                        </div>
                       </div>
                     </div>
                   </div>
