@@ -1,9 +1,10 @@
 class FrontNavHeaderController {
-  constructor ($rootScope, ContextService) {
+  constructor ($rootScope, ContextService, $location, $state) {
     'ngInject'
 
     let navHeader = this
-
+    this.$location = $location
+    this.$state = $state
   }
 
   $onInit () {
@@ -20,6 +21,11 @@ class FrontNavHeaderController {
     	document.getElementById('mobile_menu').style.display = 'none';
     	document.getElementById('toggle_menu_bg').style.display = 'none';
     }
+  }
+
+  toSection (section) {
+    this.$state.go('front.home');
+    this.$location.hash(section);
   }
 }
 
