@@ -496,6 +496,6 @@ class AppointmentsController extends Controller
 			$m->to($emailTo, 'Customer')->subject($subject);
         });
 
-        //Twilio::message($request->phone, 'Check your inbox.');
+        Twilio::message($request->phone, 'Check your inbox.');
 	}
 }
