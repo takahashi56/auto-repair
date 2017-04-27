@@ -167,6 +167,13 @@ class AppointmentsController extends Controller
         });
 
         self::updateAppointmentInfo($request->app_id, array('status'=>4, 'completion_time'=>date('Y-m-d H:i:s'), 'report_id'=>$id));
+
+        if($info->phone_number!=''){
+			$message='Dear '.$info->customer.', Your digital report is now ready for '.$info->model.', '.$info->year.'. You can view details on '.$url.'. For approving recommended services, please select the services and confirm through start repair. Your service advisor will call you shortly to confirm the final costs and time required. Regards, Gargash Autobody';
+
+	        Twilio::message($request->phone_number, $message);
+	    }
+
 		return $id;
 	}
 
@@ -221,6 +228,12 @@ class AppointmentsController extends Controller
             $m->from($sender, 'Autobody');
 			$m->to($emailTo, 'Customer')->subject($subject);
         });
+
+		if($request->telephone!=''){
+			$message='Dear '.$request->customer.', Your car, '.$request->model.', '.$request->plate.', has been checked in. You can view details of your car repair and maintenance on '.$url.'. Once your car is ready, we will send you a 100-point digital report, where you can view in detail the condition of the car and approve recommended services. Regards, Gargash Autobody';
+
+	        Twilio::message($request->telephone, $message);
+	    }
 
 		return $id;
 	}
@@ -496,6 +509,10 @@ class AppointmentsController extends Controller
 			$m->to($emailTo, 'Customer')->subject($subject);
         });
 
-        //Twilio::message($request->phone, 'Check your inbox.');
+		if($request->phone!=''){
+			$message='Dear '.$request->name.', Thank you for booking an appointment with Gargash Autobody on '.date('Y-m-d H:i').'. We look forward to welcoming you to a new automotive experience! Regards, Gargash Autobody';
+
+	        Twilio::message($request->phone, $message);
+	    }
 	}
 }
