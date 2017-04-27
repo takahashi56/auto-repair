@@ -33,7 +33,7 @@
               <td ui-sref="app.carappointmentdetail({appointmentId: {{appointment.id}}})">{{appointment.status}}</td>
               <td>
               	<div ng-if="appointment.advisor != 0">{{appointment.advisor}}</div>
-                <a ng-if="appointment.report_id != 0" ui-sref="app.carappointmentreport({appointmentId: {{appointment.id}}})">View Report</a></td>
+                <a ng-if="appointment.report_id != 0" ui-sref="special.reportform({reportId: {{appointment.report_id}}})">View Report</a></td>
             </tr>
           </table>
         </div>

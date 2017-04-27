@@ -242,7 +242,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
       url: '/admin/car-appointment-report/:appointmentId',
       data: {
         auth: true,
-        bodyClass: 'hold-transition login-page sidebar-collapse'
+        bodyClass: 'hold-transition sidebar-collapse'
       },
       views: {
         'main@app': {
@@ -575,7 +575,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
       url: '/admin/car-appointment-accept/:appointmentId',
       data: {
         auth: true,
-        bodyClass: 'hold-transition login-page sidebar-collapse'
+        bodyClass: 'hold-transition sidebar-collapse'
       },
       views: {
         'main@app': {

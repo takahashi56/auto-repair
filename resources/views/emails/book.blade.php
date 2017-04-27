@@ -6,9 +6,9 @@
   <title>Appointment Accept Form</title>
 </head>
 <body bgcolor="#f7f7f7">
-<p>Dear {{$data->customer}}</p>
-<p>Your car, {{$data->model}}, {{$data->plate}}, has been checked in. You can view details of your car repair and maintenance by <a href="{{$url}}" target="_blank">clicking here</a>.</p>
-<p>Once your car is ready, we will send you a 100-point digital report, where you can view in detail the condition of the car and approve recommended services.
+<p>Dear {{$data->name}}</p>
+<p>Thank you for booking an appointment with Gargash Autobody on {{date('Y-m-d H:i')}}.</p>
+<p>We look forward to welcoming you to a new automotive experience!
 </p>
 <p>Regards,</p>
 <p>Gargash Autobody</p>

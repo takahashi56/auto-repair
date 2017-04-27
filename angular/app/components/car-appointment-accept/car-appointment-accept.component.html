@@ -68,7 +68,7 @@
         <div class="col-md-4">
           <div class="col-md-10 col-md-offset-1">
             <span class="font-hnLT font-bold">Email Id</span>
-            <input type="email" class="form-control" name="email" ng-model="vm.email" ng-required="true">
+            <input type="email" class="form-control" name="email" ng-model="vm.email" ng-required="true"s>
           </div>
         </div>
         <div class="col-md-4">
@@ -94,7 +94,7 @@
         <div class="col-md-6">
           <img src="img/assets/shape2.png" alt=""/>
           <span class="font-hn">Secondary Request</span>
-          <textarea class="form-control" name="secondaryreq" ng-model="vm.secondaryreq" ng-required="true"></textarea>
+          <textarea class="form-control" name="secondaryreq" ng-model="vm.secondaryreq"></textarea>
         </div>
       </div> <!-- Row End !-->
       <hr/>
@@ -102,7 +102,7 @@
         <h3 class="font-hnLT font-bold">Vehicle Inspection Report</h3>
         <div class="clearfix">
           <div class="col-md-3 clearfix" ng-repeat="inspection in vm.inspection" style="position: relative;">
-            <input type="checkbox" name="inspection[]" ng-click="vm.toggleSelection(inspection.id)"/>
+            <input type="checkbox" name="inspection[]" ng-click="vm.toggleSelection(inspection.id)" checked="true"/>
             <span class="font-hnLT font-bold">{{inspection.title}}</span>
           </div>
         </div>

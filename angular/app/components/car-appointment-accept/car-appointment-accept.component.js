@@ -14,6 +14,30 @@ class CarAppointmentAcceptController {
     
     this.API.all('appointments').get('appointment_inspection', {appointmentId}).then((response) => {
       this.inspection =  response.plain();
+
+      for (var i in this.inspection){
+        this.selected_inspection[i] = this.inspection[i].id
+      }
+    })
+
+    this.API.all('appointments').get('appointment_info', {appointmentId}).then((response) => {
+      this.appointment =  response.plain().data;
+
+      if(this.appointment){
+        var temp = this.appointment.book_time.split(' ');
+        this.appointment.book_time1 = temp[0]
+        this.appointment.book_time2 = temp[1]
+        
+        this.jobno = this.appointmentId
+        this.date = this.appointment.book_time1
+        this.time = this.appointment.book_time2
+        this.customer = this.appointment.customer
+        this.advisor = this.appointment.advisor
+        this.telephone = this.appointment.phone_number
+        this.model = this.appointment.model+' / '+this.appointment.year
+        this.email = this.appointment.email
+        this.secondaryreq = ''
+      }
     })
 
     $scope.files = []

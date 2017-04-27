@@ -122,6 +122,7 @@
 			width: 504px;
 			max-width: 70%;
 			margin: 0 auto;
+			margin-top: 30px;
 			margin-bottom: 30px;
 			position: relative;
 			img{
@@ -132,23 +133,23 @@
 				position: absolute;
 				top: 50%;
 				left: 50%;
-				width: 200px;
-				height: 200px;
-				background-color: #fff;
-				border-radius: 200px;
-				border: 1px solid #efefef;
-				margin-top: -100px;
-				margin-left: -100px;
+				width: 210px;
+				height: 210px;
+				margin-top: -105px;
+				margin-left: -105px;
 				font-size: 34px;
 				color: #2a2f3a;
 				text-align: center;
-				line-height: 200px;
+				line-height: 210px;
+				background-image: url('/img/assets/spin.png');
+				background-repeat: no-repeat;
+				background-size: cover;
 			}
 		}
 	}
 	.score.rem{
 		.score-panel{
-			margin-top: 50px;
+			margin-top: 80px;
 			margin-bottom: 0px;
 			.urgent-pack, .required-pack, .recommended-pack{
 				position: absolute;
@@ -206,6 +207,14 @@
 		.one-aspect{
 			margin-top: 40px;
 			margin-bottom: 40px;
+			.dropdown{
+				padding-left: 100px;
+				cursor: pointer;
+
+				@media screen and (max-width: 737px){
+					padding-left: 20px !important;
+				}
+			}
 			.one-aspect-header{
 				h1{
 					margin: 0 !important;
@@ -304,20 +313,20 @@
 						cursor: pointer;
 					}
 					h1{
-						font-size: 15px;
+						font-size: 15.74px;
 						color: #1f507c;
-						padding: 0 10px 0 20px;
+						padding: 0 20px 0 30px;
 						margin: 0;
 					}
 					p{
 						color: #78909c;
-						font-size: 14px;
+						font-size: 13.5px;
 						padding: 10px 0;
 						margin: 0;
 					}
 					span{
 						color: #4d93cf;
-						font-size: 14px;
+						font-size: 13.5px;
 						font-weight: bold;
 					}
 				}

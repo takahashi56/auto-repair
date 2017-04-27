@@ -12,6 +12,17 @@ class FrontReportFormController {
     this.API.all('appointments').get('get_report', {reportId}).then((response) => {
       this.report =  response.plain()[0];
       
+      for (var i in this.report.aspect ){
+        for ( var j in this.report.aspect[i].detail){
+          for ( var k in this.report.aspect[i].detail[j].sub){
+            if(this.report.aspect[i].detail[j].sub[k].note=='')
+              this.report.aspect[i].detail[j].sub[k].note='OK'
+          }
+        }
+      }
+
+      this.rotate = 272 * this.report.score / 100
+
       if(this.report.agreed_service != '')
         this.report.service = this.report.agreed_service
 
@@ -66,6 +77,7 @@ class FrontReportFormController {
         let data = {
           agreed_total: agreed_total,
           reportId: reportId,
+          appointmentId: this.report.app_id,
           agreed_service: agreed_service
         }
 

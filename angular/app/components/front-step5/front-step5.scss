@@ -166,8 +166,9 @@
         .front-step5-div1{
             #content-pack{
                 width: 100% !important;
-                height: 100% !important;
+                height: auto !important;
                 top: 0 !important;
+                overflow: none !important;
                 #content-pack-left{
                     width: 100% !important;
                     display: block !important;
@@ -181,10 +182,18 @@
                     display: block !important;
                     padding: 20px 0 !important;
                     .col-md-12{
+                        width: 100% !important;
                         .col-md-6, .col-md-12{
                             padding: 0 !important;
+                            width: 100% !important;
                         }
                     }
+                }
+                tbody{
+                    display: block !important;
+                }
+                tr.condCon{
+                    display: block !important;
                 }
             }
         }

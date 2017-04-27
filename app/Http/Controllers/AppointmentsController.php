@@ -15,6 +15,7 @@ use Hash;
 use Mail;
 use Config;
 use URL;
+use Twilio;
 
 use Illuminate\Http\Request;
 
@@ -143,33 +144,56 @@ class AppointmentsController extends Controller
 		$id = DB::table('report')
 		    ->insertGetId(array('app_id' => $request->app_id, 'score' => $request->score, 'urgent'=>$request->urgent, 'required'=>$request->required, 'recommended'=>$request->recommended, 'total'=>$request->total, 'service'=>serialize($request->service), 'aspect'=>serialize($request->aspect), 'time'=>date('Y-m-d H:i:s')));
 		
-		self::updateAppointmentInfo($request->app_id, array('status'=>4, 'completion_time'=>date('Y-m-d H:i:s'), 'report_id'=>$id));
+		$info = self::getAppointmentInfoPublic($request->app_id);
 
-		
 		$sender = Config::get("mail.from");
+
 		$url .= $id;
 
 		$data = array(
-			'subject'=>'Autobody - Report Created!',
+			'subject'=>'Autobody - Appointment Report Created!',
 			'sender'=>$sender,
-			'emailTo'=>$request->email,
-			'url'=>$url
+			'emailTo'=>$info->email,
+			'url'=>$url,
+			'customer'=>$info->customer,
+			'model'=>$info->model,
+			'year'=>$info->year,
 		);
 
-		Mail::send('emails.accept', $data, function ($m) use ($data){
+		Mail::send('emails.reportform', $data, function ($m) use ($data){
         	extract($data);
             $m->from($sender, 'Autobody');
 			$m->to($emailTo, 'Customer')->subject($subject);
         });
 
+        self::updateAppointmentInfo($request->app_id, array('status'=>4, 'completion_time'=>date('Y-m-d H:i:s'), 'report_id'=>$id));
 		return $id;
 	}
 
 	public function updateReport(Request $request) {
+		$appointment = self::getAppointmentInfoPublic($request->appointmentId);
+
+		$advisor_email = $appointment->advisor_email;
+
+		$sender = Config::get("mail.from");
+		
+		$data = array(
+			'subject'=>'Autobody - Report Updated!',
+			'sender'=>$sender,
+			'emailTo'=>$advisor_email,
+			'id'=>$request->reportId
+		);
+
+		Mail::send('emails.report', $data, function ($m) use ($data){
+        	extract($data);
+            $m->from($sender, 'Autobody');
+			$m->to($emailTo, 'Advisor')->subject($subject);
+        });
+
 		DB::table('report')
 		            ->where('id', $request->reportId)
 		            ->update(array('status' => 1, 'agreed_service' => serialize($request->agreed_service), 'agreed_total' => $request->agreed_total));
-		            
+		
 		return response()->success(compact('id'));
 	}
 
@@ -188,7 +212,8 @@ class AppointmentsController extends Controller
 			'subject'=>'Autobody - Appointment Accepted!',
 			'sender'=>$sender,
 			'emailTo'=>$request->email,
-			'url'=>$url
+			'url'=>$url,
+			'data'=>$request
 		);
 
 		Mail::send('emails.accept', $data, function ($m) use ($data){
@@ -281,7 +306,7 @@ class AppointmentsController extends Controller
 						->join('customer', 'appointment.customer_id', '=', 'customer.id')
 						->join('car', 'appointment.car_id', '=', 'car.id')	
 						->where('appointment.id', $request->appointmentId)
-						->select('appointment.id', 'users_a.name as advisor', 'customer.name as customer', 'customer.email', 'customer.phone_number', 'appointment.book_time', 'appointment.accept_time', 'appointment_status.name as status', 'appointment.report_id', 'appointment.completion_time', 'appointment.completion_description', 'car.make as make', 'car.model as model', 'car.trim as trim', 'car.year as year')
+						->select('appointment.id', 'users_a.name as advisor', 'users_a.email as advisor_email', 'customer.name as customer', 'customer.email', 'customer.phone_number', 'appointment.book_time', 'appointment.accept_time', 'appointment_status.name as status', 'appointment.report_id', 'appointment.completion_time', 'appointment.completion_description', 'car.make as make', 'car.model as model', 'car.trim as trim', 'car.year as year')
 						->first();
 		
 		return response()->success($appointment);
@@ -306,6 +331,19 @@ class AppointmentsController extends Controller
 		return $res;
 	}
 	
+	public function getAppointmentInfoPublic($appointmentId){
+		$appointment = DB::table('appointment')
+						->join('appointment_status', 'appointment.status', '=', 'appointment_status.id')
+						->leftjoin('users as users_a', 'appointment.advisor_id', '=', 'users_a.id')	
+						->join('customer', 'appointment.customer_id', '=', 'customer.id')
+						->join('car', 'appointment.car_id', '=', 'car.id')	
+						->where('appointment.id', $appointmentId)
+						->select('appointment.id', 'users_a.name as advisor', 'users_a.email as advisor_email', 'customer.name as customer', 'customer.email', 'customer.phone_number', 'appointment.book_time', 'appointment.accept_time', 'appointment_status.name as status', 'appointment.report_id', 'appointment.completion_time', 'appointment.completion_description', 'car.make as make', 'car.model as model', 'car.trim as trim', 'car.year as year')
+						->first();
+
+		return $appointment;
+	}
+
 	public function getReportAspect(Request $request){
 		$aspect = DB::select("select * from report_aspect order by id asc");
 		
@@ -442,5 +480,22 @@ class AppointmentsController extends Controller
 			$at->appointment_time = date("Y-m-d H:i:s", $dt);
 			$at->save();
 		}
+
+		$sender = Config::get("mail.from");
+		
+		$data = array(
+			'subject'=>'Autobody - Appointment Booked!',
+			'sender'=>$sender,
+			'emailTo'=>$request->email,
+			'data'=>$request
+		);
+
+		Mail::send('emails.book', $data, function ($m) use ($data){
+        	extract($data);
+            $m->from($sender, 'Autobody');
+			$m->to($emailTo, 'Customer')->subject($subject);
+        });
+
+        Twilio::message($request->phone, 'Check your inbox.');
 	}
 }

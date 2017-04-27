@@ -13,7 +13,10 @@
       <div class="customClear"></div>
       <div class="score-panel">
         <img src="img/bigcircle.jpg" alt=""/>
-        <div class="score-box font-hnl">{{vm.report.score}}%</div>
+        <div class="score-box font-hnl" style="transform: rotate(
+        {{vm.rotate}}deg)">
+          <div style="transform: rotate(-{{vm.rotate}}deg)">{{vm.report.score}}%</div>
+        </div>
       </div> <!-- Score Panel End !-->
     </div> <!-- Score End !-->
     <div class="row score rem" ng-show="show">
@@ -70,7 +73,7 @@
       </div><!-- Services End !-->
       <hr/>
       <div class="row total">
-        <p class="font-hnl">YOUR TOTAL PRICE</p>
+        <p class="font-hnl">YOUR ESTIMATED TOTAL PRICE</p>
         <span class="font-hn">{{vm.total}} AED</span>
       </div>
       <div class="row">
@@ -103,17 +106,20 @@
         </div>
       </div> <!-- Intro End !-->
       <hr/>
-      <div class="row one-aspect" ng-repeat="aspect in vm.report.aspect">
+      <div class="row one-aspect" ng-repeat="aspect in vm.report.aspect" ng-init="aspect_show=false">
         <div class="col-md-10 col-md-offset-1 clearfix">
           <div class="one-aspect-header clearfix">
             <h1 class="customLeft font-hnl">{{aspect.title}}</h1>
+            <div class="customRight dropdown">
+              <img src="/img/assets/dropdown_{{aspect_show}}.png" alt="" ng-click="aspect_show==true?aspect_show=false:aspect_show=true"/>  
+            </div>
             <div class="customRight circle-box" ng-init="count=aspect.status;">
               <div class="one-circle" ng-class="{poor:count==1, fair:count==2, good:count==3}"></div>
               <div class="one-circle" ng-class="{good:count==3,fair:count==2,'':count==1}" ></div>
               <div class="one-circle" ng-class="count==3?'good':''"></div>
             </div>
           </div><!-- One Aspect Header End !-->
-          <div class="one-aspect-table" ng-repeat="detail in aspect.detail">
+          <div class="one-aspect-table" ng-repeat="detail in aspect.detail" ng-show="aspect_show">
           <table>
             <thead>
               <tr>
