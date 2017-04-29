@@ -47,6 +47,13 @@ body{
 	letter-spacing: 1px;
 }
 
+div {
+	-webkit-overflow-scrolling: touch;
+}
+div > *{
+	-webkit-transform: translateZ(0px);
+}
+
 .letterSpacing{ letter-spacing: 2px;}
 .customLeft{ float: left; }
 .customRight{ float: right; }
