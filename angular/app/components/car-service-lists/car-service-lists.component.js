@@ -1,9 +1,11 @@
 class CarServiceListsController {
-  constructor ($scope, $state, $compile, DTOptionsBuilder, DTColumnBuilder, API) {
+  constructor ($rootScope, $scope, $state, $compile, DTOptionsBuilder, DTColumnBuilder, API) {
     'ngInject'
     this.API = API
     this.$state = $state
-	this.serviceId = 0
+    this.$rootScope = $rootScope
+
+  this.serviceId = 0
 	this.serviceName = ""
 	
 	this.API.all('services').get('mainservices').then((response) => {
@@ -49,7 +51,7 @@ class CarServiceListsController {
 	        confirmButtonText: 'OK',
 	        closeOnConfirm: true
 	      }, function () {
-	        $state.reload()
+          $state.reload()
 	      })
 	    })
     })
@@ -84,7 +86,7 @@ class CarServiceListsController {
   	        confirmButtonText: 'OK',
   	        closeOnConfirm: true
   	      }, function () {
-  	        $state.reload()
+            $state.reload()
   	      })
   	    })
     })

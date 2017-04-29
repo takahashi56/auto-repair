@@ -37,6 +37,7 @@ class CarAppointmentAcceptController {
         this.model = this.appointment.model+' / '+this.appointment.year
         this.email = this.appointment.email
         this.secondaryreq = ''
+        this.plate = this.appointment.trim
       }
     })
 

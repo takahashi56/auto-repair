@@ -108,10 +108,10 @@
       <hr/>
       <div class="row one-aspect" ng-repeat="aspect in vm.report.aspect" ng-init="aspect_show=false">
         <div class="col-md-10 col-md-offset-1 clearfix">
-          <div class="one-aspect-header clearfix">
+          <div class="one-aspect-header clearfix" ng-click="aspect_show==true?aspect_show=false:aspect_show=true">
             <h1 class="customLeft font-hnl">{{aspect.title}}</h1>
             <div class="customRight dropdown">
-              <img src="/img/assets/dropdown_{{aspect_show}}.png" alt="" ng-click="aspect_show==true?aspect_show=false:aspect_show=true"/>  
+              <img src="/img/assets/dropdown_{{aspect_show}}.png" alt=""/>  
             </div>
             <div class="customRight circle-box" ng-init="count=aspect.status;">
               <div class="one-circle" ng-class="{poor:count==1, fair:count==2, good:count==3}"></div>

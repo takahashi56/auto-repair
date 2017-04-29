@@ -42,10 +42,10 @@ class FrontWhatCarController {
       this.isModelRequired = true;
       return;
     }
-    /*if (this.selectedTrim == '') {
+    if (this.selectedTrim == '') {
       this.isTrimRequired = true;
       return;
-    }*/
+    }
     this.$rootScope.whatCar.year = this.selectedYear;
     this.$rootScope.whatCar.make = this.selectedMake;
     this.$rootScope.whatCar.model = this.selectedModel;

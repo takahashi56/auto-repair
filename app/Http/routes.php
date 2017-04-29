@@ -92,6 +92,7 @@ $api->group(['middleware' => ['api']], function ($api) {
     $api->get('appointments/get_accept_by_appId', 'AppointmentsController@getAcceptByAppId');
     $api->get('appointments/get_report_aspect', 'AppointmentsController@getReportAspect');
     $api->post('appointments/update_report', 'AppointmentsController@updateReport');
+    $api->post('appointments/contact', 'AppointmentsController@contact');
 });
 
 $api->group(['middleware' => ['api', 'api.auth']], function ($api) {

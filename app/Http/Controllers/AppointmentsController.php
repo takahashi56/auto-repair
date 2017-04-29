@@ -155,9 +155,7 @@ class AppointmentsController extends Controller
 			'sender'=>$sender,
 			'emailTo'=>$info->email,
 			'url'=>$url,
-			'customer'=>$info->customer,
-			'model'=>$info->model,
-			'year'=>$info->year,
+			'data'=>$info,
 		);
 
 		Mail::send('emails.reportform', $data, function ($m) use ($data){
@@ -169,9 +167,9 @@ class AppointmentsController extends Controller
         self::updateAppointmentInfo($request->app_id, array('status'=>4, 'completion_time'=>date('Y-m-d H:i:s'), 'report_id'=>$id));
 
         if($info->phone_number!=''){
-			$message='Dear '.$info->customer.', Your digital report is now ready for '.$info->model.', '.$info->year.'. You can view details on '.$url.'. For approving recommended services, please select the services and confirm through start repair. Your service advisor will call you shortly to confirm the final costs and time required. Regards, Gargash Autobody';
+			$message='Dear '.$info->customer.', Your digital report is now ready for '.$info->make.' '.$info->model.' '.$info->year.','.$info->trim.'. You can view details on '.$url.'. For approving recommended services, please select the services and confirm through start repair. Your service advisor will call you shortly to confirm the final costs and time required. Regards, Gargash Autobody';
 
-	        Twilio::message($request->phone_number, $message);
+	        Twilio::message($info->phone_number, $message);
 	    }
 
 		return $id;
@@ -210,17 +208,19 @@ class AppointmentsController extends Controller
 		$id = DB::table('accept')
 		    ->insertGetId(array('app_id' => $request->app_id, 'jobno' => $request->jobno, 'date' => $request->date, 'time' => $request->time, 'customer' => $request->customer, 'vin' => $request->vin, 'advisor' => $request->advisor, 'telephone' => $request->telephone, 'model' => $request->model, 'km' => $request->km, 'email' => $request->email, 'plate' => $request->plate, 'fuel' => $request->fuel, 'primaryreq' => $request->primaryreq, 'secondaryreq' => $request->secondaryreq, 'inspection' => $request->inspection, 'file'=> $request->file, 'sign1'=>$request->sign1, 'sign2'=>$request->sign2));
 		
-		self::updateAppointmentInfo($request->app_id, array('status'=>3, 'accept_time'=>date('Y-m-d H:i:s')));
+		self::updateAppointmentInfo($request->app_id, array('status'=>3, 'accept_time'=>date('Y-m-d H:i:s'), 'form_id'=>$id));
 
 		$sender = Config::get("mail.from");
 		$url .= $id;
+
+		$info = self::getAppointmentInfoPublic($request->app_id);
 
 		$data = array(
 			'subject'=>'Autobody - Appointment Accepted!',
 			'sender'=>$sender,
 			'emailTo'=>$request->email,
 			'url'=>$url,
-			'data'=>$request
+			'data'=>$info
 		);
 
 		Mail::send('emails.accept', $data, function ($m) use ($data){
@@ -229,10 +229,10 @@ class AppointmentsController extends Controller
 			$m->to($emailTo, 'Customer')->subject($subject);
         });
 
-		if($request->telephone!=''){
-			$message='Dear '.$request->customer.', Your car, '.$request->model.', '.$request->plate.', has been checked in. You can view details of your car repair and maintenance on '.$url.'. Once your car is ready, we will send you a 100-point digital report, where you can view in detail the condition of the car and approve recommended services. Regards, Gargash Autobody';
+		if($info->phone_number!=''){
+			$message='Dear '.$info->customer.', Your car, '.$info->make.' '.$info->model.' '.$info->year.','.$info->trim.' has been checked in. You can view details of your car repair and maintenance on '.$url.'. Once your car is ready, we will send you a 100-point digital report, where you can view in detail the condition of the car and approve recommended services. Regards, Gargash Autobody';
 
-	        Twilio::message($request->telephone, $message);
+	        Twilio::message($info->phone_number, $message);
 	    }
 
 		return $id;
@@ -265,7 +265,7 @@ class AppointmentsController extends Controller
 							->join('appointment_status', 'appointment.status', '=', 'appointment_status.id')
 							->join('customer', 'appointment.customer_id', '=', 'customer.id')
 							->leftjoin('users as users_b', 'appointment.advisor_id', '=', 'users_b.id')
-							->select('appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id', 'users_b.name as advisor')
+							->select('appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id', 'users_b.name as advisor', 'appointment.form_id')
 							->orderBy('appointment.id', 'asc')
 							->get();
 		}
@@ -275,7 +275,7 @@ class AppointmentsController extends Controller
 							->join('customer', 'appointment.customer_id', '=', 'customer.id')
 							->leftjoin('users as users_b', 'appointment.advisor_id', '=', 'users_b.id')	
 							->where('appointment.advisor_id', $user->id)
-							->select('appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id', 'users_b.name as advisor')
+							->select('appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id', 'users_b.name as advisor', 'appointment.form_id')
 							->orderBy('appointment.id', 'asc')
 							->get();
 		}
@@ -301,7 +301,7 @@ class AppointmentsController extends Controller
 							->join('appointment_status', 'appointment.status', '=', 'appointment_status.id')
 							->join('customer', 'appointment.customer_id', '=', 'customer.id')	
 							->where('customer_id', $request->customerId)
-							->select('appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id')
+							->select('appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id', 'appointment.form_id')
 							->orderBy('appointment.id', 'asc')
 							->get();
 		
@@ -514,5 +514,22 @@ class AppointmentsController extends Controller
 
 	        Twilio::message($request->phone, $message);
 	    }
+	}
+
+	public function contact(Request $request) {
+		$sender = Config::get("mail.from");
+
+		$data = array(
+			'subject'=>'Autobody - Call Me Now Action!',
+			'sender'=>$sender,
+			'emailTo'=>'info@autobody.ae',
+			'data'=>$request
+		);
+
+		Mail::send('emails.contact', $data, function ($m) use ($data){
+        	extract($data);
+            $m->from($sender, 'Autobody');
+			$m->to($emailTo, 'Administrator')->subject($subject);
+        });
 	}
 }

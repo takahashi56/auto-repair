@@ -31,6 +31,7 @@
 			line-height: 37px;
 			background: url(/img/assets/try_bg.png);
 			margin-top: 15px;
+			border-radius: 5px;
 		}
 		@media screen and (max-width: 900px){
 			width: 100%;
@@ -110,6 +111,7 @@
 				.try-button{
 					color: #fff;
 					margin: 30px 0 30px 60px;
+					display: block;
 					background: url(/img/assets/try_bg.png);
 					background-color: transparent;
 					font-size: 12px;
@@ -285,7 +287,7 @@
 			padding-left: 10px;
 			padding-right: 10px;
 		}
-		input[type="text"]{
+		input{
 			width: 100%;
 			height: 50px;
 			border: none;
@@ -295,7 +297,7 @@
 			font-size: 14px;
 			color: #648aec;
 		}
-		input[type="text"]:focus{
+		input:focus{
 			outline: none;
 		}
 		button{

@@ -98,7 +98,7 @@
         margin: 15px auto;
         text-align: center;
     }
-    @media screen and (max-width: 1139px){
+    @media screen and (max-width: 959px){
         height: auto !important;
         .front-step4-div4{
             width: 100% !important;
@@ -112,9 +112,12 @@
                 bottom: 0 !important;
                 padding-bottom: 60px !important;
                 .col-md-4{
-                    display: inline-block !important;
-                    width: 50% !important;
+                    display: block !important;
+                    width: 100% !important;
                     vertical-align: top !important;
+                    img{
+                        padding: 0 !important;
+                    }
                 }
             }
         }

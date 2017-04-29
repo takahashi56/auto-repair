@@ -47,7 +47,7 @@
           <div class="number font-hnl">3</div>
           <h2 class="font-hn">DIGITAL REPORTS</h2>
           <p class="font-hn">We send a digital report information you about the car, 100% transparency and advice on what’s best.</p>
-          <div class="try-button font-hn">EXPERIENCE NOW</div>
+          <a class="try-button font-hn" ng-href="/#/whatcar#top">EXPERIENCE NOW</a>
         </li>
       </ul>
       </div>
@@ -184,20 +184,22 @@
     <h1 class="font-hnl">Join over 10,000 customers who are already using Autobody</h1>
     <p class="font-hn">Leave your details and we will call you back!</p>
     <div class="col-md-10 col-md-offset-1">
-      <div class="col-md-3">
-        <input type="text" placeholder="Your Name"/>
-      </div>
-      <div class="col-md-3">
-        <input type="text" placeholder="Your Email" />
-      </div>
-      <div class="col-md-3">
-        <input type="text" placeholder="Your Number" />
-      </div>
-      <div class="col-md-3">
-        <div class="col-md-10 col-md-offset-1">
-          <button type="button">CALL ME NOW</button>
+      <form ng-submit="vm.contact(vm.contactForm.$valid)" method="post" name="vm.contactForm">
+        <div class="col-md-3">
+          <input type="text" placeholder="Your Name" ng-model="vm.contact_name" ng-required="true"/>
         </div>
-      </div>    
+        <div class="col-md-3">
+          <input type="email" placeholder="Your Email" ng-model="vm.contact_email" ng-required="true"/>
+        </div>
+        <div class="col-md-3">
+          <input type="text" placeholder="Your Number" ng-model="vm.contact_number" ng-required="true"/>
+        </div>
+        <div class="col-md-3">
+          <div class="col-md-10 col-md-offset-1">
+            <button type="submit">CALL ME NOW</button>
+          </div>
+        </div> 
+      </form>   
     </div>
   </div> <!-- Contact End !-->
 </div> <!-- Main Home End !-->

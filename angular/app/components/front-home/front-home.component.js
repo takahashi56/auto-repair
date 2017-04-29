@@ -13,6 +13,8 @@ class FrontHomeController {
     this.$rootScope.appointmentDate = "";
     this.$rootScope.appointmentTimes = [];
 
+    this.formSubmitted = false
+
     this.API.all('services').get('availablemainservices').then((response) => {
       this.$rootScope.main_services =  response.plain().main_services;
       this.main_services = this.$rootScope.main_services
@@ -39,6 +41,26 @@ class FrontHomeController {
   toWhatCar () {
     this.$location.hash('top');
     this.$state.go('front.whatcar');
+  }
+
+  contact(isValid) {
+    if(isValid){
+      let data = {
+        name: this.contact_name,
+        email: this.contact_email,
+        number: this.contact_number
+      }
+
+      let $state = this.$state
+      
+      this.API.all('appointments/contact').post(data).then((res) => {
+        $state.reload()
+      }, (res) => {
+        $state.reload()
+      })
+    }else{
+      this.formSubmitted = true
+    }
   }
 }
 

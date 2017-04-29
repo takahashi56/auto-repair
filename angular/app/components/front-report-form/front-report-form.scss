@@ -120,7 +120,7 @@
 		}
 		.score-panel{
 			width: 504px;
-			max-width: 70%;
+			max-width: 100%;
 			margin: 0 auto;
 			margin-top: 30px;
 			margin-bottom: 30px;
@@ -144,6 +144,15 @@
 				background-image: url('/img/assets/spin.png');
 				background-repeat: no-repeat;
 				background-size: cover;
+			}
+			@media screen and (max-width: 419px){
+				.score-box{
+					width: 160px !important;
+					height: 160px !important;
+					margin-top: -80px !important;
+					margin-left: -80px !important;
+					line-height: 160px !important;
+				}
 			}
 		}
 	}
@@ -216,6 +225,7 @@
 				}
 			}
 			.one-aspect-header{
+				cursor: pointer;
 				h1{
 					margin: 0 !important;
 					font-size: 27px !important;
