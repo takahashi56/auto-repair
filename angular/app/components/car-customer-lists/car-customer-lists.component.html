@@ -22,7 +22,7 @@
               <th>Total</th>
             </tr>
             
-            <tr ng-repeat="customer in vm.customers" ui-sref="app.carcustomerappointments({customerId: {{customer.id}}})">
+            <tr ng-repeat="customer in vm.customers" ui-sref="app.carcustomerappointments({customerId: {{customer.id}}})" style="cursor: pointer">
               <td>{{customer.name}}</td>
               <td>{{customer.phone_number}}</td>
               <td>{{customer.open}}</td>

@@ -24,7 +24,7 @@
               <th>Service Report</th>
             </tr>
             
-            <tr ng-repeat="appointment in vm.appointments">
+            <tr ng-repeat="appointment in vm.appointments" style="cursor: pointer;">
               <td ui-sref="app.carappointmentdetail({appointmentId: {{appointment.id}}})">{{appointment.id}}</td>
               <td ui-sref="app.carappointmentdetail({appointmentId: {{appointment.id}}})">{{appointment.name}} </td>
               <td ui-sref="app.carappointmentdetail({appointmentId: {{appointment.id}}})">{{appointment.book_time}}</td>

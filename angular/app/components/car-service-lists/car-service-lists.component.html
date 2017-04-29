@@ -25,7 +25,7 @@
               <th>Edit</th>
             </tr>
             
-            <tr ng-class="main_service.id==vm.serviceId?'active':''" ng-repeat="main_service in vm.main_services" ng-click="vm.onRow(main_service.id, main_service.title)">
+            <tr ng-class="main_service.id==vm.serviceId?'active':''" ng-repeat="main_service in vm.main_services" ng-click="vm.onRow(main_service.id, main_service.title)" style="cursor: pointer;">
               <td><img src="/img/assets/{{main_service.image_url}}" width="25px"/> </td>
               <td style="line-height: 26px">{{main_service.title}} </td>
               <td style="line-height: 26px">{{main_service.is_show == 1 ? 'Yes' : 'No'}} </td>

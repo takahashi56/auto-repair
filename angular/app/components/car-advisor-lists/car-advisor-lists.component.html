@@ -60,7 +60,7 @@
               </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="advisor in vm.advisors" ui-sref="app.caradvisorappointments({advisorId: {{advisor.id}}})">
+            <tr ng-repeat="advisor in vm.advisors" ui-sref="app.caradvisorappointments({advisorId: {{advisor.id}}})" style="cursor: pointer;">
               <td align="left">{{advisor.name}}</td>
               <td align="center">{{advisor.open}}</td>
               <td align="center">{{advisor.closed}}</td>
