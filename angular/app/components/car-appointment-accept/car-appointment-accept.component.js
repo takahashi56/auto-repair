@@ -34,7 +34,7 @@ class CarAppointmentAcceptController {
         this.customer = this.appointment.customer
         this.advisor = this.appointment.advisor
         this.telephone = this.appointment.phone_number
-        this.model = this.appointment.model+' / '+this.appointment.year
+        this.model = this.appointment.make+' '+this.appointment.model+' '+this.appointment.year
         this.email = this.appointment.email
         this.secondaryreq = ''
         this.plate = this.appointment.trim

@@ -6,6 +6,7 @@
   <title>Appointment Report Form</title>
 </head>
 <body bgcolor="#f7f7f7">
+<p>Car: {{$data->make}} {{$data->model}} {{$data->year}},{{$data->trim}}</p>
 <p>Report info#{{$id}} has updated by customer.</p>
 </body>
 </html>

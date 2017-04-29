@@ -97,6 +97,9 @@ class FrontStep3Controller {
   }
 
   onSelectTimeSheet (timesheet) {
+    for ( var i in this.timesheets )
+      this.timesheets[i].selected = 0
+    
     if (timesheet.selected == 0 && this.nums >= 4)
       return;
 

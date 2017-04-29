@@ -43,10 +43,10 @@
                                   <td style="width: 45px;">
                                     <a style="cursor: pointer;" ng-click="vm.toggleSubService(service)"><img src="/img/assets/{{service.added == 1 ? 'toggle_on' : 'toggle_off'}}.png"/></a>
                                   </td>
-                                  <td style="text-align: left;">
+                                  <td style="min-width: 200px;text-align: left;">
                                     <h6 style="color: #839DB0">{{service.title}}</h6>
                                   </td>
-                                  <td style="text-align: right;width:60px;">
+                                  <td style="width:60px;">
                                     <h6 style="color: #3c8dbc">AED {{service.price}}</h6>
                                   </td>
                                 </tr>
@@ -60,10 +60,10 @@
                                   <td style="width: 45px;">
                                     <a style="cursor: pointer;" ng-click="vm.toggleOptionService(optionService)"><img src="/img/assets/{{optionService.added == 1 ? 'toggle_on' : 'toggle_off'}}.png"/></a>
                                   </td>
-                                  <td style="text-align: left;">
+                                  <td style="min-width: 200px;text-align: left;">
                                     <h6 style="color: #839DB0">{{optionService.title}}</h6>
                                   </td>
-                                  <td style="text-align: right;width:60px;">
+                                  <td style="width:60px;">
                                     <h6 style="color: #3c8dbc">AED {{optionService.price}}</h6>
                                   </td>
                                 </tr>
@@ -90,8 +90,8 @@
 
                           <div class="col-md-12">
                             <div class="col-md-6">
-                              <h6 style="margin: 0 !important;color: #6A7F90;" ng-show="vm.isPhone == true">Phone number</h6>
-                              <h6 style="margin: 0 !important;color: #ee0000;" ng-show="vm.isPhone == false">Phone number</h6>
+                              <h6 style="margin: 0 !important;color: #6A7F90;" ng-show="vm.isPhone == true">Mobile number</h6>
+                              <h6 style="margin: 0 !important;color: #ee0000;" ng-show="vm.isPhone == false">Mobile number</h6>
                               <input type="text" class="front-step5-input" placeholder="" value="" ng-model="vm.phonenumber" ng-change="vm.changeInput(0)"/>
                             </div>
                             <div class="col-md-6">
@@ -108,7 +108,7 @@
                               <h6 style="margin: 0 !important;color: #6A7F90;">Preferred Contact Method</h6>
                               <select class="front-step5-input" style="height: 40px;" id="contactMethod">
                                 <option value="0">Email</option>
-                                <option value="1">Phone Number</option>
+                                <option value="1">Mobile Number</option>
                               </select>
                             </div>
                             <div class="col-md-12">
