@@ -7,7 +7,7 @@
 </head>
 <body bgcolor="#f7f7f7">
 <p>Dear {{$data->name}}</p>
-<p>Thank you for booking an appointment with Gargash Autobody on {{date('d-m-Y at H:i A')}}.</p>
+<p>Thank you for booking an appointment with Gargash Autobody on {{date('d-m-Y').' at '.date('H:i A')}}.</p>
 <p>We look forward to welcoming you to a new automotive experience!
 </p>
 <p>Regards,</p>
