@@ -25,6 +25,8 @@
         isMobile = false;
       }
 
+      isMobile = false;
+
       if (isMobile) {
 
         return [
