@@ -82,7 +82,6 @@ class FrontReportFormController {
         }
 
         this.API.all('appointments/update_report').post(data).then((res) => {
-          alert(res);
           $state.reload()
         }, (res) => {
           $state.reload()

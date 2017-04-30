@@ -151,7 +151,7 @@ class AppointmentsController extends Controller
 		$url .= $id;
 
 		$data = array(
-			'subject'=>'Autobody - Appointment Report Created!',
+			'subject'=>'Your Car Has Checked In',
 			'sender'=>$sender,
 			'emailTo'=>$info->email,
 			'url'=>$url,
@@ -183,11 +183,11 @@ class AppointmentsController extends Controller
 		$sender = Config::get("mail.from");
 		
 		$data = array(
-			'subject'=>'Autobody - Report Updated!',
+			'subject'=>'Your Car Has Checked In',
 			'sender'=>$sender,
 			'emailTo'=>$advisor_email,
 			'id'=>$request->reportId,
-			'date'=>$appointment
+			'data'=>$appointment
 		);
 
 		Mail::send('emails.report', $data, function ($m) use ($data){
@@ -217,7 +217,7 @@ class AppointmentsController extends Controller
 		$info = self::getAppointmentInfoPublic($request->app_id);
 
 		$data = array(
-			'subject'=>'Autobody - Your Car Has Checked In!',
+			'subject'=>'Your Car Has Checked In',
 			'sender'=>$sender,
 			'emailTo'=>$request->email,
 			'url'=>$url,
@@ -498,7 +498,7 @@ class AppointmentsController extends Controller
 		$sender = Config::get("mail.from");
 		
 		$data = array(
-			'subject'=>'Autobody - Appointment Booked!',
+			'subject'=>'Your Car Has Checked In',
 			'sender'=>$sender,
 			'emailTo'=>$request->email,
 			'data'=>$request

@@ -37,37 +37,21 @@
                             <h5 class="font-hnLT" style="color:#223345; font-size:18px; font-weight:bold;">Summary</h5>
                             <h6 style="color: #839DB0">{{vm.car.year}}&nbsp;{{vm.car.make}}&nbsp;{{vm.car.model}}&nbsp;{{vm.car.trim}}</h6>
                             <h5 class="front-step2-h5" ng-show="vm.services.length > 0">Services</h5>
-                            <div class="col-lg-12 front-step2-div11">
-                              <table width="100%">
-                                <tr ng-repeat="service in vm.services">
-                                  <td style="width: 45px;">
-                                    <a style="cursor: pointer;" ng-click="vm.toggleSubService(service)"><img src="/img/assets/{{service.added == 1 ? 'toggle_on' : 'toggle_off'}}.png"/></a>
-                                  </td>
-                                  <td style="min-width: 200px;text-align: left;">
-                                    <h6 style="color: #839DB0">{{service.title}}</h6>
-                                  </td>
-                                  <td style="width:60px;">
-                                    <h6 style="color: #3c8dbc">AED {{service.price}}</h6>
-                                  </td>
-                                </tr>
-                              </table>
+                            <div class="front-step2-div11">
+                              <div ng-repeat="service in vm.services" style="display: block; width: 100%; margin:15px 0; position: relative;">
+                                  <a style="cursor: pointer; position: absolute; top:0; left:0; display:block;margin-top:-3px;" ng-click="vm.toggleSubService(service)"><img src="/img/assets/{{service.added == 1 ? 'toggle_on' : 'toggle_off'}}.png"/></a>
+                                  <h6 style="color: #839DB0; padding: 0 65px 0 38px; margin:0;">{{service.title}}</h6>
+                                  <h6 style="color: #3c8dbc; width:60px; position:absolute; top:0;right:0; margin:0; text-align: right;">AED {{service.price}}</h6>
+                              </div>
                             </div>
 
                             <h5 class="front-step2-h5" ng-show="vm.optionServices.length > 0">Optional Services</h5>
-                            <div class="col-lg-12 front-step2-div11">
-                              <table width="100%">
-                                <tr ng-repeat="optionService in vm.optionServices">
-                                  <td style="width: 45px;">
-                                    <a style="cursor: pointer;" ng-click="vm.toggleOptionService(optionService)"><img src="/img/assets/{{optionService.added == 1 ? 'toggle_on' : 'toggle_off'}}.png"/></a>
-                                  </td>
-                                  <td style="min-width: 200px;text-align: left;">
-                                    <h6 style="color: #839DB0">{{optionService.title}}</h6>
-                                  </td>
-                                  <td style="width:60px;">
-                                    <h6 style="color: #3c8dbc">AED {{optionService.price}}</h6>
-                                  </td>
-                                </tr>
-                              </table>
+                            <div class="front-step2-div11">
+                              <div ng-repeat="optionService in vm.optionServices" style="display: block; width: 100%; margin:15px 0; position: relative;">
+                                <a style="cursor: pointer; position: absolute; top:0; left:0; display:block;margin-top:-3px;" ng-click="vm.toggleOptionService(optionService)"><img src="/img/assets/{{optionService.added == 1 ? 'toggle_on' : 'toggle_off'}}.png"/></a>
+                                <h6 style="color: #839DB0; padding: 0 65px 0 38px; margin:0;">{{optionService.title}}</h6>
+                                <h6 style="color: #3c8dbc; width:60px; position:absolute; top:0;right:0; margin:0; text-align: right">AED {{optionService.price}}</h6>
+                              </div>
                             </div>
 
                             <h5 class="front-step2-h5">Include</h5>

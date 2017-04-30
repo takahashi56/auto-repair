@@ -54,7 +54,15 @@ class FrontHomeController {
       let $state = this.$state
       
       this.API.all('appointments/contact').post(data).then((res) => {
-        $state.reload()
+        swal({
+          title: 'Thank you!',
+          text: 'We will call you back.',
+          type: 'success',
+          confirmButtonText: 'OK',
+          closeOnConfirm: true
+        }, function () {
+          $state.reload()
+        })
       }, (res) => {
         $state.reload()
       })
