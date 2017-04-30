@@ -26,7 +26,7 @@ use Carbon\Carbon;
 class AppointmentsController extends Controller
 {
     public function index() {
-    	
+    	date_default_timezone_set('Asia/Dubai');
 	}
 	
 	public function getCustomers() {
