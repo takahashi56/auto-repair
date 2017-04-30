@@ -271,7 +271,7 @@ class AppointmentsController extends Controller
 							->join('customer', 'appointment.customer_id', '=', 'customer.id')
 							->leftjoin('users as users_b', 'appointment.advisor_id', '=', 'users_b.id')
 							->select('appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id', 'users_b.name as advisor', 'appointment.form_id')
-							->orderBy('appointment.id', 'asc')
+							->orderBy('appointment.id', 'desc')
 							->get();
 		}
 		else {
@@ -294,7 +294,7 @@ class AppointmentsController extends Controller
 							->join('customer', 'appointment.customer_id', '=', 'customer.id')	
 							->where('advisor_id', $request->advisorId)
 							->select('appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id')
-							->orderBy('appointment.id', 'asc')
+							->orderBy('appointment.id', 'desc')
 							->get();
 		
 		
@@ -307,7 +307,7 @@ class AppointmentsController extends Controller
 							->join('customer', 'appointment.customer_id', '=', 'customer.id')	
 							->where('customer_id', $request->customerId)
 							->select('appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id', 'appointment.form_id')
-							->orderBy('appointment.id', 'asc')
+							->orderBy('appointment.id', 'desc')
 							->get();
 		
 		
