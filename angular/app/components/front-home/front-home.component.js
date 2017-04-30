@@ -32,6 +32,9 @@ class FrontHomeController {
       if (this.$rootScope.optionAllServices == undefined)
         this.$rootScope.optionAllServices = [];
     })
+
+    /*this.$rootScope.$on('$stateChangeSuccess', function() {
+    }); */
   }
 	
   $onInit () {

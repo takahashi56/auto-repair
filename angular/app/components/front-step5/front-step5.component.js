@@ -1,10 +1,11 @@
 class FrontStep5Controller {
-  constructor ($rootScope, $scope, $state, $compile, DTOptionsBuilder, DTColumnBuilder, API) {
+  constructor ($location, $rootScope, $scope, $state, $compile, DTOptionsBuilder, DTColumnBuilder, API) {
     'ngInject'
     this.API = API
     this.$state = $state
     this.$rootScope = $rootScope
-
+    this.$location = $location
+    
     this.car = this.$rootScope.whatCar
 
     this.phonenumber = "+971";
@@ -16,6 +17,8 @@ class FrontStep5Controller {
     this.isPhone = true;
     this.isEmail = true;
     this.isName = true;
+
+    this.$location.hash('step5-top');
   }
 	
   $onInit () {

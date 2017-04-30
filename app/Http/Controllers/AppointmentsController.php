@@ -26,7 +26,7 @@ use Carbon\Carbon;
 class AppointmentsController extends Controller
 {
     public function index() {
-    	date_default_timezone_set('Asia/Dubai');
+    	
 	}
 	
 	public function getCustomers() {
@@ -141,6 +141,8 @@ class AppointmentsController extends Controller
 	public function addReport(Request $request) {
 		$url = $request->url;
 
+		date_default_timezone_set('Asia/Dubai');
+
 		$id = DB::table('report')
 		    ->insertGetId(array('app_id' => $request->app_id, 'score' => $request->score, 'urgent'=>$request->urgent, 'required'=>$request->required, 'recommended'=>$request->recommended, 'total'=>$request->total, 'service'=>serialize($request->service), 'aspect'=>serialize($request->aspect), 'time'=>date('Y-m-d H:i:s')));
 		
@@ -206,6 +208,8 @@ class AppointmentsController extends Controller
 	public function addAccept(Request $request) {
 		$url = $request->url;
 
+		date_default_timezone_set('Asia/Dubai');
+		
 		$id = DB::table('accept')
 		    ->insertGetId(array('app_id' => $request->app_id, 'jobno' => $request->jobno, 'date' => $request->date, 'time' => $request->time, 'customer' => $request->customer, 'vin' => $request->vin, 'advisor' => $request->advisor, 'telephone' => $request->telephone, 'model' => $request->model, 'km' => $request->km, 'email' => $request->email, 'plate' => $request->plate, 'fuel' => $request->fuel, 'primaryreq' => $request->primaryreq, 'secondaryreq' => $request->secondaryreq, 'inspection' => $request->inspection, 'file'=> $request->file, 'sign1'=>$request->sign1, 'sign2'=>$request->sign2));
 		
@@ -459,6 +463,8 @@ class AppointmentsController extends Controller
 		$appointment = new Appointment;
 		$appointment->customer_id = $customer->id;
 		$appointment->car_id = $car->id;
+
+		date_default_timezone_set('Asia/Dubai');
 		$appointment->book_time = date("Y-m-d H:i:s");
 		$appointment->comment = $request->comment;
 		$appointment->status = 1;

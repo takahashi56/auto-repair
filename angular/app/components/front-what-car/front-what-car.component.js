@@ -1,9 +1,10 @@
 class FrontWhatCarController {
-  constructor ($rootScope, $scope, $state, $compile, DTOptionsBuilder, DTColumnBuilder, API) {
+  constructor ($stateParams, $location, $rootScope, $scope, $state, $compile, DTOptionsBuilder, DTColumnBuilder, API) {
     'ngInject'
     this.API = API
     this.$state = $state
     this.$rootScope = $rootScope
+    this.$location = $location
 	  this.yearList = []
     this.selectedYear = 2017
     this.selectedMake = ''
@@ -12,6 +13,8 @@ class FrontWhatCarController {
     this.isMakeRequired = false
     this.isModelRequired = false
     this.isTrimRequired = false
+
+    this.$location.hash('what-top');
   }
 	
   $onInit () {

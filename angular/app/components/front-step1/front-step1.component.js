@@ -1,10 +1,13 @@
 class FrontStep1Controller {
-  constructor ($rootScope, $scope, $state, $compile, DTOptionsBuilder, DTColumnBuilder, API) {
+  constructor ($location, $rootScope, $scope, $state, $compile, DTOptionsBuilder, DTColumnBuilder, API) {
     'ngInject'
     this.API = API
     this.$state = $state
 	  this.$rootScope = $rootScope
+    this.$location = $location
     this.main_services = this.$rootScope.main_services
+
+    this.$location.hash('step1-top');
   }
 	
   $onInit () {

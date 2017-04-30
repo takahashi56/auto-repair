@@ -1,12 +1,15 @@
 class FrontStep2Controller {
-  constructor ($rootScope, $scope, $state, $compile, DTOptionsBuilder, DTColumnBuilder, API) {
+  constructor ($location, $rootScope, $scope, $state, $compile, DTOptionsBuilder, DTColumnBuilder, API) {
     'ngInject'
     this.API = API
     this.$state = $state
 	  this.$rootScope = $rootScope
+    this.$location = $location
     this.mainService = this.$rootScope.currentMainService
     this.car = this.$rootScope.whatCar
     this.selectedSubServiceIndex = 0
+
+    this.$location.hash('step2-top');
   }
 	
   $onInit () {

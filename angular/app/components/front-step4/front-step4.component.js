@@ -1,12 +1,15 @@
 class FrontStep4Controller {
-  constructor ($rootScope, $scope, $state, $compile, DTOptionsBuilder, DTColumnBuilder, API) {
+  constructor ($location, $rootScope, $scope, $state, $compile, DTOptionsBuilder, DTColumnBuilder, API) {
     'ngInject'
     this.API = API
     this.$state = $state
     this.$rootScope = $rootScope
-
+    this.$location = $location
+    
     this.optionalServices = this.$rootScope.optionAllServices;
     this.services = this.$rootScope.optionServices;
+
+    this.$location.hash('step4-top');
   }
 	
   $onInit () {
