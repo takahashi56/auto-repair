@@ -209,7 +209,7 @@ class AppointmentsController extends Controller
 		$url = $request->url;
 
 		date_default_timezone_set('Asia/Dubai');
-		
+
 		$id = DB::table('accept')
 		    ->insertGetId(array('app_id' => $request->app_id, 'jobno' => $request->jobno, 'date' => $request->date, 'time' => $request->time, 'customer' => $request->customer, 'vin' => $request->vin, 'advisor' => $request->advisor, 'telephone' => $request->telephone, 'model' => $request->model, 'km' => $request->km, 'email' => $request->email, 'plate' => $request->plate, 'fuel' => $request->fuel, 'primaryreq' => $request->primaryreq, 'secondaryreq' => $request->secondaryreq, 'inspection' => $request->inspection, 'file'=> $request->file, 'sign1'=>$request->sign1, 'sign2'=>$request->sign2));
 		
@@ -517,7 +517,7 @@ class AppointmentsController extends Controller
         });
 
 		if($request->phone!=''){
-			$message='Dear '.$request->name.', Thank you for booking an appointment with Gargash Autobody on '.date('Y-m-d H:i').'. We look forward to welcoming you to a new automotive experience! Regards, Gargash Autobody';
+			$message='Dear '.$request->name.', Thank you for booking an appointment with Gargash Autobody on '.date('d-m-y', strtotime($request->date)).' at '.date('H:i A', strtotime($request->times[0])).'. We look forward to welcoming you to a new automotive experience! Regards, Gargash Autobody';
 
 	        Twilio::message($request->phone, $message);
 	    }
