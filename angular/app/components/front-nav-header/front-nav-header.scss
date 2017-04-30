@@ -39,6 +39,11 @@
     margin-top: 5px;
 }
 
+.front-logo{
+	position: relative;
+	z-index: 1001;	
+}
+
 @media (max-width: 1139px) {
 	.front-home-nav-div{
 		display: none;

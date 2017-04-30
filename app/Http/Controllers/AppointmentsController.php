@@ -151,7 +151,7 @@ class AppointmentsController extends Controller
 		$url .= $id;
 
 		$data = array(
-			'subject'=>'Your Car Has Checked In',
+			'subject'=>'Your 100 Point Digital Car Report is Ready!',
 			'sender'=>$sender,
 			'emailTo'=>$info->email,
 			'url'=>$url,
@@ -160,7 +160,7 @@ class AppointmentsController extends Controller
 
 		Mail::send('emails.reportform', $data, function ($m) use ($data){
         	extract($data);
-            $m->from($sender, 'Autobody');
+            $m->from($sender, 'Gargash Autobody');
 			$m->to($emailTo, 'Customer')->subject($subject);
         });
 
@@ -183,7 +183,7 @@ class AppointmentsController extends Controller
 		$sender = Config::get("mail.from");
 		
 		$data = array(
-			'subject'=>'Your Car Has Checked In',
+			'subject'=>'Customer has Approved Recommendations',
 			'sender'=>$sender,
 			'emailTo'=>$advisor_email,
 			'id'=>$request->reportId,
@@ -192,7 +192,7 @@ class AppointmentsController extends Controller
 
 		Mail::send('emails.report', $data, function ($m) use ($data){
         	extract($data);
-            $m->from($sender, 'Autobody');
+            $m->from($sender, 'Gargash Autobody');
 			$m->to($emailTo, 'Advisor')->subject($subject);
         });
 
@@ -226,7 +226,7 @@ class AppointmentsController extends Controller
 
 		Mail::send('emails.accept', $data, function ($m) use ($data){
         	extract($data);
-            $m->from($sender, 'Autobody');
+            $m->from($sender, 'Gargash Autobody');
 			$m->to($emailTo, 'Customer')->subject($subject);
         });
 
@@ -498,7 +498,7 @@ class AppointmentsController extends Controller
 		$sender = Config::get("mail.from");
 		
 		$data = array(
-			'subject'=>'Your Car Has Checked In',
+			'subject'=>'Appointment Booked',
 			'sender'=>$sender,
 			'emailTo'=>$request->email,
 			'data'=>$request
@@ -506,7 +506,7 @@ class AppointmentsController extends Controller
 
 		Mail::send('emails.book', $data, function ($m) use ($data){
         	extract($data);
-            $m->from($sender, 'Autobody');
+            $m->from($sender, 'Gargash Autobody');
 			$m->to($emailTo, 'Customer')->subject($subject);
         });
 
@@ -529,7 +529,7 @@ class AppointmentsController extends Controller
 
 		Mail::send('emails.contact', $data, function ($m) use ($data){
         	extract($data);
-            $m->from($sender, 'Autobody');
+            $m->from($sender, 'Gargash Autobody');
 			$m->to($emailTo, 'Administrator')->subject($subject);
         });
 	}
