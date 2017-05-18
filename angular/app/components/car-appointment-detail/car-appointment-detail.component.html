@@ -40,6 +40,32 @@
   </div>
 </script>
 
+<script type="text/ng-template" id="mechanicContent.html">
+  <div class="modal-header">
+    <h3 class="modal-title">AssignMechanic</h3>
+  </div>
+  <div class="modal-body">
+  <div class="box-body table-responsive">
+    <table class="table table-hover">
+      <tr>
+        <th>Mechanic Name</th>
+        <th>Open Appointments</th>
+        <th>Total</th>
+      </tr>
+      
+      <tr ng-repeat="mechanic in mvm.mechanics" ng-click="mvm.ok(mechanic.id)">
+        <td>{{mechanic.name}}</td>
+        <td>{{mechanic.open}}</td>
+        <td>{{mechanic.total}}</td>
+      </tr>
+    </table>
+  </div>
+  </div>
+  <div class="modal-footer">
+   <button class="btn btn-warning" type="button" ng-click="mvm.cancel()">Close</button>
+  </div>
+</script>
+
 <section class="content-header">
   <h1>Appointment Detail</h1>
   <ol class="breadcrumb">
@@ -55,14 +81,15 @@
           <h3 class="box-title">Appointment # {{vm.appointmentId}}</h3>
         	
           <div class="box-tools pull-right">
-            <a ui-sref="app.carappointmentreport({appointmentId: {{vm.appointmentId}}})" class="btn btn-block btn-success btn-xs" ng-if="vm.appointment.data.status.includes('Open') && !vm.role.includes('super')"><i class="fa fa-plus"></i> Create Service Report</a>
-
-            <a ui-sref="app.carappointmentaccept({appointmentId: {{vm.appointmentId}}})" ng-click="vm.onAcceptAppointment()" class="btn btn-block btn-success btn-xs" ng-if="vm.appointment.data.status.includes('New') && !vm.role.includes('super')"><i class="fa fa-plus"></i> Accept Appointment</a>
-            
             <a ng-click="vm.onAssignAdvisor()" class="btn btn-block btn-success btn-xs" ng-if="!vm.appointment.data.status.includes('Closed') && vm.role.includes('super')"><i class="fa fa-plus"></i> Assign Advisor</a>
+            
+            <a ng-click="vm.onAssignMechanic()" class="btn btn-block btn-success btn-xs" ng-if="!vm.appointment.data.status.includes('Closed') && vm.role.includes('user')" style="display:inline;"><i class="fa fa-plus"></i> Assign Mechanic</a>
+
+            <a ui-sref="app.carappointmentaccept({appointmentId: {{vm.appointmentId}}})" ng-click="vm.onAcceptAppointment()" class="btn btn-block btn-success btn-xs" ng-if="vm.appointment.data.status.includes('New') && vm.role.includes('user')" style="display:inline;"><i class="fa fa-plus"></i> Accept Appointment</a>
+
+            <a ui-sref="app.carappointmentreport({appointmentId: {{vm.appointmentId}}})" class="btn btn-block btn-success btn-xs" ng-if="vm.appointment.data.status.includes('Open') && vm.role.includes('mechanic')"><i class="fa fa-plus"></i> Create Service Report</a>
           </div>
         </div>
-        
         
         <div class="box-body table-responsive">
           <table class="table">

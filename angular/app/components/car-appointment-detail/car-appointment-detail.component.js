@@ -13,7 +13,7 @@ class CarAppointmentDetailController {
 	 
 	this.API.all('appointments').get('role_info').then((response) => {
 		this.role = API.copy(response)
-	})
+  })
 	 
 	this.API.all('appointments').get('appointment_info', {appointmentId}).then((response) => {
 		this.appointment = API.copy(response)
@@ -42,6 +42,22 @@ class CarAppointmentDetailController {
   	  this.cancel = () => {
   	    $uibModalInstance.dismiss('cancel')
   	  }
+  }
+
+  mechaniccontroller ($scope, $uibModalInstance, API) {
+      'ngInject'
+      
+      API.all('appointments').get('all_mechanics').then((response) => {
+        this.mechanics =  response.plain();
+      })
+      
+      this.ok = (mechanicId) => {
+        $uibModalInstance.close(mechanicId)
+      }
+    
+      this.cancel = () => {
+        $uibModalInstance.dismiss('cancel')
+      }
   }
   
   modalcontroller ($scope, $uibModalInstance) {
@@ -116,14 +132,10 @@ class CarAppointmentDetailController {
 	  })
 	
 	  modalInstance.result.then((advisorId) => {
-	  	console.log(advisorId);
-	    
-	    let data = {
+	  	let data = {
 	  		appointmentId: this.appointmentId,
 	   		advisorId: advisorId
 	    }
-	    
-	    console.log(data)
 	    
 	    let $state = this.$state
 		
@@ -136,6 +148,35 @@ class CarAppointmentDetailController {
 	    console.log('Modal dismissed at: ' + new Date())
 	  })
 	}
+
+  onAssignMechanic () {
+    let $uibModal = this.$uibModal
+    let $scope = this.$scope
+    
+    var modalInstance = $uibModal.open({
+      animation: this.animationsEnabled,
+      templateUrl: 'mechanicContent.html',
+      controller: this.mechaniccontroller,
+      controllerAs: 'mvm'
+    })
+  
+    modalInstance.result.then((mechanicId) => {
+      let data = {
+        appointmentId: this.appointmentId,
+        mechanicId: mechanicId
+      }
+      
+      let $state = this.$state
+
+      this.API.all('appointments/update_appointment_mechanic').post(data).then(() => {
+        $state.reload()
+      }, (res) => {
+        $state.reload()
+      })
+    }, () => {
+      console.log('Modal dismissed at: ' + new Date())
+    })
+  }
   
   $onInit () {}
 }

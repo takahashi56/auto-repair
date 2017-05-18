@@ -64,6 +64,7 @@ $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
     $api->get('appointments/all_appointments_by_customer', 'AppointmentsController@getAppointmentsByCustomer');
     
     $api->get('appointments/all_advisors', 'AppointmentsController@getAdvisors');
+    $api->get('appointments/all_mechanics', 'AppointmentsController@getMechanics');
     $api->get('appointments/advisor_info', 'AppointmentsController@getAdvisorInfo');
     $api->get('appointments/role_info', 'AppointmentsController@getUserRole');
     $api->get('appointments/all_appointments', 'AppointmentsController@getAppointments');
@@ -75,8 +76,10 @@ $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
     $api->post('appointments/add_advisor', 'AppointmentsController@addAdvisor');
     $api->post('appointments/add_accept', 'AppointmentsController@addAccept');
     $api->post('appointments/add_report', 'AppointmentsController@addReport');
+    $api->post('appointments/update_report_mechanic', 'AppointmentsController@updateReportMechanic');
     $api->post('appointments/appointment_report', 'AppointmentsController@reportAppointmentInfo');
     $api->post('appointments/update_appointment_advisor', 'AppointmentsController@updateAppointmentAdvisor');
+    $api->post('appointments/update_appointment_mechanic', 'AppointmentsController@updateAppointmentMechanic');
 });
 
 $api->group(['middleware' => ['api']], function ($api) {

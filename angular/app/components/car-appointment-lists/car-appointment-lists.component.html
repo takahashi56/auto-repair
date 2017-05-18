@@ -31,11 +31,13 @@
               <td ui-sref="app.carappointmentdetail({appointmentId: {{appointment.id}}})">{{appointment.book_time1}}</td>
               <td ui-sref="app.carappointmentdetail({appointmentId: {{appointment.id}}})">{{appointment.book_time2}}</td>
               <td ui-sref="app.carappointmentdetail({appointmentId: {{appointment.id}}})">{{appointment.status}}</td>
-              <td>
+              <td ui-sref="app.carappointmentdetail({appointmentId: {{appointment.id}}})">
               	<div ng-if="appointment.advisor != 0">{{appointment.advisor}}</div>
               </td>
               <td>
-                <a ng-if="appointment.report_id != 0" ui-sref="special.reportform({reportId: {{appointment.report_id}}})">View Report</a></td>
+                <a ng-if="appointment.report_id != 0 && appointment.status == 'Closed'" ui-sref="special.reportform({reportId: {{appointment.report_id}}})">View Report</a>
+                <a ng-if="appointment.report_id != 0 && appointment.status != 'Closed'" ui-sref="app.reportform({reportId: {{appointment.report_id}}})">View Report From Mechanic</a>
+              </td>
               <td>
                 <a ng-if="appointment.form_id != 0" ui-sref="special.acceptform({formId: {{appointment.form_id}}})">View Form</a></td>
               </td>

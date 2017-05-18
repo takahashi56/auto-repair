@@ -95,6 +95,28 @@ class AppointmentsController extends Controller
 								
 		return $advisors;
 	}
+
+	public function getMechanics() {
+		$mechanics = DB::select("select users.id, users.name, sum(appointment.open) as open, 										   sum(appointment.total) as total
+		 						from users 
+							    inner join role_user on users.id = role_user.user_id 
+							    inner join roles on role_user.role_id = roles.id 
+							    left join (
+							    				select mechanic_id, count(mechanic_id) as open, 0 as total  
+							    				from appointment 
+							    				inner join appointment_status on appointment.status = appointment_status.id 
+							    				where appointment_status.name not like 'Closed' 
+							    				group by appointment.mechanic_id
+							    				union 
+							    				select mechanic_id, 0 as open, count(mechanic_id) as total  
+							    				from appointment 
+							    				group by appointment.mechanic_id
+							    		  ) as appointment on users.id = appointment.mechanic_id 
+							    where roles.slug = 'admin.mechanic' 
+							    group by users.id");
+								
+		return $mechanics;
+	}
 	
 	public function getUserRole() {
 		$user = Auth::user();
@@ -139,6 +161,77 @@ class AppointmentsController extends Controller
 	}
 
 	public function addReport(Request $request) {
+		$url = $request->url;
+
+		date_default_timezone_set('Asia/Dubai');
+
+		$id = DB::table('report')
+		    ->insertGetId(array('app_id' => $request->app_id, 'score' => $request->score, 'urgent'=>$request->urgent, 'required'=>$request->required, 'recommended'=>$request->recommended, 'total'=>$request->total, 'service'=>serialize($request->service), 'aspect'=>serialize($request->aspect), 'time'=>date('Y-m-d H:i:s')));
+		
+		$info = self::getAppointmentInfoPublic($request->app_id);
+
+		$sender = Config::get("mail.from");
+
+		$url .= $id;
+
+		$data = array(
+			'subject'=>'Customer Car Report is Ready!',
+			'sender'=>$sender,
+			'emailTo'=>$info->advisor_email,
+			'url'=>$url,
+			'data'=>$info,
+		);
+
+		Mail::send('emails.mechanicreportform', $data, function ($m) use ($data){
+        	extract($data);
+            $m->from($sender, 'Gargash Autobody');
+			$m->to($emailTo, 'Advisor')->subject($subject);
+        });
+
+        self::updateAppointmentInfo($request->app_id, array('status'=>5, 'report_id'=>$id));
+
+        return $id;
+	}
+
+	public function updateReportMechanic(Request $request) {
+		$url = $request->url;
+
+		$info = self::getAppointmentInfoPublic($request->app_id);
+
+		$sender = Config::get("mail.from");
+
+		$data = array(
+			'subject'=>'Your 100 Point Digital Car Report is Ready!',
+			'sender'=>$sender,
+			'emailTo'=>$info->email,
+			'url'=>$url,
+			'data'=>$info,
+		);
+
+		Mail::send('emails.reportform', $data, function ($m) use ($data){
+        	extract($data);
+            $m->from($sender, 'Gargash Autobody');
+			$m->to($emailTo, 'Customer')->subject($subject);
+        });
+
+		date_default_timezone_set('Asia/Dubai');
+
+        self::updateAppointmentInfo($request->app_id, array('status'=>4, 'completion_time'=>date('Y-m-d H:i:s')));
+
+        DB::table('report')
+		            ->where('id', $request->report_id)
+		            ->update(array('service' => serialize($request->service), 'total' => $request->total, 'urgent' => $request->urgent, 'required' => $request->required, 'recommended' => $request->recommended));
+
+        if($info->phone_number!=''){
+			$message='Dear '.$info->customer.', Your digital report is now ready for '.$info->make.' '.$info->model.' '.$info->year.','.$info->trim.'. You can view details on '.$url.'. For approving recommended services, please select the services and confirm through start repair. Your service advisor will call you shortly to confirm the final costs and time required. Regards, Gargash Autobody';
+
+	        Twilio::message($info->phone_number, $message);
+	    }
+
+		return $request->report_id;
+	}
+
+	public function addReportBackup(Request $request) {
 		$url = $request->url;
 
 		date_default_timezone_set('Asia/Dubai');
@@ -274,12 +367,21 @@ class AppointmentsController extends Controller
 							->orderBy('appointment.id', 'desc')
 							->get();
 		}
-		else {
+		elseif ($role->slug == 'admin.user') {
 			$appointments = DB::table('appointment')
 							->join('appointment_status', 'appointment.status', '=', 'appointment_status.id')
 							->join('customer', 'appointment.customer_id', '=', 'customer.id')
 							->leftjoin('users as users_b', 'appointment.advisor_id', '=', 'users_b.id')	
 							->where('appointment.advisor_id', $user->id)
+							->select('appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id', 'users_b.name as advisor', 'appointment.form_id')
+							->orderBy('appointment.id', 'asc')
+							->get();
+		}else {
+			$appointments = DB::table('appointment')
+							->join('appointment_status', 'appointment.status', '=', 'appointment_status.id')
+							->join('customer', 'appointment.customer_id', '=', 'customer.id')
+							->leftjoin('users as users_b', 'appointment.advisor_id', '=', 'users_b.id')	
+							->where('appointment.mechanic_id', $user->id)
 							->select('appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id', 'users_b.name as advisor', 'appointment.form_id')
 							->orderBy('appointment.id', 'asc')
 							->get();
@@ -424,6 +526,14 @@ class AppointmentsController extends Controller
 		DB::table('appointment')
 		            ->where('id', $request->appointmentId)
 		            ->update(array('advisor_id' => $request->advisorId));
+		            
+		return response()->success(compact('id'));
+	}
+
+	public function updateAppointmentMechanic(Request $request) {
+		DB::table('appointment')
+		            ->where('id', $request->appointmentId)
+		            ->update(array('mechanic_id' => $request->mechanicId));
 		            
 		return response()->success(compact('id'));
 	}

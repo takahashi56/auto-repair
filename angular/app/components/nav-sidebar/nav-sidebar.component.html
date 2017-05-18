@@ -2,7 +2,7 @@
   <section class="sidebar">
     <ul class="sidebar-menu">
       <li class="{{vm.selectedNav == 0 ? 'active' : ''}}">
-        <a ng-click="vm.changeNav('app.carappointmentlists', 0)" ng-show="vm.can('manage.users')">
+        <a ng-click="vm.changeNav('app.carappointmentlists', 0)" ng-show="vm.can('manage.users') || vm.can('manage.mechanics')">
           <i class="fa fa-dashboard"></i> <span>Appointments</span>
         </a>
       </li>

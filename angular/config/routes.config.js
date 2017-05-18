@@ -605,6 +605,18 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
         }
       }
     })
+    .state('app.reportform', {
+      url: '/admin/report-form/:reportId',
+      data: {
+        auth: true,
+        bodyClass: 'hold-transition sidebar-collapse'
+      },
+      views: {
+        'main@app': {
+          template: '<admin-report-form></admin-report-form>'
+        }
+      }
+    })
     .state('front.home', {
       url: '/',
       data: {

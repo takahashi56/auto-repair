@@ -52,6 +52,7 @@ import { FrontStep5Component } from './app/components/front-step5/front-step5.co
 import { CarOptionServiceListsComponent } from './app/components/car-option-service-lists/car-option-service-lists.component'
 import { CarOptionServiceAddComponent } from './app/components/car-option-service-add/car-option-service-add.component'
 import { CarOptionServiceEditComponent } from './app/components/car-option-service-edit/car-option-service-edit.component'
+import { AdminReportFormComponent } from './app/components/report-form-mechanic/report-form-mechanic.component'
 
 angular.module('app.components')
   .component('tablesSimple', TablesSimpleComponent)
@@ -65,6 +66,7 @@ angular.module('app.components')
   .component('carServiceSubAdd', CarServiceSubAddComponent)
   .component('frontAcceptForm', FrontAcceptFormComponent)
   .component('frontReportForm', FrontReportFormComponent)
+  .component('adminReportForm', AdminReportFormComponent)
   .component('frontHome', FrontHomeComponent)
   .component('carServiceSubEdit', CarServiceSubEditComponent)
   .component('carAdvisorLists', CarAdvisorListsComponent)

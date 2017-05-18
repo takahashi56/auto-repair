@@ -161,7 +161,7 @@ class CarAppointmentReportController {
   report(isValid) {
     if(isValid){
       var url = this.$location.absUrl();
-      url = url.replace('admin/car-appointment-report/'+this.appointmentId,'admin/report-form/');
+      url = url.replace('admin/car-appointment-report/'+this.appointmentId,'report-form/');
       
       var urgent=0
       var required=0
@@ -194,7 +194,7 @@ class CarAppointmentReportController {
       let $state = this.$state
 
       this.API.all('appointments/add_report').post(data).then((res) => {
-        $state.go('app.reportform', {reportId:res})
+        $state.go('special.reportform', {reportId:res})
       }, (res) => {
         $state.reload()
       })  

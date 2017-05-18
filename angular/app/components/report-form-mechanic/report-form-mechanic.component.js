@@ -1,49 +1,58 @@
-class CarAppointmentReportController {
-  constructor (API, $location, $state, $stateParams, $rootScope, $scope, $uibModal) {
+class AdminReportFormController {
+  constructor (AclService, $rootScope, $location, $scope, $state, $stateParams, $compile, DTOptionsBuilder, DTColumnBuilder, API, $uibModal) {
     'ngInject'
-  
     this.API = API
-    this.$state = $state
-  	this.$scope = $scope
-    this.$rootScope = $rootScope
+    this.$location = $location
     this.$uibModal = $uibModal
-  	this.$location = $location
 
-  	this.appointmentId = $stateParams.appointmentId
-  	this.total = 0
+    this.can = AclService.can
+
+    this.reportId = $stateParams.reportId
+    let reportId = this.reportId
+
     this.selected_service = []
-    this.report_aspect = []
+    this.total = 0
 
-  	let appointmentId = this.appointmentId
-  	 
-  	this.API.all('appointments').get('get_accept_by_appId', {appointmentId}).then((response) => {
-  		this.accept = response.plain()[0];
-  	})
-
-    this.API.all('appointments').get('get_report_aspect').then((response) => {
-      var temp = response.plain();
-
-      for ( var i in temp ){
-        var obj = new Object
-        obj.title = temp[i].title
-        obj.status = 3
-        obj.detail = []
-        for ( var j in temp[i].sub ){
-          var obj1 = new Object
-          obj1.heading = temp[i].sub[j].heading
-          obj1.sub = []
-          for ( var k in temp[i].sub[j].sub ){
-            var obj2 = new Object
-            obj2.title = temp[i].sub[j].sub[k]
-            obj2.status = 3
-            obj2.note = ''
-            obj1.sub.push(obj2)
+    this.API.all('appointments').get('get_report', {reportId}).then((response) => {
+      this.report =  response.plain()[0];
+      
+      for (var i in this.report.aspect ){
+        for ( var j in this.report.aspect[i].detail){
+          for ( var k in this.report.aspect[i].detail[j].sub){
+            if(this.report.aspect[i].detail[j].sub[k].note=='')
+              this.report.aspect[i].detail[j].sub[k].note='OK'
           }
-          obj.detail.push(obj1)
         }
-
-        this.report_aspect.push(obj)
       }
+
+      this.rotate = 272 * this.report.score / 100
+
+      for( var i in this.report.service ){
+        this.report.service[i].selected = 1
+        if(this.report.service[i].status==1){
+          this.report.service[i].class1='poor'
+          this.report.service[i].class2=''
+          this.report.service[i].class3=''
+        }else if(this.report.service[i].status==2){
+          this.report.service[i].class1=''
+          this.report.service[i].class2='fair'
+          this.report.service[i].class3=''
+        }else{
+          this.report.service[i].class1=''
+          this.report.service[i].class2=''
+          this.report.service[i].class3='good'
+        }
+      }
+
+      this.selected_service = this.report.service
+      this.total = this.report.total
+      
+      this.appointmentId = this.report.app_id
+      var appointmentId = this.appointmentId
+
+      this.API.all('appointments').get('get_accept_by_appId', {appointmentId}).then((response) => {
+        this.accept = response.plain()[0];
+      })
     })
 
     this.services = []
@@ -67,8 +76,13 @@ class CarAppointmentReportController {
         this.services.push(this.sub_service[i])
       }
     })
+
+    this.$scope = $scope
+    this.$state = $state
+    this.$scope = $scope
+    this.$rootScope = $rootScope
   }
-  
+	
   modalcontroller (API, $scope, $rootScope, $uibModalInstance) {
       'ngInject'
       this.API = API
@@ -86,6 +100,7 @@ class CarAppointmentReportController {
           if(this.services[i].selected==1)
             this.selected_service.push(this.services[i])
         }
+
         $uibModalInstance.close(this.selected_service)
       }
       this.cancel = () => {
@@ -102,8 +117,12 @@ class CarAppointmentReportController {
     for(var i in this.services){
       var flag=0;
       for(var j in this.selected_service){
-        if(this.services[i].id==this.selected_service[j].id && this.services[i].service_type==this.selected_service[j].service_type)
+        if(this.services[i].id==this.selected_service[j].id && this.services[i].service_type==this.selected_service[j].service_type){
           flag=1;        
+          this.services[i].class1 = this.selected_service[j].class1
+          this.services[i].class2 = this.selected_service[j].class2
+          this.services[i].class3 = this.selected_service[j].class3
+        }
       }
 
       this.services[i].selected=flag
@@ -121,6 +140,7 @@ class CarAppointmentReportController {
     modalInstance.result.then((data) => {
       this.selected_service = data
 
+      this.total = 0
       for(var i in data)
         this.total += data[i].price
     })
@@ -138,7 +158,7 @@ class CarAppointmentReportController {
       }
     }
     this.selected_service = temp
-    this.total-=service.price
+    this.total -= service.price
   }
 
   onSelectStatus (service, status) {
@@ -158,10 +178,10 @@ class CarAppointmentReportController {
     service.status = status
   }
 
-  report(isValid) {
+  reportFunc(isValid) {
     if(isValid){
       var url = this.$location.absUrl();
-      url = url.replace('admin/car-appointment-report/'+this.appointmentId,'admin/report-form/');
+      url = url.replace('admin/report-form/'+this.reportId,'report-form/'+this.reportId);
       
       var urgent=0
       var required=0
@@ -177,34 +197,32 @@ class CarAppointmentReportController {
         else
           recommended++
       }
-      
+
       let data = {
         url: url,
         app_id: this.appointmentId,
-        score: this.score,
+        report_id: this.reportId,
         service: this.selected_service,
-        aspect: this.report_aspect,
         urgent: urgent,
         required: required,
         recommended: recommended,
-        total: this.total,
-        email: this.accept.email
+        total: this.total
       }
 
       let $state = this.$state
 
-      this.API.all('appointments/add_report').post(data).then((res) => {
-        $state.go('app.reportform', {reportId:res})
+      this.API.all('appointments/update_report_mechanic').post(data).then((res) => {
+        $state.go('special.reportform', {reportId:this.reportId})
       }, (res) => {
         $state.reload()
-      })  
+      })
     }
   }
 }
 
-export const CarAppointmentReportComponent = {
-  templateUrl: './views/app/components/car-appointment-report/car-appointment-report.component.html',
-  controller: CarAppointmentReportController,
+export const AdminReportFormComponent = {
+  templateUrl: './views/app/components/report-form-mechanic/report-form-mechanic.component.html',
+  controller: AdminReportFormController,
   controllerAs: 'vm',
   bindings: {}
 }
