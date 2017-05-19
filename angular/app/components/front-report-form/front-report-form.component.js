@@ -25,9 +25,12 @@ class FrontReportFormController {
 
       if(this.report.status == 1){
         this.report.service = this.report.agreed_service
-        this.report.urgent = this.report.agreed_urgent
-        this.report.required = this.report.agreed_required
-        this.report.recommended = this.report.agreed_recommended
+        
+        if(this.report.agreed_urgent != 0 && this.report.agreed_required != 0 && this.report.agreed_recommended != 0){
+          this.report.urgent = this.report.agreed_urgent
+          this.report.required = this.report.agreed_required
+          this.report.recommended = this.report.agreed_recommended
+        }
       }
 
       for( var i in this.report.service ){
