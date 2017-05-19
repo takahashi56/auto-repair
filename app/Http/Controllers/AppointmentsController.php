@@ -220,54 +220,20 @@ class AppointmentsController extends Controller
 
         DB::table('report')
 		            ->where('id', $request->report_id)
-		            ->update(array('service' => serialize($request->service), 'total' => $request->total, 'urgent' => $request->urgent, 'required' => $request->required, 'recommended' => $request->recommended));
+		            ->update(array('service' => serialize($request->service), 'total' => $request->total, 'urgent' => $request->urgent, 'required' => $request->required, 'recommended' => $request->recommended, 'aspect'=>serialize($request->aspect), 'score' => $request->score));
 
         if($info->phone_number!=''){
-			$message='Dear '.$info->customer.', Your digital report is now ready for '.$info->make.' '.$info->model.' '.$info->year.','.$info->trim.'. You can view details on '.$url.'. For approving recommended services, please select the services and confirm through start repair. Your service advisor will call you shortly to confirm the final costs and time required. Regards, Gargash Autobody';
+        	$message='Dear '.$info->customer.',';
+			$message.='Your car, '.$info->make.' '.$info->model.' '.$info->year.','.$info->trim.', is now ready.';
+			$message.='Don’t forget to book your next appointment on www.autobody.ae. We hope to see you soon!';
+			$message.=' Best Regards, Gargash Autobody';
+
+			/*$message='Dear '.$info->customer.', Your digital report is now ready for '.$info->make.' '.$info->model.' '.$info->year.','.$info->trim.'. You can view details on '.$url.'. For approving recommended services, please select the services and confirm through start repair. Your service advisor will call you shortly to confirm the final costs and time required. Regards, Gargash Autobody';*/
 
 	        Twilio::message($info->phone_number, $message);
 	    }
 
 		return $request->report_id;
-	}
-
-	public function addReportBackup(Request $request) {
-		$url = $request->url;
-
-		date_default_timezone_set('Asia/Dubai');
-
-		$id = DB::table('report')
-		    ->insertGetId(array('app_id' => $request->app_id, 'score' => $request->score, 'urgent'=>$request->urgent, 'required'=>$request->required, 'recommended'=>$request->recommended, 'total'=>$request->total, 'service'=>serialize($request->service), 'aspect'=>serialize($request->aspect), 'time'=>date('Y-m-d H:i:s')));
-		
-		$info = self::getAppointmentInfoPublic($request->app_id);
-
-		$sender = Config::get("mail.from");
-
-		$url .= $id;
-
-		$data = array(
-			'subject'=>'Your 100 Point Digital Car Report is Ready!',
-			'sender'=>$sender,
-			'emailTo'=>$info->email,
-			'url'=>$url,
-			'data'=>$info,
-		);
-
-		Mail::send('emails.reportform', $data, function ($m) use ($data){
-        	extract($data);
-            $m->from($sender, 'Gargash Autobody');
-			$m->to($emailTo, 'Customer')->subject($subject);
-        });
-
-        self::updateAppointmentInfo($request->app_id, array('status'=>4, 'completion_time'=>date('Y-m-d H:i:s'), 'report_id'=>$id));
-
-        if($info->phone_number!=''){
-			$message='Dear '.$info->customer.', Your digital report is now ready for '.$info->make.' '.$info->model.' '.$info->year.','.$info->trim.'. You can view details on '.$url.'. For approving recommended services, please select the services and confirm through start repair. Your service advisor will call you shortly to confirm the final costs and time required. Regards, Gargash Autobody';
-
-	        Twilio::message($info->phone_number, $message);
-	    }
-
-		return $id;
 	}
 
 	public function updateReport(Request $request) {
@@ -293,7 +259,7 @@ class AppointmentsController extends Controller
 
 		DB::table('report')
 		            ->where('id', $request->reportId)
-		            ->update(array('status' => 1, 'agreed_service' => serialize($request->agreed_service), 'agreed_total' => $request->agreed_total));
+		            ->update(array('status' => 1, 'agreed_service' => serialize($request->agreed_service), 'agreed_total' => $request->agreed_total, 'agreed_urgent' => $request->urgent, 'agreed_required' => $request->required, 'agreed_recommended' => $request->recommended));
 		
 		return response()->success(compact('id'));
 	}
@@ -422,11 +388,12 @@ class AppointmentsController extends Controller
 		
 		$appointment = DB::table('appointment')
 						->join('appointment_status', 'appointment.status', '=', 'appointment_status.id')
-						->leftjoin('users as users_a', 'appointment.advisor_id', '=', 'users_a.id')	
+						->leftjoin('users as users_a', 'appointment.advisor_id', '=', 'users_a.id')
+						->leftjoin('users as users_b', 'appointment.mechanic_id', '=', 'users_b.id')	
 						->join('customer', 'appointment.customer_id', '=', 'customer.id')
 						->join('car', 'appointment.car_id', '=', 'car.id')	
 						->where('appointment.id', $request->appointmentId)
-						->select('appointment.id', 'users_a.name as advisor', 'users_a.email as advisor_email', 'customer.name as customer', 'customer.email', 'customer.phone_number', 'appointment.book_time', 'appointment.accept_time', 'appointment_status.name as status', 'appointment.report_id', 'appointment.completion_time', 'appointment.completion_description', 'car.make as make', 'car.model as model', 'car.trim as trim', 'car.year as year')
+						->select('appointment.id', 'users_a.name as advisor', 'users_a.email as advisor_email', 'customer.name as customer', 'customer.email', 'customer.phone_number', 'appointment.book_time', 'appointment.accept_time', 'appointment_status.name as status', 'appointment.report_id', 'appointment.completion_time', 'appointment.completion_description', 'car.make as make', 'car.model as model', 'car.trim as trim', 'car.year as year', 'users_b.name as mechanic')
 						->first();
 		
 		return response()->success($appointment);
@@ -627,7 +594,12 @@ class AppointmentsController extends Controller
         });
 
 		if($request->phone!=''){
-			$message='Dear '.$request->name.', Thank you for booking an appointment with Gargash Autobody on '.date('d-m-y', strtotime($request->date)).' at '.date('H:i A', strtotime($request->times[0])).'. We look forward to welcoming you to a new automotive experience! Regards, Gargash Autobody';
+			$message='Dear '.$request->name.',';
+			$message.='Your appointment for '.$request->make.' '.$request->model.' '.$request->year.','.$request->trim.', is scheduled for tomorrow at '.date('H:i A', strtotime($request->times[0]));
+			$message.='You can view our location, https://goo.gl/maps/6Jo42YEQz1q, or alternatively we will get in touch to arrange a pick up.';
+			$message.=' Best Regards, Gargash Autobody';
+
+			/*$message='Dear '.$request->name.', Thank you for booking an appointment with Gargash Autobody on '.date('d-m-y', strtotime($request->date)).' at '.date('H:i A', strtotime($request->times[0])).'. We look forward to welcoming you to a new automotive experience! Regards, Gargash Autobody';*/
 
 	        Twilio::message($request->phone, $message);
 	    }

@@ -23,8 +23,12 @@ class FrontReportFormController {
 
       this.rotate = 272 * this.report.score / 100
 
-      if(this.report.agreed_service != '')
+      if(this.report.status == 1){
         this.report.service = this.report.agreed_service
+        this.report.urgent = this.report.agreed_urgent
+        this.report.required = this.report.agreed_required
+        this.report.recommended = this.report.agreed_recommended
+      }
 
       for( var i in this.report.service ){
         this.report.service[i].selected = 0
@@ -64,9 +68,20 @@ class FrontReportFormController {
     if(isValid){
       let $state = this.$state
 
+      let urgent = 0
+      let required = 0
+      let recommended = 0
+
       for( var i in this.report.service ){
-        if(this.report.service[i].selected==1)
+        if(this.report.service[i].selected==1){
           this.agreed_service.push(this.report.service[i])
+          if(this.report.service[i].status == 1)
+            urgent++
+          else if(this.report.service[i].status == 2)
+            required++
+          else
+            recommended++
+        }
       }
 
       if(this.agreed_service.length>0){
@@ -78,7 +93,10 @@ class FrontReportFormController {
           agreed_total: agreed_total,
           reportId: reportId,
           appointmentId: this.report.app_id,
-          agreed_service: agreed_service
+          agreed_service: agreed_service,
+          urgent: urgent,
+          required: required,
+          recommended: recommended
         }
 
         this.API.all('appointments/update_report').post(data).then((res) => {

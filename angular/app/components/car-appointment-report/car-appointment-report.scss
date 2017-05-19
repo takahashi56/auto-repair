@@ -31,7 +31,23 @@
 		}
 	}
 }
-.report-form{
+.modal-custom-service{
+	h1{
+		text-align: center;
+		font-size: 15px;
+		color: #1f507c;
+		margin: 0 0 10px 0;
+	}
+	input, textarea{
+		display: block;
+		width: 100%;
+		margin-top: 10px;
+		border: 1px solid #efefef;
+		resize: none;
+		padding: 10px;
+	}
+}
+.report-form-admin{
 	padding: 20px;
 	width: 90%;
 	background-color: #fff;
@@ -184,10 +200,16 @@
 			}
 		}
 		.services{
+			font-size: 0;
 			.one-service{
+				float: none !important;
+				display: inline-block;
+				vertical-align: top;
+				font-size: 1rem;
 				.col-md-10{
 					position: relative;
 					margin-top: 30px;
+					padding: 0;
 					img{
 						position: absolute;
 						top: 0;
@@ -197,9 +219,8 @@
 					h1{
 						font-size: 15px;
 						color: #1f507c;
-						padding: 0 0 0 20px;
+						padding: 0 20px 0 70px;
 						margin: 0;
-						width: 210px;
 					}
 					p{
 						color: #78909c;
@@ -212,6 +233,11 @@
 						font-size: 14px;
 						font-weight: bold;
 					}
+				}
+
+				@media screen and (max-width: 1123px){
+					display: block !important;
+					width: 100% !important;
 				}
 			}
 		}

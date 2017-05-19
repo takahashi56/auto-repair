@@ -9,14 +9,21 @@
         <span class="font-hnLT">AED {{service.price}}</span>
       </div>
     </div>
-  </div>
+    <hr/>
+    <div class="row modal-custom-service">
+      <h1 class="font-hn">Custom Recommendation</h1>
+      <input type="text" ng-model="mvm.customTitle" placeholder="Title"/>
+      <textarea ng-model="mvm.customDescription" placeholder="Description"></textarea>
+      <input type="text" ng-model="mvm.customPrice" placeholder="Price"/>
+    </div><!-- Modal Custom Service End !-->
+  </div><!-- Modal Body End !-->
   <div class="modal-footer">
     <button class="btn btn-primary" type="button" ng-click="mvm.ok()">Add</button>
     <button class="btn btn-warning" type="button" ng-click="mvm.cancel()">Cancel</button>
   </div>
 </script>
 <section class="content">	
-  <div class="report-form">
+  <div class="report-form-admin">
     <form ng-submit="vm.report(vm.reportForm.$valid)" method="post" name="vm.reportForm">
     <h1 class="title font-hnLTl letterSpacing">Inspection Report for {{vm.accept.model}}</h1>
     <div class="tab-nav" ng-init="show=false">
@@ -42,12 +49,12 @@
       </div><!-- Intro End !-->
       <hr/>
       <div class="row add-service">
-        <p ng-click="vm.showModal()">Add Service<img src="img/assets/add.png" alt=""/></p>
+        <p ng-click="vm.showModal()">Add Recommendation<img src="img/assets/add.png" alt=""/></p>
       </div> <!-- Add Service End !-->
       <div class="row services">
         <div class="col-md-4 one-service" ng-repeat="service in vm.selected_service" ng-show="{{service.selected==1?true:false}}">
           <div class="col-md-10 col-md-offset-1">
-            <div class="customLeft">
+            <div class="customLeft" style="position: absolute; top: 0; left: 0;">
               <div class="one-circle {{service.class1}}" ng-click="vm.onSelectStatus(service,1)"></div>
               <div class="one-circle {{service.class2}}" ng-click="vm.onSelectStatus(service,2)"></div>
               <div class="one-circle {{service.class3}}" ng-click="vm.onSelectStatus(service,3)"></div>
@@ -130,7 +137,7 @@
       </div><!-- One Aspect End !-->
     </div><!-- Report Tab End !-->
     <div class="row">
-      <button type="submit" class="btn btn-primary font-hnbd">Send Report</button>
+      <button type="submit" class="btn btn-primary font-hnbd">Send Report To Advisor</button>
     </div>
     </form> <!-- Form End !-->
   </div> <!-- Report Form End !-->

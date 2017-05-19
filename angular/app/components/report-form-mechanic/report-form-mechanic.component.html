@@ -9,6 +9,13 @@
         <span class="font-hnLT">AED {{service.price}}</span>
       </div>
     </div>
+    <hr/>
+    <div class="row modal-custom-service">
+      <h1 class="font-hn">Custom Recommendation</h1>
+      <input type="text" ng-model="mvm.customTitle" placeholder="Title"/>
+      <textarea ng-model="mvm.customDescription" placeholder="Description"></textarea>
+      <input type="text" ng-model="mvm.customPrice" placeholder="Price"/>
+    </div><!-- Modal Custom Service End !-->
   </div>
   <div class="modal-footer">
     <button class="btn btn-primary" type="button" ng-click="mvm.ok()">Add</button>
@@ -18,6 +25,7 @@
 
 <section class="content"> 
   <div class="report-form-mechanic" ng-init="show=false">
+    <form ng-submit="vm.reportFunc(vm.reportForm.$valid)" method="post" name="vm.reportForm">
     <div class="diff-back">
     <div class="row top-intro">
       <p class="font-hnl"><span>MILEAGE</span> {{vm.accept.km}}<span class="space"></span><span>CREATED</span> {{vm.report.time}}</p>
@@ -27,9 +35,10 @@
     <div class="row score" ng-hide="show">
       <div class="col-md-4 col-md-offset-4">
         <h1 class="font-hnLTl">Score</h1>
+        <input type="text" ng-show="vm.can('manage.users')" ng-model="vm.score" ng-required="true" class="form-control"/>
       </div>
       <div class="customClear"></div>
-      <div class="score-panel">
+      <div class="score-panel" ng-show="!vm.can('manage.users')">
         <img src="img/bigcircle.jpg" alt=""/>
         <div class="score-box font-hnl" style="transform: rotate(
         {{vm.rotate}}deg)">
@@ -78,8 +87,8 @@
         </div>
       </div><!-- Intro End !-->
       <hr/>
-      <div class="row add-service" ng-show="!vm.can('manage.mechanics')">
-        <p ng-click="vm.showModal()">Add Service<img src="img/assets/add.png" alt=""/></p>
+      <div class="row add-service" ng-show="vm.can('manage.users')">
+        <p ng-click="vm.showModal()">Add Recommendation<img src="img/assets/add.png" alt=""/></p>
       </div> <!-- Add Service End !-->
       <div class="row services clearfix">
         <div class="col-md-4 one-service" ng-repeat="service in vm.selected_service track by $index">
@@ -93,7 +102,10 @@
             <img src="img/assets/checked.png" alt="" ng-click="vm.onRemoveService(service)"/>
             <div class="customClear"></div>
             <p class="font-hn">{{service.description}}</p>
-            <span class="font-hnLT">AED {{service.price}}</span>
+            <span class="font-hnLT" ng-show="service.service_type!='custom' || !vm.can('manage.users')">AED {{service.price}}</span>
+            <span class="font-hnLT" ng-show="service.service_type=='custom' && vm.can('manage.users')">
+            AED <input type="text" ng-model="service.newPrice" ng-change="vm.onChangePrice(service)" ng-value="service.price"/>              
+            </span>
           </div>
         </div>
       </div><!-- Services End !-->
@@ -101,13 +113,6 @@
       <div class="row total">
         <p class="font-hnl">YOUR ESTIMATED TOTAL PRICE</p>
         <span class="font-hn">{{vm.total}} AED</span>
-      </div>
-      <div class="row" ng-show="!vm.can('manage.mechanics')">
-        <form ng-submit="vm.reportFunc(vm.reportForm.$valid)" method="post" name="vm.reportForm">
-          <div class="row">
-            <button type="submit" class="btn btn-primary font-hnbd">Send Report</button>
-          </div>
-        </form>
       </div>
     </div><!-- Recommendation Tab End !-->
     <div ng-hide="show" class="report-tab">
@@ -134,17 +139,17 @@
         </div>
       </div> <!-- Intro End !-->
       <hr/>
-      <div class="row one-aspect" ng-repeat="aspect in vm.report.aspect" ng-init="aspect_show=false">
+      <div class="row one-aspect" ng-repeat="aspect in vm.report_aspect" ng-init="aspect_show=false">
         <div class="col-md-10 col-md-offset-1 clearfix">
-          <div class="one-aspect-header clearfix" ng-click="aspect_show==true?aspect_show=false:aspect_show=true">
+          <div class="one-aspect-header clearfix">
             <h1 class="customLeft font-hnl">{{aspect.title}}</h1>
             <div class="customRight dropdown">
-              <img src="/img/assets/dropdown_{{aspect_show}}.png" alt=""/>  
+              <img src="/img/assets/dropdown_{{aspect_show}}.png" alt="" ng-click="aspect_show==true?aspect_show=false:aspect_show=true"/>  
             </div>
-            <div class="customRight circle-box" ng-init="count=aspect.status;">
-              <div class="one-circle" ng-class="{poor:count==1, fair:count==2, good:count==3}"></div>
-              <div class="one-circle" ng-class="{good:count==3,fair:count==2,'':count==1}" ></div>
-              <div class="one-circle" ng-class="count==3?'good':''"></div>
+            <div class="customRight circle-box" ng-init="count=aspect.status; click=aspect.status">
+              <div class="one-circle" ng-mouseleave="count=click" ng-mouseover="count=1" ng-class="{poor:count==1, fair:count==2, good:count==3}" ng-click="click=1; aspect.status=click"></div>
+              <div class="one-circle" ng-mouseleave="count=click" ng-mouseover="count=2" ng-class="{good:count==3,fair:count==2,'':count==1}" ng-click="click=2; aspect.status=click"></div>
+              <div class="one-circle" ng-mouseleave="count=click" ng-mouseover="count=3" ng-class="count==3?'good':''" ng-click="click=3; aspect.status=click"></div>
             </div>
           </div><!-- One Aspect Header End !-->
           <div class="one-aspect-table" ng-repeat="detail in aspect.detail" ng-show="aspect_show">
@@ -161,10 +166,11 @@
             <tbody>
               <tr ng-repeat="sub in detail.sub">
                 <td class="font-hnl" width="25%">{{sub.title}}</td>
-                <td class="font-hnl" width="10%" align="center"><div class="one-circle" ng-class="sub.status==1?'poor':''"></div></td>
-                <td class="font-hnl" width="10%" align="center"><div class="one-circle" ng-class="sub.status==2?'fair':''"></div></td>
-                <td class="font-hnl" width="10%" align="center"><div class="one-circle" ng-class="sub.status==3?'good':''"></div></td>
-                <td class="font-hnl">{{sub.note}}</td>
+                <td class="font-hnl" width="10%" align="center"><div class="one-circle" ng-class="sub.status==1?'poor':''" ng-click="sub.status=1"></div></td>
+                <td class="font-hnl" width="10%" align="center"><div class="one-circle" ng-class="sub.status==2?'fair':''" ng-click="sub.status=2"></div></td>
+                <td class="font-hnl" width="10%" align="center"><div class="one-circle" ng-class="sub.status==3?'good':''" ng-click="sub.status=3"></div></td>
+                <td class="font-hnl" ng-show="!vm.can('manage.users')">{{sub.note}}</td>
+                <td class="font-hnl" ng-show="vm.can('manage.users')"><textarea class="form-control" ng-model="sub.note"></textarea></td>
               </tr>
             </tbody>
           </table>
@@ -172,5 +178,9 @@
         </div>
       </div><!-- One Aspect End !-->
     </div><!-- Report Tab End !-->
+    <div class="row" ng-show="vm.can('manage.users')">
+      <button type="submit" class="btn btn-primary font-hnbd">Send Report</button>
+    </div>
+    </form>
   </div> <!-- Report Form End !-->
 </section>

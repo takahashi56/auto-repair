@@ -3,6 +3,10 @@ class AdminReportFormController {
     'ngInject'
     this.API = API
     this.$location = $location
+    this.$scope = $scope
+    this.$state = $state
+    this.$rootScope = $rootScope
+
     this.$uibModal = $uibModal
 
     this.can = AclService.can
@@ -11,11 +15,16 @@ class AdminReportFormController {
     let reportId = this.reportId
 
     this.selected_service = []
+    this.$rootScope.custom_service = [] // Just For Saving Custom Service
+
     this.total = 0
 
     this.API.all('appointments').get('get_report', {reportId}).then((response) => {
       this.report =  response.plain()[0];
       
+      this.score = this.report.score
+      this.report_aspect = this.report.aspect
+
       for (var i in this.report.aspect ){
         for ( var j in this.report.aspect[i].detail){
           for ( var k in this.report.aspect[i].detail[j].sub){
@@ -42,6 +51,9 @@ class AdminReportFormController {
           this.report.service[i].class2=''
           this.report.service[i].class3='good'
         }
+
+        if(this.report.service[i].service_type == 'custom')
+          this.$rootScope.custom_service.push(this.report.service[i])    
       }
 
       this.selected_service = this.report.service
@@ -76,11 +88,6 @@ class AdminReportFormController {
         this.services.push(this.sub_service[i])
       }
     })
-
-    this.$scope = $scope
-    this.$state = $state
-    this.$scope = $scope
-    this.$rootScope = $rootScope
   }
 	
   modalcontroller (API, $scope, $rootScope, $uibModalInstance) {
@@ -92,6 +99,10 @@ class AdminReportFormController {
       this.services = this.$rootScope.services
       this.selected_service = []
 
+      this.customTitle = ''
+      this.customDescription = ''
+      this.customPrice = ''
+
       this.onSelectService = (service) => {
         service.selected = service.selected == 1 ? 0 : 1;
       }
@@ -100,6 +111,29 @@ class AdminReportFormController {
           if(this.services[i].selected==1)
             this.selected_service.push(this.services[i])
         }
+
+        if(this.customTitle != '' && this.customDescription != '' && this.customPrice != ''){
+          var obj = new Object
+          obj.id = new Date().getUTCMilliseconds()
+          obj.title = this.customTitle
+          obj.description = this.customDescription
+          obj.price = parseFloat(this.customPrice)
+          
+          if(isNaN(this.customPrice))
+            obj.price = 0
+
+          obj.selected = 1
+          obj.class3= 'good'
+          obj.service_type = 'custom'
+
+          this.$rootScope.custom_service.push(obj)
+        }
+
+        if(this.selected_service.length == 0){
+          this.selected_service = this.$rootScope.custom_service
+        }
+        else
+          this.selected_service = this.selected_service.concat(this.$rootScope.custom_service)
 
         $uibModalInstance.close(this.selected_service)
       }
@@ -118,7 +152,8 @@ class AdminReportFormController {
       var flag=0;
       for(var j in this.selected_service){
         if(this.services[i].id==this.selected_service[j].id && this.services[i].service_type==this.selected_service[j].service_type){
-          flag=1;        
+          flag=1;
+          this.services[i].status = this.selected_service[j].status        
           this.services[i].class1 = this.selected_service[j].class1
           this.services[i].class2 = this.selected_service[j].class2
           this.services[i].class3 = this.selected_service[j].class3
@@ -146,7 +181,20 @@ class AdminReportFormController {
     })
   }
 
+  onChangePrice (service) {
+    if(isNaN(service.newPrice))
+      return
+
+    var diff = service.newPrice - service.price
+    service.price += diff
+
+    this.total += diff
+  }
+
   onRemoveService (service) {
+    if(!this.can('manage.users'))
+      return;
+
     service.selected = service.selected == 1 ? 0 : 1;
 
     var temp=[]
@@ -157,11 +205,29 @@ class AdminReportFormController {
         temp.push(this.selected_service[i])
       }
     }
+
+    if(service.service_type == 'custom'){
+      var temp1 = [];
+    
+      for(var i in this.$rootScope.custom_service){
+        if(this.$rootScope.custom_service[i].id==service.id && this.$rootScope.custom_service[i].service_type==service.service_type){
+          //Except
+        }else{
+          temp1.push(this.$rootScope.custom_service[i])
+        }
+      }
+    
+      this.$rootScope.custom_service = temp1
+    }
+
     this.selected_service = temp
     this.total -= service.price
   }
 
   onSelectStatus (service, status) {
+    if(!this.can('manage.users'))
+      return;
+
     if(status==1){
       service.class1 ='poor';
       service.class2 ='';
@@ -202,7 +268,9 @@ class AdminReportFormController {
         url: url,
         app_id: this.appointmentId,
         report_id: this.reportId,
+        score: this.score,
         service: this.selected_service,
+        aspect: this.report_aspect,
         urgent: urgent,
         required: required,
         recommended: recommended,

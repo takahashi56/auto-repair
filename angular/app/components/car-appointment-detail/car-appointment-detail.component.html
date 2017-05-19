@@ -98,24 +98,26 @@
           	  <td><b>Status:</b> {{vm.appointment.data.status}}</td>
           	</tr>
           	
+            <tr>
+              <td><b>Assigned Service Mechanic :</b> {{vm.appointment.data.mechanic}}</td>
+              <td><b>Accepted Date and Time :</b> {{vm.appointment.data.accept_time}}</td>
+            </tr>
+
           	<tr>
         		  <td><b>Booked Date and Time :</b> {{vm.appointment.data.book_time}}</td>
-        		  <td><b>Accepted Date and Time :</b> {{vm.appointment.data.accept_time}}</td>
+        		  <td><b>Customer Phone :</b> {{vm.appointment.data.phone_number}}</td>
         		</tr>
 
         		<tr>
       			  <td><b>Customer Name :</b> {{vm.appointment.data.customer}}</td>
-      			  <td><b>Customer Phone :</b> {{vm.appointment.data.phone_number}}</td>
+      			  <td><b>Car :</b> {{vm.appointment.data.make}}&nbsp;{{vm.appointment.data.year}}&nbsp;{{vm.appointment.data.model}}&nbsp;{{vm.appointment.data.trim}}</td>
       			</tr>
   			
       			<tr>
       			  <td><b>Customer Email Address :</b> {{vm.appointment.data.email}}</td>
-      			  <td><b>Car :</b> {{vm.appointment.data.make}}&nbsp;{{vm.appointment.data.year}}&nbsp;{{vm.appointment.data.model}}&nbsp;{{vm.appointment.data.trim}}</td>
+      			  <td><b>Appointment Time :</b> {{vm.appointmentTime}}</td>
       			</tr>
-
-            <tr>
-              <td colspan="2"><b>Appointment Times :</b> {{vm.appointmentTime}}</td>
-            </tr>
+            
     	  </table>
           	
           <table class="table table-hover">

@@ -13,6 +13,8 @@ class CarAppointmentReportController {
   	this.total = 0
     this.selected_service = []
     this.report_aspect = []
+    
+    this.$rootScope.custom_service = [] // Just For Saving Custom Service
 
   	let appointmentId = this.appointmentId
   	 
@@ -77,6 +79,10 @@ class CarAppointmentReportController {
       
       this.services = this.$rootScope.services
       this.selected_service = []
+      
+      this.customTitle = ''
+      this.customDescription = ''
+      this.customPrice = ''
 
       this.onSelectService = (service) => {
         service.selected = service.selected == 1 ? 0 : 1;
@@ -86,6 +92,31 @@ class CarAppointmentReportController {
           if(this.services[i].selected==1)
             this.selected_service.push(this.services[i])
         }
+
+        if(this.customTitle != '' && this.customDescription != '' && this.customPrice != ''){
+          var obj = new Object
+          obj.id = new Date().getUTCMilliseconds()
+          obj.title = this.customTitle
+          obj.description = this.customDescription
+          obj.price = parseFloat(this.customPrice)
+          
+          if(isNaN(this.customPrice))
+            obj.price = 0
+
+          obj.selected = 1
+          obj.status = 3
+          obj.class3= 'good'
+          obj.service_type = 'custom'
+
+          this.$rootScope.custom_service.push(obj)
+        }
+
+        if(this.selected_service.length == 0){
+          this.selected_service = this.$rootScope.custom_service
+        }
+        else
+          this.selected_service = this.selected_service.concat(this.$rootScope.custom_service)
+        
         $uibModalInstance.close(this.selected_service)
       }
       this.cancel = () => {
@@ -121,15 +152,18 @@ class CarAppointmentReportController {
     modalInstance.result.then((data) => {
       this.selected_service = data
 
-      for(var i in data)
-        this.total += data[i].price
+      if(data.length >0 ){
+        this.total = 0
+        for(var i in data)
+          this.total += data[i].price
+      }
     })
   }
 
   onRemoveService (service) {
     service.selected = service.selected == 1 ? 0 : 1;
 
-    var temp=[]
+    var temp = []
     for(var i in this.selected_service){
       if(this.selected_service[i].id==service.id && this.selected_service[i].service_type==service.service_type){
         //Except
@@ -137,6 +171,21 @@ class CarAppointmentReportController {
         temp.push(this.selected_service[i])
       }
     }
+    
+    if(service.service_type == 'custom'){
+      var temp1 = [];
+    
+      for(var i in this.$rootScope.custom_service){
+        if(this.$rootScope.custom_service[i].id==service.id && this.$rootScope.custom_service[i].service_type==service.service_type){
+          //Except
+        }else{
+          temp1.push(this.$rootScope.custom_service[i])
+        }
+      }
+    
+      this.$rootScope.custom_service = temp1
+    }
+
     this.selected_service = temp
     this.total-=service.price
   }
