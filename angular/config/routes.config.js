@@ -55,7 +55,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
       },
       views: {
         'main@app': {
-          template: '<car-appointment-lists></car-appointment-lists>'
+          template: '<admin-dashboard></admin-dashboard>'
         }
       }
     })
@@ -194,6 +194,17 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
         }
       }
     })
+    .state('app.carmechaniclists', {
+      url: '/admin/car-mechanic-lists',
+      data: {
+        auth: true
+      },
+      views: {
+        'main@app': {
+          template: '<car-mechanic-lists></car-mechanic-lists>'
+        }
+      }
+    })
     .state('app.caradvisorlists', {
       url: '/admin/car-advisor-lists',
       data: {
@@ -213,6 +224,17 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
       views: {
         'main@app': {
           template: '<car-advisor-appointments></car-advisor-appointments>'
+        }
+      }
+    })
+    .state('app.carmechanicappointments', {
+      url: '/admin/car-mechanic-appointments/:mechanicId',
+      data: {
+        auth: true
+      },
+      views: {
+        'main@app': {
+          template: '<car-mechanic-appointments></car-mechanic-appointments>'
         }
       }
     })

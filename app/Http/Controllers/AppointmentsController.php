@@ -136,6 +136,14 @@ class AppointmentsController extends Controller
 		
 		return response()->success($advisor);
 	}
+
+	public function getMechanicInfo(Request $request) {
+		$mechanic = DB::table('users')
+						->where('users.id', $request->mechanicId)
+						->first();
+		
+		return response()->success($mechanic);
+	}
 	
 	public function addImage(Request $request) {
 		$file = $request->file('file');
@@ -216,21 +224,20 @@ class AppointmentsController extends Controller
 
 		date_default_timezone_set('Asia/Dubai');
 
-        self::updateAppointmentInfo($request->app_id, array('status'=>4, 'completion_time'=>date('Y-m-d H:i:s')));
+        self::updateAppointmentInfo($request->app_id, array('status'=>6, 'completion_time'=>date('Y-m-d H:i:s')));
 
         DB::table('report')
 		            ->where('id', $request->report_id)
 		            ->update(array('service' => serialize($request->service), 'total' => $request->total, 'urgent' => $request->urgent, 'required' => $request->required, 'recommended' => $request->recommended, 'aspect'=>serialize($request->aspect), 'score' => $request->score));
 
         if($info->phone_number!=''){
-        	$message='Dear '.$info->customer.',';
-			$message.='Your car, '.$info->make.' '.$info->model.' '.$info->year.','.$info->trim.', is now ready.';
-			$message.='Don’t forget to book your next appointment on www.autobody.ae. We hope to see you soon!';
-			$message.=' Best Regards, Gargash Autobody';
+        	$message='Dear '.$info->customer.', ';
+			$message.='Your digital report is now ready for '.$info->make.' '.$info->model.' '.$info->year.', '.$info->trim.'. ';
+			$message.='You can view details on '.$url.'. ';
+			$message.='For approving recommended services, please select the services and confirm through start repair. Your service advisor will call you shortly to confirm the final costs and time required. ';
+			$message.=' Regards, Gargash Autobody';
 
-			/*$message='Dear '.$info->customer.', Your digital report is now ready for '.$info->make.' '.$info->model.' '.$info->year.','.$info->trim.'. You can view details on '.$url.'. For approving recommended services, please select the services and confirm through start repair. Your service advisor will call you shortly to confirm the final costs and time required. Regards, Gargash Autobody';*/
-
-	        Twilio::message($info->phone_number, $message);
+			Twilio::message($info->phone_number, $message);
 	    }
 
 		return $request->report_id;
@@ -238,6 +245,10 @@ class AppointmentsController extends Controller
 
 	public function updateReport(Request $request) {
 		$appointment = self::getAppointmentInfoPublic($request->appointmentId);
+
+		date_default_timezone_set('Asia/Dubai');
+
+        self::updateAppointmentInfo($request->appointmentId, array('status'=>4, 'completion_time'=>date('Y-m-d H:i:s')));
 
 		$advisor_email = $appointment->advisor_email;
 
@@ -315,6 +326,20 @@ class AppointmentsController extends Controller
 		            
 		return response()->success(compact('id'));
 	}
+
+	public function addMechanic(Request $request) {
+		$role = DB::table('roles')
+						->where('slug', 'admin.mechanic')
+						->first();
+						
+		$id = DB::table('users')
+		    ->insertGetId(array('name' => $request->fullname, 'email' => $request->email, 'phone_number' => $request->phonenumber, 'password' => Hash::make($request->password), 'email_verified' => '1'));
+		    
+		DB::table('role_user')
+		    ->insert(array('role_id' => $role->id, 'user_id' => $id));    
+		            
+		return response()->success(compact('id'));
+	}
 	
 	public function getAppointments() {
 		$user = Auth::user();
@@ -368,6 +393,19 @@ class AppointmentsController extends Controller
 		
 		return $appointments;
 	}
+
+	public function getAppointmentsByMechanic(Request $request) {
+		$appointments = DB::table('appointment')
+							->join('appointment_status', 'appointment.status', '=', 'appointment_status.id')
+							->join('customer', 'appointment.customer_id', '=', 'customer.id')	
+							->where('mechanic_id', $request->mechanicId)
+							->select('appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id')
+							->orderBy('appointment.id', 'desc')
+							->get();
+		
+		
+		return $appointments;
+	}
 	
 	public function getAppointmentsByCustomer(Request $request) {
 		$appointments = DB::table('appointment')
@@ -382,7 +420,51 @@ class AppointmentsController extends Controller
 		return $appointments;
 	}
 	
+	public function getAppointmentDashboard(Request $request){
+		$info = DB::select("select count(id) as closed, 0 as total from appointment where status > 3 union select 0 as closed, count(id) as total from appointment");
+
+		return $info;
+	}
+
+	public function getTotalcostDashboard(Request $request){
+		$sub_service = DB::select('select sum(a.price) as total from sub_service as a left join appointment_service as b on a.id = b.sub_service_id where b.is_selected = 1');
+
+		$booking1 = $sub_service[0]->total;
 	
+		$option_service = DB::select('select sum(a.price) as total from option_service as a left join appointment_option_service as b on a.id = b.option_service_id where b.is_selected = 1');
+
+		$booking2 = $option_service[0]->total;
+	
+		$booking = $booking1 + $booking2;
+
+		$report = DB::select('select sum(agreed_total) as total from report where status = 1');
+
+		$recommendation = $report[0]->total;
+
+		$return['booking'] = $booking;
+		$return['recommendation'] = $recommendation;
+
+		return $return;
+	}
+
+	public function getReportDashboard(Request $request){
+		$report = DB::select("select count(id) as total from report where status = 1");
+
+		return $report[0]->total;
+	}
+
+	public function getSubServiceDashboard(Request $request){
+		$sub_service = DB::select('select sum(a.price) as total from sub_service as a left join appointment_service as b on a.id = b.sub_service_id where b.is_selected = 1');
+
+		return $sub_service[0]->total;
+	}
+
+	public function getInvoiceDashboard(Request $request){
+		$invoice = DB::select('select sum(invoice) as total from appointment');
+
+		return $invoice[0]->total;
+	}
+
 	public function getAppointmentInfo(Request $request) {
 		$user = Auth::user();
 		
@@ -393,7 +475,7 @@ class AppointmentsController extends Controller
 						->join('customer', 'appointment.customer_id', '=', 'customer.id')
 						->join('car', 'appointment.car_id', '=', 'car.id')	
 						->where('appointment.id', $request->appointmentId)
-						->select('appointment.id', 'users_a.name as advisor', 'users_a.email as advisor_email', 'customer.name as customer', 'customer.email', 'customer.phone_number', 'appointment.book_time', 'appointment.accept_time', 'appointment_status.name as status', 'appointment.report_id', 'appointment.completion_time', 'appointment.completion_description', 'car.make as make', 'car.model as model', 'car.trim as trim', 'car.year as year', 'users_b.name as mechanic')
+						->select('appointment.id', 'appointment.invoice', 'users_a.name as advisor', 'users_a.email as advisor_email', 'customer.name as customer', 'customer.email', 'customer.phone_number', 'appointment.book_time', 'appointment.accept_time', 'appointment_status.name as status', 'appointment.report_id', 'appointment.completion_time', 'appointment.completion_description', 'car.make as make', 'car.model as model', 'car.trim as trim', 'car.year as year', 'users_b.name as mechanic', 'appointment.advisor_id as advisor_id', 'appointment.mechanic_id', 'appointment.form_id')
 						->first();
 		
 		return response()->success($appointment);
@@ -500,8 +582,27 @@ class AppointmentsController extends Controller
 	public function updateAppointmentMechanic(Request $request) {
 		DB::table('appointment')
 		            ->where('id', $request->appointmentId)
-		            ->update(array('mechanic_id' => $request->mechanicId));
+		            ->update(array('mechanic_id' => $request->mechanicId, 'status'=>2));
 		            
+		return response()->success(compact('id'));
+	}
+
+	public function sendInvoice(Request $request) {
+		DB::table('appointment')
+		            ->where('id', $request->appointmentId)
+		            ->update(array('invoice' => $request->price));
+
+		$info = self::getAppointmentInfoPublic($request->appointmentId);
+
+		if($info->phone_number!=''){
+        	$message='Dear '.$info->customer.', ';
+			$message.='Your car, '.$info->make.' '.$info->model.' '.$info->year.', '.$info->trim.', is now ready. ';
+			$message.='Don’t forget to book your next appointment on www.autobody.ae. We hope to see you soon! ';
+			$message.=' Regards, Gargash Autobody';
+
+			Twilio::message($info->phone_number, $message);
+	    }
+
 		return response()->success(compact('id'));
 	}
 	
@@ -594,12 +695,7 @@ class AppointmentsController extends Controller
         });
 
 		if($request->phone!=''){
-			$message='Dear '.$request->name.',';
-			$message.='Your appointment for '.$request->make.' '.$request->model.' '.$request->year.','.$request->trim.', is scheduled for tomorrow at '.date('H:i A', strtotime($request->times[0]));
-			$message.='You can view our location, https://goo.gl/maps/6Jo42YEQz1q, or alternatively we will get in touch to arrange a pick up.';
-			$message.=' Best Regards, Gargash Autobody';
-
-			/*$message='Dear '.$request->name.', Thank you for booking an appointment with Gargash Autobody on '.date('d-m-y', strtotime($request->date)).' at '.date('H:i A', strtotime($request->times[0])).'. We look forward to welcoming you to a new automotive experience! Regards, Gargash Autobody';*/
+			$message='Dear '.$request->name.', Thank you for booking an appointment with Gargash Autobody on '.date('d-m-y', strtotime($request->date)).' at '.date('H:i A', strtotime($request->times[0])).'. We look forward to welcoming you to a new automotive experience! Regards, Gargash Autobody';
 
 	        Twilio::message($request->phone, $message);
 	    }
@@ -620,5 +716,32 @@ class AppointmentsController extends Controller
             $m->from($sender, 'Gargash Autobody');
 			$m->to($emailTo, 'Administrator')->subject($subject);
         });
+	}
+
+	public function cron(Request $request){
+		date_default_timezone_set('Asia/Dubai');
+		$time = strtotime(date("Y-m-d H:i:s"));
+
+		$appointments = DB::select("select id, book_time from appointment where is_notified = 0");
+		
+		foreach($appointments as $app){
+			$temp = strtotime($app->book_time) - 24*60*60;
+
+			if($time >= $temp){
+				$info = self::getAppointmentInfoPublic($app->id);
+
+				self::updateAppointmentInfo($app->id, array('is_notified'=>1));
+
+				if($info->phone_number!=''){
+		        	$message='Dear '.$info->customer.', ';
+					$message.='Your appointment for '.$info->make.' '.$info->model.' '.$info->year.', '.$info->trim.', is scheduled for tomorrow at '.date('H:i A', strtotime($app->book_time)).'. ';
+					$message.='You can view our location, https://goo.gl/maps/6Jo42YEQz1q, or alternatively we will get in touch to arrange a pick up. ';
+					$message.=' Regards, Gargash Autobody';
+
+					Twilio::message($info->phone_number, $message);
+			    }
+			}
+		}
+		exit();
 	}
 }

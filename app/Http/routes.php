@@ -38,6 +38,14 @@ $api->group(['middleware' => ['api']], function ($api) {
     $api->get('services/allfreeservices', 'ServicesController@getFreeOptionService');
 
     $api->post('appointment/new', 'AppointmentsController@newAppointment');
+
+    $api->get('appointments/appointment_dashboard', 'AppointmentsController@getAppointmentDashboard');
+    $api->get('appointments/totalcost_dashboard', 'AppointmentsController@getTotalcostDashboard');
+    $api->get('appointments/report_dashboard', 'AppointmentsController@getReportDashboard');
+    $api->get('appointments/sub_service_dashboard', 'AppointmentsController@getSubServiceDashboard');
+    $api->get('appointments/invoice_dashboard', 'AppointmentsController@getInvoiceDashboard');
+
+    $api->get('cron', 'AppointmentsController@cron');
 });
 
 $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
@@ -66,20 +74,24 @@ $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
     $api->get('appointments/all_advisors', 'AppointmentsController@getAdvisors');
     $api->get('appointments/all_mechanics', 'AppointmentsController@getMechanics');
     $api->get('appointments/advisor_info', 'AppointmentsController@getAdvisorInfo');
+    $api->get('appointments/mechanic_info', 'AppointmentsController@getMechanicInfo');
     $api->get('appointments/role_info', 'AppointmentsController@getUserRole');
     $api->get('appointments/all_appointments', 'AppointmentsController@getAppointments');
     $api->get('appointments/all_appointments_by_advisor', 'AppointmentsController@getAppointmentsByAdvisor');
+    $api->get('appointments/all_appointments_by_mechanic', 'AppointmentsController@getAppointmentsByMechanic');
     $api->get('appointments/appointment_info', 'AppointmentsController@getAppointmentInfo');
     $api->get('appointments/appointment_services', 'AppointmentsController@getAppointmentServices');
     $api->get('appointments/appointment_times', 'AppointmentsController@getAppointmentTimes');
     
     $api->post('appointments/add_advisor', 'AppointmentsController@addAdvisor');
+    $api->post('appointments/add_mechanic', 'AppointmentsController@addMechanic');
     $api->post('appointments/add_accept', 'AppointmentsController@addAccept');
     $api->post('appointments/add_report', 'AppointmentsController@addReport');
     $api->post('appointments/update_report_mechanic', 'AppointmentsController@updateReportMechanic');
     $api->post('appointments/appointment_report', 'AppointmentsController@reportAppointmentInfo');
     $api->post('appointments/update_appointment_advisor', 'AppointmentsController@updateAppointmentAdvisor');
     $api->post('appointments/update_appointment_mechanic', 'AppointmentsController@updateAppointmentMechanic');
+    $api->post('appointments/send_invoice', 'AppointmentsController@sendInvoice');
 });
 
 $api->group(['middleware' => ['api']], function ($api) {
@@ -102,7 +114,6 @@ $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
     $api->get('users/me', 'UserController@getMe');
     $api->put('users/me', 'UserController@putMe');
 });
-
 
 $api->group(['middleware' => ['api', 'api.auth', 'role:admin.super|admin.user']], function ($api) {
     $api->controller('users', 'UserController');

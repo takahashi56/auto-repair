@@ -7,6 +7,6 @@
 </head>
 <body bgcolor="#f7f7f7">
 <p>Dear {{$data->advisor}}</p>
-<p>Customer report is now ready for {{$data->make}} {{$data->model}} {{$data->year}}, {{$data->trim}}. You can view details by <a href="{{$url}}" target="_blank">clicking here</a>.</p>
+<p>New report from mechanic is arrived! You can view details on <a href="{{$url}}" target="_blank">{{$url}}</a>.</p>
 </body>
 </html>

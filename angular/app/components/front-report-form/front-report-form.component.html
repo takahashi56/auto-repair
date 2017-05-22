@@ -67,7 +67,7 @@
             <img ng-show="{{vm.report.status==1?false:true}}" ng-click="vm.onSelectService(service)" src="img/assets/{{service.selected == 1 ? 'checked' : 'add'}}.png" alt=""/>
             <h1 class="font-hn">{{service.title}}</h1>
             <p class="font-hn">{{service.description}}</p>
-            <span class="font-hnLT">AED {{service.price}}</span>
+            <span class="font-hnLT" ng-show="service.service_type!='custom' || (service.service_type=='custom' && service.hasPrice)">AED {{service.price}}</span>
           </div>
         </div>
       </div><!-- Services End !-->

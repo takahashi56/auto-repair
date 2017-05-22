@@ -100,13 +100,14 @@ class CarAppointmentReportController {
           obj.description = this.customDescription
           obj.price = parseFloat(this.customPrice)
           
-          if(isNaN(this.customPrice))
-            obj.price = 0
-
+          obj.hasPrice = this.hasPrice
           obj.selected = 1
           obj.status = 3
           obj.class3= 'good'
           obj.service_type = 'custom'
+
+          if(isNaN(this.customPrice) || !obj.hasPrice)
+            obj.price = 0
 
           this.$rootScope.custom_service.push(obj)
         }
@@ -187,6 +188,7 @@ class CarAppointmentReportController {
     }
 
     this.selected_service = temp
+
     this.total-=service.price
   }
 

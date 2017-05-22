@@ -14,8 +14,8 @@ class CarAppointmentDetailController {
 	this.API.all('appointments').get('role_info').then((response) => {
 		this.role = API.copy(response)
   })
-	 
-	this.API.all('appointments').get('appointment_info', {appointmentId}).then((response) => {
+	
+  this.API.all('appointments').get('appointment_info', {appointmentId}).then((response) => {
 		this.appointment = API.copy(response)
 	})
 
@@ -42,6 +42,21 @@ class CarAppointmentDetailController {
   	  this.cancel = () => {
   	    $uibModalInstance.dismiss('cancel')
   	  }
+  }
+
+  invoicecontroller ($scope, $uibModalInstance, API) {
+      'ngInject'
+      
+      this.ok = (price) => {
+        if(price == undefined || price == 0)
+          return;
+
+        $uibModalInstance.close(price)
+      }
+    
+      this.cancel = () => {
+        $uibModalInstance.dismiss('cancel')
+      }
   }
 
   mechaniccontroller ($scope, $uibModalInstance, API) {
@@ -120,6 +135,35 @@ class CarAppointmentDetailController {
     })
   }
   
+  onSendInvoice() {
+    let $uibModal = this.$uibModal
+    let $scope = this.$scope
+
+    var modalInstance = $uibModal.open({
+      animation: this.animationsEnabled,
+      templateUrl: 'invoiceContent.html',
+      controller: this.invoicecontroller,
+      controllerAs: 'mvm'
+    })
+
+    modalInstance.result.then((price) => {
+      let data = {
+        price: price,
+        appointmentId: this.appointmentId
+      }
+      
+      let $state = this.$state
+      
+      this.API.all('appointments/send_invoice').post(data).then(() => {
+        $state.reload()
+      }, (res) => {
+        $state.reload()
+      })
+    }, () => {
+      console.log('Modal dismissed at: ' + new Date())
+    })
+  }
+
   onAssignAdvisor () {
 	  let $uibModal = this.$uibModal
 	  let $scope = this.$scope

@@ -10,11 +10,13 @@
       </div>
     </div>
     <hr/>
-    <div class="row modal-custom-service">
+    <div class="row modal-custom-service" ng-init="mvm.hasPrice=true">
       <h1 class="font-hn">Custom Recommendation</h1>
       <input type="text" ng-model="mvm.customTitle" placeholder="Title"/>
       <textarea ng-model="mvm.customDescription" placeholder="Description"></textarea>
-      <input type="text" ng-model="mvm.customPrice" placeholder="Price"/>
+      <input type="checkbox" ng-model="mvm.hasPrice"/>
+      <label class="font-hnLT">Set Price</label>
+      <input type="text" ng-model="mvm.customPrice" placeholder="Price" ng-show="mvm.hasPrice"/>
     </div><!-- Modal Custom Service End !-->
   </div><!-- Modal Body End !-->
   <div class="modal-footer">
@@ -60,10 +62,10 @@
               <div class="one-circle {{service.class3}}" ng-click="vm.onSelectStatus(service,3)"></div>
             </div>
             <h1 class="customLeft font-hn">{{service.title}}</h1>
-            <img src="img/assets/checked.png" alt="" ng-click="vm.onRemoveService(service)"/>
+            <img src="img/assets/add.png" alt="" ng-click="vm.onRemoveService(service)"/>
             <div class="customClear"></div>
             <p class="font-hn">{{service.description}}</p>
-            <span class="font-hnLT">AED {{service.price}}</span>
+            <span class="font-hnLT" ng-show="service.service_type != 'custom' || (service.hasPrice && service.service_type=='custom')">AED {{service.price}}</span>
           </div>
         </div>
       </div><!-- Services End !-->

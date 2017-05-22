@@ -26,6 +26,7 @@ import { ResetPasswordComponent } from './app/components/reset-password/reset-pa
 import { ForgotPasswordComponent } from './app/components/forgot-password/forgot-password.component'
 import { LoginFormComponent } from './app/components/login-form/login-form.component'
 import { RegisterFormComponent } from './app/components/register-form/register-form.component'
+import { AdminDashboardComponent } from './app/components/admin-dashboard/admin-dashboard.component'
 import { CarAppointmentListsComponent } from './app/components/car-appointment-lists/car-appointment-lists.component'
 import { CarAppointmentDetailComponent } from './app/components/car-appointment-detail/car-appointment-detail.component'
 import { CarAppointmentReportComponent } from './app/components/car-appointment-report/car-appointment-report.component'
@@ -35,8 +36,10 @@ import { CarServiceMainAddComponent } from './app/components/car-service-main-ad
 import { CarServiceMainEditComponent } from './app/components/car-service-main-edit/car-service-main-edit.component'
 import { CarServiceSubAddComponent } from './app/components/car-service-sub-add/car-service-sub-add.component'
 import { CarServiceSubEditComponent } from './app/components/car-service-sub-edit/car-service-sub-edit.component'
+import { CarMechanicListsComponent } from './app/components/car-mechanic-lists/car-mechanic-lists.component'
 import { CarAdvisorListsComponent } from './app/components/car-advisor-lists/car-advisor-lists.component'
 import { CarAdvisorAppointmentsComponent } from './app/components/car-advisor-appointments/car-advisor-appointments.component'
+import { CarMechanicAppointmentsComponent } from './app/components/car-mechanic-appointments/car-mechanic-appointments.component'
 import { CarCustomerListsComponent } from './app/components/car-customer-lists/car-customer-lists.component'
 import { CarCustomerAppointmentsComponent } from './app/components/car-customer-appointments/car-customer-appointments.component'
 import { FrontAcceptFormComponent } from './app/components/front-accept-form/front-accept-form.component'
@@ -56,6 +59,7 @@ import { AdminReportFormComponent } from './app/components/report-form-mechanic/
 
 angular.module('app.components')
   .component('tablesSimple', TablesSimpleComponent)
+  .component('adminDashboard', AdminDashboardComponent)
   .component('carAppointmentLists', CarAppointmentListsComponent)
   .component('carAppointmentDetail', CarAppointmentDetailComponent)
   .component('carAppointmentReport', CarAppointmentReportComponent)
@@ -69,8 +73,10 @@ angular.module('app.components')
   .component('adminReportForm', AdminReportFormComponent)
   .component('frontHome', FrontHomeComponent)
   .component('carServiceSubEdit', CarServiceSubEditComponent)
+  .component('carMechanicLists', CarMechanicListsComponent)
   .component('carAdvisorLists', CarAdvisorListsComponent)
   .component('carAdvisorAppointments', CarAdvisorAppointmentsComponent)
+  .component('carMechanicAppointments', CarMechanicAppointmentsComponent)
   .component('carCustomerLists', CarCustomerListsComponent)
   .component('carCustomerAppointments', CarCustomerAppointmentsComponent)
   .component('uiModal', UiModalComponent)

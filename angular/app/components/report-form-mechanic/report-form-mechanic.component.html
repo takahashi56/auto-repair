@@ -10,11 +10,13 @@
       </div>
     </div>
     <hr/>
-    <div class="row modal-custom-service">
+    <div class="row modal-custom-service" ng-init="mvm.hasPrice=true">
       <h1 class="font-hn">Custom Recommendation</h1>
       <input type="text" ng-model="mvm.customTitle" placeholder="Title"/>
       <textarea ng-model="mvm.customDescription" placeholder="Description"></textarea>
-      <input type="text" ng-model="mvm.customPrice" placeholder="Price"/>
+      <input type="checkbox" ng-model="mvm.hasPrice"/>
+      <label class="font-hnLT">Set Price</label>
+      <input type="text" ng-model="mvm.customPrice" placeholder="Price" ng-show="mvm.hasPrice"/>
     </div><!-- Modal Custom Service End !-->
   </div>
   <div class="modal-footer">
@@ -99,11 +101,11 @@
               <div class="one-circle {{service.class3}}" ng-click="vm.onSelectStatus(service,3)"></div>
             </div>
             <h1 class="customLeft font-hn">{{service.title}}</h1>
-            <img src="img/assets/checked.png" alt="" ng-click="vm.onRemoveService(service)"/>
+            <img src="img/assets/add.png" alt="" ng-click="vm.onRemoveService(service)"/>
             <div class="customClear"></div>
             <p class="font-hn">{{service.description}}</p>
-            <span class="font-hnLT" ng-show="service.service_type!='custom' || !vm.can('manage.users')">AED {{service.price}}</span>
-            <span class="font-hnLT" ng-show="service.service_type=='custom' && vm.can('manage.users')">
+            <span class="font-hnLT" ng-show="service.service_type!='custom' || (!vm.can('manage.users') && service.service_type=='custom' && service.hasPrice)">AED {{service.price}}</span>
+            <span class="font-hnLT" ng-show="service.service_type=='custom' && vm.can('manage.users') && service.hasPrice">
             AED <input type="text" ng-model="service.newPrice" ng-change="vm.onChangePrice(service)" ng-value="service.price"/>              
             </span>
           </div>
@@ -140,11 +142,11 @@
       </div> <!-- Intro End !-->
       <hr/>
       <div class="row one-aspect" ng-repeat="aspect in vm.report_aspect" ng-init="aspect_show=false">
-        <div class="col-md-10 col-md-offset-1 clearfix">
+        <div class="col-md-10 col-md-offset-1 clearfix" ng-click="aspect_show==true?aspect_show=false:aspect_show=true">
           <div class="one-aspect-header clearfix">
             <h1 class="customLeft font-hnl">{{aspect.title}}</h1>
             <div class="customRight dropdown">
-              <img src="/img/assets/dropdown_{{aspect_show}}.png" alt="" ng-click="aspect_show==true?aspect_show=false:aspect_show=true"/>  
+              <img src="/img/assets/dropdown_{{aspect_show}}.png" alt=""/>  
             </div>
             <div class="customRight circle-box" ng-init="count=aspect.status; click=aspect.status">
               <div class="one-circle" ng-mouseleave="count=click" ng-mouseover="count=1" ng-class="{poor:count==1, fair:count==2, good:count==3}" ng-click="click=1; aspect.status=click"></div>

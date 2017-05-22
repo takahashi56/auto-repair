@@ -338,12 +338,15 @@
 						top: 0;
 						right: 0;
 						cursor: pointer;
-						margin-top: 5px;
+						display: block;
+						transform: rotate(-45deg);
+						-webkit-transform: rotate(-45deg);
+						-ms-transform: rotate(-45deg);
 					}
 					h1{
 						font-size: 15.74px;
 						color: #1f507c;
-						padding: 0 20px 0 65px;
+						padding: 0 22px 0 65px;
 						margin: 0;
 					}
 					p{

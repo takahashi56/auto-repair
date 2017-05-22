@@ -36,7 +36,7 @@
               </td>
               <td>
                 <a ng-if="appointment.report_id != 0 && appointment.status == 'Closed'" ui-sref="special.reportform({reportId: {{appointment.report_id}}})">View Report</a>
-                <a ng-if="appointment.report_id != 0 && appointment.status != 'Closed'" ui-sref="app.reportform({reportId: {{appointment.report_id}}})">View Report From Mechanic</a>
+                <a ng-if="appointment.report_id != 0 && appointment.status != 'Closed'" ui-sref="app.reportform({reportId: {{appointment.report_id}}})">View Mechanic Report</a>
               </td>
               <td>
                 <a ng-if="appointment.form_id != 0" ui-sref="special.acceptform({formId: {{appointment.form_id}}})">View Form</a></td>

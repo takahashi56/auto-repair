@@ -1,8 +1,14 @@
 <aside class="main-sidebar">
   <section class="sidebar">
-    <ul class="sidebar-menu">
-      <li class="{{vm.selectedNav == 0 ? 'active' : ''}}">
-        <a ng-click="vm.changeNav('app.carappointmentlists', 0)" ng-show="vm.can('manage.users') || vm.can('manage.mechanics')">
+    <ul class="sidebar-menu" ng-init="default=vm.can('manage.permissions')?7:0">
+      <li class="{{vm.selectedNav == 0 ? 'active' : ''}}" ng-show="vm.can('manage.permissions')">
+        <a ng-click="vm.changeNav('app.landing', 0)">
+          <i class="fa fa-shopping-cart"></i> <span>Dashboard</span>
+        </a>
+      </li>
+
+      <li class="{{vm.selectedNav == default ? 'active' : ''}}">
+        <a ng-click="vm.changeNav('app.carappointmentlists', default)" ng-show="vm.can('manage.users') || vm.can('manage.mechanics')">
           <i class="fa fa-dashboard"></i> <span>Appointments</span>
         </a>
       </li>
@@ -22,6 +28,12 @@
       <li class="{{vm.selectedNav == 3 ? 'active' : ''}}">
         <a ng-click="vm.changeNav('app.caradvisorlists', 3)" ng-show="vm.can('manage.permissions')">
           <i class="fa fa-user"></i> <span>Service Advisors</span>
+        </a>
+      </li>
+
+      <li class="{{vm.selectedNav == 6 ? 'active' : ''}}">
+        <a ng-click="vm.changeNav('app.carmechaniclists', 6)" ng-show="vm.can('manage.permissions')">
+          <i class="fa fa-user"></i> <span>Service Mechanics</span>
         </a>
       </li>
 

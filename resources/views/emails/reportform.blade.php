@@ -6,10 +6,9 @@
   <title>Your 100 Point Digital Car Report is Ready!</title>
 </head>
 <body bgcolor="#f7f7f7">
-<p>Dear {{$data->customer}}</p>
-<p>Your car, {{$data->make}} {{$data->model}} {{$data->year}}, {{$data->trim}} is now ready. You can view details by <a href="{{$url}}" target="_blank">clicking here</a>.</p>
-<p>Don’t forget to book your next appointment on <a href="http://autobody.ae/">www.autobody.ae</a>. We hope to see you soon!</p>
-<p>Best Regards,</p>
+<p>Dear {{$data->customer}}, Your digital report is now ready for {{$data->make}} {{$data->model}} {{$data->year}}, {{$data->trim}}. You can view details on <a href="{{$url}}" target="_blank">{{$url}}</a>. </p>
+<p>For approving recommended services, please select the services and confirm through start repair. Your service advisor will call you shortly to confirm the final costs and time required. </p>
+<p>Regards, </p>
 <p>Gargash Autobody</p>
 </body>
 </html>

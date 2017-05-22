@@ -1,0 +1,65 @@
+<section class="content-header">
+  <h1>Analytics</h1>
+  <ol class="breadcrumb">
+    <li class="active">Dashboard</li>
+  </ol>
+</section>
+<section class="content" id="adminDashboard">
+  <div class="box box-info">
+    <div class="box-header with-border">
+      <h3 class="box-title">Appointments</h3>
+    </div>
+    <div class="box-body">
+      <div class="row clearfix">
+        <div class="col-md-4">
+          <b>Total: {{vm.appointment_total}}</b>
+        </div>
+        <div class="col-md-4">
+          <b>Open: {{vm.appointment_total - vm.appointment_closed}}</b>
+        </div>
+        <div class="col-md-4">
+          <b>Closed: {{vm.appointment_closed}}</b>
+        </div>
+      </div>
+    </div>
+    
+    <div class="box-header with-border">
+      <h3 class="box-title">Total Estimated Cost</h3>
+    </div>
+    <div class="box-body">
+      <div class="col-md-4">
+        <b>Booking: AED {{vm.totalcost_dashboard.booking}}</b>
+      </div>
+      <div class="col-md-4">
+        <b>Recommendations: AED {{vm.totalcost_dashboard.recommendation}}</b>
+      </div>
+    </div>
+
+    <div class="box-header with-border">
+      <h3 class="box-title">Invoice</h3>
+    </div>
+    <div class="box-body">
+      <div class="col-md-4">
+        <b>Total Cost: AED {{vm.invoice_dashboard}}</b>
+      </div>
+    </div>
+
+    <div class="box-header with-border">
+      <h3 class="box-title">Reports</h3>
+    </div>
+    <div class="box-body">
+      <div class="col-md-4">
+        <b>Total Count: {{vm.report_dashboard}}</b>
+      </div>
+    </div>
+
+    <div class="box-header with-border">
+      <h3 class="box-title">Sub Services Booked Total</h3>
+    </div>
+    <div class="box-body">
+      <div class="col-md-4">
+        <b>Total Cost: AED {{vm.sub_service_dashboard}}</b>
+      </div>
+    </div>
+  </div> <!-- Box End !-->
+</section>
