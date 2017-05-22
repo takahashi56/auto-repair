@@ -6,8 +6,10 @@ class AdminDashboardController {
   	  	
     this.can = AclService.can
 
-    if(!this.can('manage.permissions'))
+    if(!this.can('manage.permissions')){
       $state.go('app.carappointmentlists')
+      return
+    }
 
     this.API.all('appointments').get('appointment_dashboard').then((response) => {
   		this.appointment_dashboard =  response.plain()
