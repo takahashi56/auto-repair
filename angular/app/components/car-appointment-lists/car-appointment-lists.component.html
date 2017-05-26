@@ -23,6 +23,7 @@
               <th>Service Advisor</th>
               <th>Service Report</th>
               <th>Receiving Form</th>
+              <th>Booking Type</th>
             </tr>
             
             <tr ng-repeat="appointment in vm.appointments" style="cursor: pointer">
@@ -35,12 +36,13 @@
               	<div ng-if="appointment.advisor != 0">{{appointment.advisor}}</div>
               </td>
               <td>
-                <a ng-if="appointment.report_id != 0 && appointment.status == 'Closed'" ui-sref="special.reportform({reportId: {{appointment.report_id}}})">View Report</a>
+                <a ng-if="appointment.report_id != 0 && appointment.status == 'Closed'" ui-sref="special.reportform({reportSlug: 'digitalreport'+{{appointment.report_id}}})">View Report</a>
                 <a ng-if="appointment.report_id != 0 && appointment.status != 'Closed'" ui-sref="app.reportform({reportId: {{appointment.report_id}}})">View Mechanic Report</a>
               </td>
               <td>
                 <a ng-if="appointment.form_id != 0" ui-sref="special.acceptform({formId: {{appointment.form_id}}})">View Form</a></td>
               </td>
+              <td>{{appointment.booking_type}}</td>
             </tr>
           </table>
         </div>

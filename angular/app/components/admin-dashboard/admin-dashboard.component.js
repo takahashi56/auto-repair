@@ -11,12 +11,50 @@ class AdminDashboardController {
       return
     }
 
-    this.API.all('appointments').get('appointment_dashboard').then((response) => {
-  		this.appointment_dashboard =  response.plain()
+    this.date = new Date()
+    this.selectedYear = this.date.getYear() + 1900
 
-      this.appointment_closed = this.appointment_dashboard[0].closed
-      this.appointment_total = this.appointment_dashboard[1].total
-  	})
+    this.yearList = []
+    for( var i = this.selectedYear - 20; i<=this.selectedYear; i++)
+      this.yearList.push(i)
+
+    this.monthList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+    this.weekList = [1, 2, 3, 4, 5]
+
+    this.year = 0
+    this.month = 0
+    this.week = 0
+
+    this.filter()
+  }
+	
+  $onInit () {}
+
+  filter (priority) {
+    if(priority == 2){
+      if(this.year == 0)
+        return
+
+      if(this.month == 0)
+        this.week = 0
+    }else if(priority == 3){
+      if(this.year == 0 || this.month == 0)
+        return
+    }else{
+      if(this.year == 0)
+        this.month = this.week = 0
+    }
+
+    let year = this.year
+    let month = this.month
+    let week = this.week
+
+    this.API.all('appointments').get('appointment_dashboard', {year, month, week}).then((response) => {
+      this.appointment_dashboard =  response.plain()
+
+      this.appointment_closed = this.appointment_dashboard.closed
+      this.appointment_total = this.appointment_dashboard.total
+    })
 
     this.API.all('appointments').get('totalcost_dashboard').then((response) => {
       this.totalcost_dashboard = response.plain()
@@ -34,8 +72,6 @@ class AdminDashboardController {
       this.invoice_dashboard = response
     })
   }
-	
-  $onInit () {}
 }
 
 export const AdminDashboardComponent = {

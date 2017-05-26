@@ -7,7 +7,7 @@ class FrontStep1Controller {
     this.$location = $location
     this.main_services = this.$rootScope.main_services
 
-    this.$location.hash('step1-top');
+    //this.$location.hash('step1-top');
   }
 	
   $onInit () {

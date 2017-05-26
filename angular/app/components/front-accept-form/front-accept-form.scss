@@ -50,15 +50,15 @@
 			width: 55% !important;
 		}
 
-		@media screen and (max-width: 959px){
+		@media screen and (max-width: 1129px){
 			width: 100% !important;
 			span{
 				width: 100% !important;
-				text-align: center !important;
+				text-align: left !important;
 			}
 			label{
 				width: 100% !important;
-				text-align: center !important;
+				text-align: left !important;
 			}
 			input{
 				width: 100% !important;
@@ -69,17 +69,6 @@
 		span{
 			color: #78909c;
 			font-size: 12px;
-		}
-		@media screen and (max-width: 959px){
-			width: 100% !important;
-			span{
-				width: 100% !important;
-				text-align: center !important;
-			}
-			label{
-				width: 100% !important;
-				text-align: center !important;
-			}
 		}
 	}
 	.request-row{

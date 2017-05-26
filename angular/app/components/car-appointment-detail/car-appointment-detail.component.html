@@ -135,6 +135,10 @@
       			  <td><b>Appointment Time :</b> {{vm.appointmentTime}}</td>
       			</tr>
             
+            <tr>
+              <td><b>Comment :</b> {{vm.appointment.data.comment}}</td>
+              <td><b>Booking Type : {{vm.appointment.data.method=='instant'?'Instant':'Advanced'}}</b></td>
+            </tr>
     	  </table>
           	
           <table class="table table-hover">

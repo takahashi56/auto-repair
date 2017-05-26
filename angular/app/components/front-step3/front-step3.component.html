@@ -70,12 +70,16 @@
     </tr>
     <tr class="front-step3-tr">
       <td style="display: block;">
-        <div class="col-lg-12 clearfix front-step3-div3">
+        <div class="col-lg-12 clearfix front-step3-div3" ng-show="vm.method=='advanced'?true:false">
           <a ui-sref="front.step1"><span class="front-span-passed">&nbsp;</span></a>
           <a ui-sref="front.step2"><span class="front-span-passed">&nbsp;</span></a>
           <span class="front-span-active"><span class="triangle"></span>3</span>
           <span class="front-span-deactive">4</span>
           <span class="front-span-deactive">5</span>
+        </div>
+        <div class="col-lg-12 clearfix front-step3-div3" ng-show="vm.method=='instant'?true:false">
+          <span class="front-span-active"><span class="triangle"></span>1</span>
+          <span class="front-span-deactive">2</span>
         </div>
         <div class="customClear"></div>
       </td>

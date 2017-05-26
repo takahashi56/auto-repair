@@ -93,7 +93,7 @@ class CarAppointmentReportController {
             this.selected_service.push(this.services[i])
         }
 
-        if(this.customTitle != '' && this.customDescription != '' && this.customPrice != ''){
+        if(this.customTitle != '' && this.customDescription != ''){
           var obj = new Object
           obj.id = new Date().getUTCMilliseconds()
           obj.title = this.customTitle
@@ -106,7 +106,7 @@ class CarAppointmentReportController {
           obj.class3= 'good'
           obj.service_type = 'custom'
 
-          if(isNaN(this.customPrice) || !obj.hasPrice)
+          if(isNaN(this.customPrice) || !obj.hasPrice || this.customPrice == '')
             obj.price = 0
 
           this.$rootScope.custom_service.push(obj)

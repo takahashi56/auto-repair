@@ -53,7 +53,7 @@
         </div>
         <div class="col-md-4">
           <div class="col-md-10 col-md-offset-1">
-            <span class="font-hnLT font-bold">Model/Year</span>
+            <span class="font-hnLT font-bold">{{vm.method=='advanced'?'Model/Year':'Make Model Year'}}</span>
             <input type="text" class="form-control" name="model" ng-model="vm.model" ng-required="true">
           </div>
         </div>
@@ -85,6 +85,43 @@
         </div>
       </div> <!-- Row End !-->
       <hr/>
+      <div ng-show="vm.method=='advanced'?false:true">
+      <div class="row service-row">
+        <h3 class="font-hnLT font-bold">Select Main Service</h3>
+        
+        <div class="main-service-part clearfix">
+          <div class="one-main-service col-md-3 col-sm-3 col-xs-6" ng-repeat="service in vm.main_services" ng-click="vm.onSelectMainService(service.id)">
+            <img src="/img/assets/{{service.image_url}}"/>
+            <span class="font-hnLT font-bold">{{service.title}}</span>
+          </div> <!-- One Main Service End !-->
+        </div> <!-- Main Service PartEnd !-->
+
+        <div class="sub-service-part clearfix" ng-show="vm.sub_services.length > 0 ? true:false">
+          <hr/>
+          <div class="one-sub-service col-md-3 col-sm-3 col-xs-6" ng-repeat="service in vm.sub_services">
+            <div class="col-md-10 col-md-offset-1">
+              <img ng-click="vm.onSelectSubService(service)" src="img/assets/{{service.selected == 1 ? 'checked' : 'add'}}.png" alt=""/>
+              <h1 class="font-hn">{{service.title}}</h1>
+              <p class="font-hn">{{service.description}}</p>
+              <span class="font-hnLT">AED {{service.price}}</span>
+            </div>
+          </div>
+        </div> <!-- Sub Service Part End !-->
+        <hr/>
+        <h3 class="font-hnLT font-bold">Select Optional Service</h3>
+        <div class="optional-service-part clearfix">
+          <div class="one-optional-service col-md-3 col-sm-3 col-xs-6" ng-repeat="service in vm.optional_services">
+            <div class="col-md-10 col-md-offset-1">
+              <img ng-click="vm.onSelectOptionalService(service)" src="img/assets/{{service.selected == 1 ? 'checked' : 'add'}}.png" alt=""/>
+              <h1 class="font-hn">{{service.title}}</h1>
+              <p class="font-hn">{{service.description}}</p>
+              <span class="font-hnLT">AED {{service.price}}</span>
+            </div>
+          </div>
+        </div> <!-- Optional Service End !-->
+      </div> <!-- Service Row End !-->
+      <hr/>
+      </div> <!-- Wheter To Show Or Not End !-->
       <div class="row request-row">
         <div class="col-md-6">
           <img src="img/assets/shape1.png" alt=""/>

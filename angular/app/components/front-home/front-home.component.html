@@ -3,7 +3,7 @@
   <section class="content">
     <div class="home-try-div-con">
       <h2 class="font-hnl">A new approach to repairing cars.</h2>
-      <a ui-sref="front.whatcar" class="font-hnLTbd">BOOK NOW</a>
+      <a ui-sref="front.booking" class="font-hnLTbd">BOOK NOW</a>
       <div class="customClear"></div>
     </div>
   </section>
@@ -47,7 +47,7 @@
           <div class="number font-hnl">3</div>
           <h2 class="font-hn">DIGITAL REPORTS</h2>
           <p class="font-hn">We send a digital report information you about the car, 100% transparency and advice on what’s best.</p>
-          <a class="try-button font-hn" ng-href="/#/whatcar#top">EXPERIENCE NOW</a>
+          <a class="try-button font-hn" ui-sref="front.booking">EXPERIENCE NOW</a>
         </li>
       </ul>
       </div>
@@ -57,7 +57,7 @@
     <h1 class="font-hnl">Pick A Service</h1>
     <div class="front-step1-div5">
       <span class="front-step1-span-service" ng-repeat="service in vm.main_services track by $index" ng-if="$index < 4">
-        <a ng-href="/#/whatcar#top">
+        <a ui-sref="front.booking">
           <table style="width: 100%; height: 100%;">
             <tr width="100%" height="50%" style="vertical-align: bottom;">
               <td>
@@ -75,7 +75,7 @@
     </div> <!-- Front Step1 Div 5 !-->
     <div class="front-step1-div5" ng-if="vm.main_services.length > 4">
       <span class="front-step1-span-service" ng-repeat="service in vm.main_services track by $index" ng-if="$index >= 4">
-        <a ng-href="/#/whatcar#top">
+        <a ui-sref="front.booking">
           <table style="width: 100%; height: 100%;">
             <tr width="100%" height="50%" style="vertical-align: bottom;">
               <td>

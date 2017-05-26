@@ -1,4 +1,4 @@
-export function RoutesConfig ($stateProvider, $urlRouterProvider) {
+export function RoutesConfig ($stateProvider, $urlRouterProvider, $locationProvider) {
   'ngInject'
 
   var getView = (viewName) => {
@@ -14,6 +14,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
   }
 
   $urlRouterProvider.otherwise('/')
+  //$locationProvider.html5Mode(true);
 
   $stateProvider
     .state('special', {
@@ -617,7 +618,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('special.reportform', {
-      url: '/report-form/:reportId',
+      url: '/report-form/:reportSlug',
       data: {
         bodyClass: 'hold-transition login-page sidebar-collapse'
       },
@@ -650,8 +651,19 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
         }
       }
     })
+    .state('front.booking', {
+      url: '/booking',
+      data: {
+        bodyClass: 'hold-transition login-page sidebar-collapse'
+      },
+      views: {
+        'main@front': {
+          template: '<front-booking></front-booking>'
+        }
+      }
+    })
     .state('front.whatcar', {
-      url: '/whatcar',
+      url: '/car',
       data: {
         bodyClass: 'hold-transition login-page sidebar-collapse'
       },
@@ -662,7 +674,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
       }
     })
     .state('front.step1', {
-      url: '/step1',
+      url: '/service',
       data: {
         bodyClass: 'hold-transition login-page sidebar-collapse'
       },
@@ -674,7 +686,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
     })
 
     .state('front.step2', {
-      url: '/step2',
+      url: '/subservice',
       data: {
         bodyClass: 'hold-transition login-page sidebar-collapse'
       },
@@ -686,7 +698,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
     })
 
     .state('front.step3', {
-      url: '/step3',
+      url: '/time',
       data: {
         bodyClass: 'hold-transition login-page sidebar-collapse'
       },
@@ -698,7 +710,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
     })
 
     .state('front.step4', {
-      url: '/step4',
+      url: '/optionalservice',
       data: {
         bodyClass: 'hold-transition login-page sidebar-collapse'
       },
@@ -710,7 +722,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider) {
     })
 
     .state('front.step5', {
-      url: '/step5',
+      url: '/customer',
       data: {
         bodyClass: 'hold-transition login-page sidebar-collapse'
       },

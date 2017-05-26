@@ -20,25 +20,58 @@ class CarAppointmentAcceptController {
       }
     })
 
+    this.API.all('appointments').get('appointment_times_raw', {appointmentId}).then((response) => {
+      this.appointment_times =  response.plain();
+
+      var temp = this.appointment_times.data[0].appointment_time.split(' ');
+      
+      this.date = temp[0]
+      this.time = temp[1]
+        
+    })
+
     this.API.all('appointments').get('appointment_info', {appointmentId}).then((response) => {
       this.appointment =  response.plain().data;
-
+      
       if(this.appointment){
         var temp = this.appointment.book_time.split(' ');
         this.appointment.book_time1 = temp[0]
         this.appointment.book_time2 = temp[1]
         
         this.jobno = this.appointmentId
-        this.date = this.appointment.book_time1
-        this.time = this.appointment.book_time2
         this.customer = this.appointment.customer
         this.advisor = this.appointment.advisor
         this.telephone = this.appointment.phone_number
-        this.model = this.appointment.make+' '+this.appointment.model+' '+this.appointment.year
         this.email = this.appointment.email
+        this.method = this.appointment.method
         this.secondaryreq = ''
-        this.plate = this.appointment.trim
+        
+        if(this.method == 'advanced'){
+          this.model = this.appointment.make+' '+this.appointment.model+' '+this.appointment.year
+          this.plate = this.appointment.trim
+        }else{
+          this.model = ''
+          this.plate = ''
+        }
       }
+    })
+
+    this.API.all('services').get('availablemainservices').then((response) => {
+      this.main_services =  response.plain().main_services
+    })
+
+    this.API.all('services').get('allsubservices').then((response) => {
+      this.all_sub_services =  response.plain().sub_services
+
+      for(var i in this.all_sub_services)
+        this.all_sub_services[i].selected = 0
+    })
+
+    this.API.all('services').get('alloptionservices').then((response) => {
+      this.optional_services =  response.plain().option_services;
+      
+      for(var i in this.optional_services)
+        this.optional_services[i].selected = 0
     })
 
     $scope.files = []
@@ -79,6 +112,33 @@ class CarAppointmentAcceptController {
     }else{
       this.selected_inspection.push(id)
     }
+  }
+
+  onSelectMainService(serviceId) {
+    this.sub_services = []
+
+    for(var i in this.all_sub_services){
+      if(this.all_sub_services[i].parent_id == serviceId){
+        this.sub_services.push(this.all_sub_services[i])  
+      }
+    }
+  }
+
+  onSelectSubService(service) {
+    var serviceId = service.id
+    
+    service.selected = 1 - service.selected
+
+    for(var i in this.all_sub_services){
+      if(this.all_sub_services[i].id == serviceId)
+        this.all_sub_services[i].selected = service.selected
+    }
+  }
+
+  onSelectOptionalService(service) {
+    var serviceId = service.id
+    
+    service.selected = 1 - service.selected
   }
 
   accept(isValid) {
@@ -124,9 +184,31 @@ class CarAppointmentAcceptController {
         inspection: ins,
         file: file,
         sign1: sign1,
-        sign2: sign2
+        sign2: sign2,
+        method: this.method
       }
       
+      if(this.method == 'instant'){
+        var sub_services = []
+        var optional_services = []
+
+        for(var i in this.all_sub_services){
+          if(this.all_sub_services[i].selected == 1)
+            sub_services.push(this.all_sub_services[i].id)
+        } 
+
+        for(var i in this.optional_services){
+          if(this.optional_services[i].selected == 1)
+            optional_services.push(this.optional_services[i].id)  
+        }
+
+        data.sub_services = sub_services
+        data.optional_services = optional_services 
+
+        if(sub_services.length == 0 || optional_services.length == 0)
+          return    
+      }
+
       this.API.all('appointments/add_accept').post(data).then((res) => {
         $state.go('special.acceptform', {formId:res})
       }, (res) => {

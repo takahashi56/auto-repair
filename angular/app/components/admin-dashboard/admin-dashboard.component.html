@@ -8,6 +8,20 @@
   <div class="box box-info">
     <div class="box-header with-border">
       <h3 class="box-title">Appointments</h3>
+      <div class="box-tools pull-right">
+        <select ng-model="vm.year" ng-change="vm.filter(1)">
+          <option ng-value=0>Year</option>
+          <option ng-value="year" ng-repeat="year in vm.yearList">{{year}}</option>
+        </select>
+        <select ng-model="vm.month" ng-change="vm.filter(2)">
+          <option ng-value=0>Month</option>
+          <option ng-value="month" ng-repeat="month in vm.monthList">{{month}}</option>
+        </select>
+        <select ng-model="vm.week" ng-change="vm.filter(3)">
+          <option ng-value=0>Week</option>
+          <option ng-value="week" ng-repeat="week in vm.weekList">{{week}}</option>
+        </select>
+      </div>
     </div>
     <div class="box-body">
       <div class="row clearfix">

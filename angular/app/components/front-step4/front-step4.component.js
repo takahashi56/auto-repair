@@ -9,7 +9,7 @@ class FrontStep4Controller {
     this.optionalServices = this.$rootScope.optionAllServices;
     this.services = this.$rootScope.optionServices;
 
-    this.$location.hash('step4-top');
+    //this.$location.hash('step4-top');
   }
 	
   $onInit () {

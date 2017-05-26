@@ -285,6 +285,40 @@ class AppointmentsController extends Controller
 		
 		self::updateAppointmentInfo($request->app_id, array('status'=>3, 'accept_time'=>date('Y-m-d H:i:s'), 'form_id'=>$id));
 
+		/* Do some actions if method is instant */
+		if($request->method == 'instant'){
+			$temp = explode(' ', $request->model);
+
+			// adding car info
+			$car = new Car;
+			$car->make = $temp[0];
+			$car->model = $temp[1];
+			$car->year = $temp[2];
+			$car->trim = $request->plate;
+			$car->save();
+			
+			self::updateAppointmentInfo($request->app_id, array('car_id'=>$car->id));
+
+			// adding appointmentservice
+			for ($i = 0; $i < sizeof($request->sub_services); $i++) {
+				$as = new AppointmentService;
+				$as->appointment_id = $request->app_id;
+				$as->sub_service_id = $request->sub_services[$i];
+				$as->is_selected = 1;
+				$as->save();
+			}
+
+			// adding appointmentoptionservice
+			for ($i = 0; $i < sizeof($request->optional_services); $i++) {
+				$aos = new AppointmentOptionService;
+				$aos->appointment_id = $request->app_id;
+				$aos->option_service_id = $request->optional_services[$i];
+				$aos->is_selected = 1;
+				$aos->save();
+			}
+		}
+		/* Do some actions if method is instant end */
+
 		$sender = Config::get("mail.from");
 		$url .= $id;
 
@@ -354,7 +388,7 @@ class AppointmentsController extends Controller
 							->join('appointment_status', 'appointment.status', '=', 'appointment_status.id')
 							->join('customer', 'appointment.customer_id', '=', 'customer.id')
 							->leftjoin('users as users_b', 'appointment.advisor_id', '=', 'users_b.id')
-							->select('appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id', 'users_b.name as advisor', 'appointment.form_id')
+							->select('appointment.method', 'appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id', 'users_b.name as advisor', 'appointment.form_id')
 							->orderBy('appointment.id', 'desc')
 							->get();
 		}
@@ -364,8 +398,9 @@ class AppointmentsController extends Controller
 							->join('customer', 'appointment.customer_id', '=', 'customer.id')
 							->leftjoin('users as users_b', 'appointment.advisor_id', '=', 'users_b.id')	
 							->where('appointment.advisor_id', $user->id)
-							->select('appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id', 'users_b.name as advisor', 'appointment.form_id')
-							->orderBy('appointment.id', 'asc')
+							->select('appointment.method', 'appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id', 'users_b.name as advisor', 'appointment.form_id')
+							->orderBy('appointment.status', 'asc')
+							->orderBy('appointment.id', 'desc')
 							->get();
 		}else {
 			$appointments = DB::table('appointment')
@@ -373,8 +408,9 @@ class AppointmentsController extends Controller
 							->join('customer', 'appointment.customer_id', '=', 'customer.id')
 							->leftjoin('users as users_b', 'appointment.advisor_id', '=', 'users_b.id')	
 							->where('appointment.mechanic_id', $user->id)
-							->select('appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id', 'users_b.name as advisor', 'appointment.form_id')
-							->orderBy('appointment.id', 'asc')
+							->select('appointment.method', 'appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id', 'users_b.name as advisor', 'appointment.form_id')
+							->orderBy('appointment.status', 'asc')
+							->orderBy('appointment.id', 'desc')
 							->get();
 		}
 		
@@ -420,8 +456,47 @@ class AppointmentsController extends Controller
 		return $appointments;
 	}
 	
+	public function makeTerm($value){
+		return $value<10?'0'.$value:$value;
+	}
+
 	public function getAppointmentDashboard(Request $request){
-		$info = DB::select("select count(id) as closed, 0 as total from appointment where status > 3 union select 0 as closed, count(id) as total from appointment");
+		
+		$where='';
+		
+		if($request->year!=0){
+			if($request->month!=0){
+				$term = $request->year.'-'.self::makeTerm($request->month);
+
+				if($request->week!=0){
+					$start = 7 * ($request->week - 1) + 1;
+					$end = 7 * $request->week;
+
+					$startTerm = $term.'-'.self::makeTerm($start).' 00:00:00';
+					$endTerm = $term.'-'.self::makeTerm($end).' 23:59:59';
+
+					$where="created_at >= '$startTerm' and created_at <= '$endTerm'";
+				}else{
+					$where="created_at like '%".$term."%'";
+				}	
+			}else{
+				$where="created_at like '%".$request->year."%'";
+			}
+		}
+
+		$query1="select count(id) as closed from appointment where status > 3";
+		$query2="select count(id) as total from appointment";
+
+		if($where!=''){
+			$query1.=' and '.$where;
+			$query2.=' where '.$where;
+		}
+
+		$info1 = DB::select($query1);
+		$info2 = DB::select($query2);
+
+		$info['total'] = $info2[0]->total;
+		$info['closed'] = $info1[0]->closed;
 
 		return $info;
 	}
@@ -472,13 +547,19 @@ class AppointmentsController extends Controller
 						->join('appointment_status', 'appointment.status', '=', 'appointment_status.id')
 						->leftjoin('users as users_a', 'appointment.advisor_id', '=', 'users_a.id')
 						->leftjoin('users as users_b', 'appointment.mechanic_id', '=', 'users_b.id')	
+						->leftjoin('car', 'appointment.car_id', '=', 'car.id')	
 						->join('customer', 'appointment.customer_id', '=', 'customer.id')
-						->join('car', 'appointment.car_id', '=', 'car.id')	
 						->where('appointment.id', $request->appointmentId)
-						->select('appointment.id', 'appointment.invoice', 'users_a.name as advisor', 'users_a.email as advisor_email', 'customer.name as customer', 'customer.email', 'customer.phone_number', 'appointment.book_time', 'appointment.accept_time', 'appointment_status.name as status', 'appointment.report_id', 'appointment.completion_time', 'appointment.completion_description', 'car.make as make', 'car.model as model', 'car.trim as trim', 'car.year as year', 'users_b.name as mechanic', 'appointment.advisor_id as advisor_id', 'appointment.mechanic_id', 'appointment.form_id')
+						->select('appointment.method', 'appointment.comment', 'appointment.id', 'appointment.invoice', 'users_a.name as advisor', 'users_a.email as advisor_email', 'customer.name as customer', 'customer.email', 'customer.phone_number', 'appointment.book_time', 'appointment.accept_time', 'appointment_status.name as status', 'appointment.report_id', 'appointment.completion_time', 'appointment.completion_description', 'car.make as make', 'car.model as model', 'car.trim as trim', 'car.year as year', 'users_b.name as mechanic', 'appointment.advisor_id as advisor_id', 'appointment.mechanic_id', 'appointment.form_id')
 						->first();
 		
 		return response()->success($appointment);
+	}
+
+	public function getAppointmentTimesRaw(Request $request) {
+		$at = AppointmentTime::where(['appointment_id' => $request->appointmentId])->get();
+		
+		return response()->success($at);
 	}
 
 	public function getAppointmentTimes(Request $request) {
@@ -513,6 +594,14 @@ class AppointmentsController extends Controller
 		return $appointment;
 	}
 
+	public function getAdvisorInfoPublic($advisorId) {
+		$advisor = DB::table('users')
+						->where('users.id', $advisorId)
+						->first();
+		
+		return $advisor;
+	}
+
 	public function getReportAspect(Request $request){
 		$aspect = DB::select("select * from report_aspect order by id asc");
 		
@@ -533,11 +622,17 @@ class AppointmentsController extends Controller
 		$data[0]->agreed_service = unserialize($data[0]->agreed_service);
 		$data[0]->aspect = unserialize($data[0]->aspect);
 
+		$temp = explode(' ', $data[0]->time);
+		$temp[1] = date('h:i A', strtotime($temp[1]));
+		$data[0]->time = $temp[0].' '.$temp[1];
+
 		return $data;
 	}
 
 	public function getAccept(Request $request){
 		$data = DB::select("select * from accept where id=".$request->formId);
+		$data[0]->time = date('h:i A', strtotime($data[0]->time));
+
 		return $data;
 	}
 
@@ -575,7 +670,27 @@ class AppointmentsController extends Controller
 		DB::table('appointment')
 		            ->where('id', $request->appointmentId)
 		            ->update(array('advisor_id' => $request->advisorId));
-		            
+		
+		/* Sending email to advisor */
+		$info = self::getAdvisorInfoPublic($request->advisorId);
+
+		$sender = Config::get("mail.from");
+
+	    $message = 'New appointment has been assigned to you.';
+
+	    $data = array(
+			'subject'=>'Appointment Assigned',
+			'sender'=>$sender,
+			'emailTo'=>$info->email
+		);
+
+	    Mail::raw($message, function ($m) use ($data){
+			extract($data);
+			$m->from($sender, 'Gargash Autobody');
+			$m->to($emailTo, 'Advisor')->subject($subject);
+		});
+		/* Sending email to advisor end */
+
 		return response()->success(compact('id'));
 	}
 
@@ -619,28 +734,35 @@ class AppointmentsController extends Controller
 	}
 
 	public function newAppointment(Request $request) {
-		// adding car info
 		$car = new Car;
-		$car->make = $request->make;
-		$car->year = $request->year;
-		$car->model = $request->model;
-		$car->trim = $request->trim;
-		$car->save();
+		if($request->method == 'advanced'){
+			// adding car info
+			$car->make = $request->make;
+			$car->year = $request->year;
+			$car->model = $request->model;
+			$car->trim = $request->trim;
+			$car->save();
+		}
 
 		// adding customer
 		$customer = Customer::where(['phone_number' => $request->phone])->first();
-		if ($customer == null) {
+		if ($customer == null)
 			$customer = new Customer;
-			$customer->name = $request->name;
-			$customer->email = $request->email;
-			$customer->phone_number = $request->phone;
-			$customer->save();
-		}
+		
+		$customer->name = $request->name;
+		$customer->email = $request->email;
+		$customer->phone_number = $request->phone;
+		$customer->save();
+
 
 		// adding Appointment
 		$appointment = new Appointment;
 		$appointment->customer_id = $customer->id;
-		$appointment->car_id = $car->id;
+
+		if($request->method == 'advanced')
+			$appointment->car_id = $car->id;
+		else
+			$appointment->car_id = 0;
 
 		date_default_timezone_set('Asia/Dubai');
 		$appointment->book_time = date("Y-m-d H:i:s");
@@ -648,24 +770,30 @@ class AppointmentsController extends Controller
 		$appointment->status = 1;
 		$appointment->contact_method = $request->contact_method;
 		$appointment->report_id = 0;
+		$appointment->form_id = 0;
+		$appointment->advisor_id = 0;
+		$appointment->mechanic_id = 0;
+		$appointment->method = $request->method;
 		$appointment->save();
 
-		// adding appointmentservice
-		for ($i = 0; $i < sizeof($request->service); $i++) {
-			$as = new AppointmentService;
-			$as->appointment_id = $appointment->id;
-			$as->sub_service_id = $request->service[$i];
-			$as->is_selected = $request->service_selected[$i];
-			$as->save();
-		}
+		if($request->method == 'advanced'){
+			// adding appointmentservice
+			for ($i = 0; $i < sizeof($request->service); $i++) {
+				$as = new AppointmentService;
+				$as->appointment_id = $appointment->id;
+				$as->sub_service_id = $request->service[$i];
+				$as->is_selected = $request->service_selected[$i];
+				$as->save();
+			}
 
-		// adding appointmentoptionservice
-		for ($i = 0; $i < sizeof($request->option_services); $i++) {
-			$aos = new AppointmentOptionService;
-			$aos->appointment_id = $appointment->id;
-			$aos->option_service_id = $request->option_services[$i];
-			$aos->is_selected = $request->option_service_selected[$i];
-			$aos->save();
+			// adding appointmentoptionservice
+			for ($i = 0; $i < sizeof($request->option_services); $i++) {
+				$aos = new AppointmentOptionService;
+				$aos->appointment_id = $appointment->id;
+				$aos->option_service_id = $request->option_services[$i];
+				$aos->is_selected = $request->option_service_selected[$i];
+				$aos->save();
+			}
 		}
 
 		// adding appointmenttime
@@ -693,6 +821,22 @@ class AppointmentsController extends Controller
             $m->from($sender, 'Gargash Autobody');
 			$m->to($emailTo, 'Customer')->subject($subject);
         });
+
+		/* Sending email to admin */
+	    $message = 'New appointment for has booked.';
+
+	    $data = array(
+			'subject'=>'Appointment Booked',
+			'sender'=>$sender,
+			'emailTo'=>'amir@autobody.ae'
+		);
+
+	    Mail::raw($message, function ($m) use ($data){
+			extract($data);
+			$m->from($sender, 'Gargash Autobody');
+			$m->to($emailTo, 'Admin')->subject($subject);
+		});
+		/* Sending email to admin end */
 
 		if($request->phone!=''){
 			$message='Dear '.$request->name.', Thank you for booking an appointment with Gargash Autobody on '.date('d-m-y', strtotime($request->date)).' at '.date('H:i A', strtotime($request->times[0])).'. We look forward to welcoming you to a new automotive experience! Regards, Gargash Autobody';
@@ -727,7 +871,7 @@ class AppointmentsController extends Controller
 		foreach($appointments as $app){
 			$temp = strtotime($app->book_time) - 24*60*60;
 
-			if($time >= $temp){
+			if($time >= $temp && $time <= strtotime($app->book_time)){
 				$info = self::getAppointmentInfoPublic($app->id);
 
 				self::updateAppointmentInfo($app->id, array('is_notified'=>1));
@@ -742,6 +886,22 @@ class AppointmentsController extends Controller
 			    }
 			}
 		}
+
+		$sender = Config::get("mail.from");
+
+	    $message = 'Cron is running.';
+
+	    $data = array(
+			'subject'=>'Autobody Cron',
+			'sender'=>$sender,
+			'emailTo'=>'mickeylee.lee5@gmail.com'
+		);
+
+	    Mail::raw($message, function ($m) use ($data){
+			extract($data);
+			$m->from($sender, 'Gargash Autobody');
+			$m->to($emailTo, 'Tester')->subject($subject);
+		});
 		exit();
 	}
 }

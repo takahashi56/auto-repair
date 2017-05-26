@@ -82,7 +82,8 @@ $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
     $api->get('appointments/appointment_info', 'AppointmentsController@getAppointmentInfo');
     $api->get('appointments/appointment_services', 'AppointmentsController@getAppointmentServices');
     $api->get('appointments/appointment_times', 'AppointmentsController@getAppointmentTimes');
-    
+    $api->get('appointments/appointment_times_raw', 'AppointmentsController@getAppointmentTimesRaw');
+
     $api->post('appointments/add_advisor', 'AppointmentsController@addAdvisor');
     $api->post('appointments/add_mechanic', 'AppointmentsController@addMechanic');
     $api->post('appointments/add_accept', 'AppointmentsController@addAccept');

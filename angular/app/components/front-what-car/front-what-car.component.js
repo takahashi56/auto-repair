@@ -6,7 +6,10 @@ class FrontWhatCarController {
     this.$rootScope = $rootScope
     this.$location = $location
 	  this.yearList = []
-    this.selectedYear = 2017
+
+    this.date = new Date()
+    this.selectedYear = this.date.getYear() + 1900
+    
     this.selectedMake = ''
     this.selectedModel = ''
     this.selectedTrim = ''
@@ -14,11 +17,11 @@ class FrontWhatCarController {
     this.isModelRequired = false
     this.isTrimRequired = false
 
-    this.$location.hash('what-top');
+    //this.$location.hash('what-top');
   }
 	
   $onInit () {
-    if (this.$rootScope.whatCar != undefined) {
+    /*if (this.$rootScope.whatCar != undefined) {
       this.selectedYear = this.$rootScope.whatCar.year;
       this.selectedMake = this.$rootScope.whatCar.make;
       this.selectedModel = this.$rootScope.whatCar.model;
@@ -26,12 +29,13 @@ class FrontWhatCarController {
     } else {
       this.$state.go('front.home');
       return;
-    }
+    }*/
 
     document.getElementById('mobile_menu').style.display = 'none';
     document.getElementById('toggle_menu_bg').style.display = 'none';
     let index = 0;
-    for (let i = 1980; i <= 2017; i++) {
+
+    for (let i = this.selectedYear - 20; i <= this.selectedYear; i++) {
       this.yearList[index++] = i;
     }
   }

@@ -3,7 +3,10 @@ class FrontReportFormController {
     'ngInject'
     this.API = API
         
-    this.reportId = $stateParams.reportId
+    //this.reportId = $stateParams.reportId
+    this.reportSlug = $stateParams.reportSlug
+    this.reportId = this.reportSlug.replace('digitalreport','')
+
     let reportId = this.reportId
 
     this.agreed_service = []
@@ -103,9 +106,25 @@ class FrontReportFormController {
         }
 
         this.API.all('appointments/update_report').post(data).then((res) => {
-          $state.reload()
+          swal({
+            title: 'Thank You!',
+            text: 'Your service advisor will get in touch with you to confirm details.',
+            type: 'success',
+            confirmButtonText: 'OK',
+            closeOnConfirm: true
+          }, function () {
+            $state.reload();
+          })
         }, (res) => {
-          $state.reload()
+          swal({
+            title: 'Thank You!',
+            text: 'Your service advisor will get in touch with you to confirm details.',
+            type: 'success',
+            confirmButtonText: 'OK',
+            closeOnConfirm: true
+          }, function () {
+            $state.reload();
+          })
         })  
       }
     }

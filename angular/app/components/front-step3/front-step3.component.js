@@ -12,15 +12,22 @@ class FrontStep3Controller {
 
     this.months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     
-    this.$location.hash('step3-top');
+    //this.$location.hash('step3-top');
   }
 	
   $onInit () {
-    if (this.$rootScope.currentMainService == undefined) {
+    if (this.$rootScope.currentMainService == undefined && this.$rootScope.method == 'advanced') {
       this.$state.go('front.home');
       return;
     }
 
+    if(this.$rootScope.method == undefined){
+      this.$state.go('front.home');
+      return;
+    }
+
+    this.method = this.$rootScope.method
+    
     document.getElementById('mobile_menu').style.display = 'none';
     document.getElementById('toggle_menu_bg').style.display = 'none';
 
@@ -103,8 +110,8 @@ class FrontStep3Controller {
     for ( var i in this.timesheets )
       this.timesheets[i].selected = 0
     
-    if (timesheet.selected == 0 && this.nums >= 4)
-      return;
+    //if (timesheet.selected == 0 && this.nums >= 4)
+    //  return;
 
     timesheet.selected = timesheet.selected == 1 ? 0 : 1;
 
@@ -123,7 +130,10 @@ class FrontStep3Controller {
       }
     }
     
-    this.$state.go('front.step4');
+    if(this.$rootScope.method == 'advanced')
+      this.$state.go('front.step4');
+    else
+      this.$state.go('front.step5');
   }
 }
 

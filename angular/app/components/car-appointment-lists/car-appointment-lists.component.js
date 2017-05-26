@@ -15,6 +15,11 @@ class CarAppointmentListsController {
           var temp2 = temp[0].split('-');
           this.appointments[i].book_time1 = temp2[2]+'/'+temp2[1]+'/'+temp2[0];
           this.appointments[i].book_time2 = temp[1];
+
+          if(this.appointments[i].method == 'instant')
+            this.appointments[i].booking_type = 'Instant Booking'
+          else
+            this.appointments[i].booking_type = 'Advanced Booking'  
         }
       }
   	})

@@ -18,14 +18,16 @@ class FrontStep5Controller {
     this.isEmail = true;
     this.isName = true;
 
-    this.$location.hash('step5-top');
+    //this.$location.hash('step5-top');
   }
 	
   $onInit () {
-    if (this.$rootScope.whatCar == undefined) {
+    if (this.$rootScope.whatCar == undefined || this.$rootScope.method == undefined) {
       this.$state.go('front.home');
       return;
     }
+
+    this.method = this.$rootScope.method
 
     this.freeServices = this.$rootScope.freeServices;
 
@@ -117,7 +119,7 @@ class FrontStep5Controller {
   onConfirm() {
     this.contactMethod = document.getElementById('contactMethod').value;
 
-    if (this.totalPrice == 0) {
+    if (this.totalPrice == 0 && this.method == 'advanced') {
       swal({
         title: 'Alert',
         text: 'Please select one service at least!',
@@ -199,7 +201,8 @@ class FrontStep5Controller {
       service: services,
       option_services: optionService,
       service_selected: services_selected,
-      option_service_selected: optionService_selected
+      option_service_selected: optionService_selected,
+      method: this.method
     }
 
     console.log(data);

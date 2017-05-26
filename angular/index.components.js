@@ -45,6 +45,7 @@ import { CarCustomerAppointmentsComponent } from './app/components/car-customer-
 import { FrontAcceptFormComponent } from './app/components/front-accept-form/front-accept-form.component'
 import { FrontReportFormComponent } from './app/components/front-report-form/front-report-form.component'
 import { FrontHomeComponent } from './app/components/front-home/front-home.component'
+import { FrontBookingComponent } from './app/components/front-booking/front-booking.component'
 import { FrontWhatCarComponent } from './app/components/front-what-car/front-what-car.component'
 import { FrontNavHeaderComponent } from './app/components/front-nav-header/front-nav-header.component'
 import { FrontStep1Component } from './app/components/front-step1/front-step1.component'
@@ -72,6 +73,7 @@ angular.module('app.components')
   .component('frontReportForm', FrontReportFormComponent)
   .component('adminReportForm', AdminReportFormComponent)
   .component('frontHome', FrontHomeComponent)
+  .component('frontBooking', FrontBookingComponent)
   .component('carServiceSubEdit', CarServiceSubEditComponent)
   .component('carMechanicLists', CarMechanicListsComponent)
   .component('carAdvisorLists', CarAdvisorListsComponent)

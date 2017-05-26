@@ -6,7 +6,7 @@
   <title>Appointment Booked</title>
 </head>
 <body bgcolor="#f7f7f7">
-<p>Dear {{$data->name}}, Thank you for booking an appointment with Gargash Autobody on {{date('d-m-Y', strtotime($data->date)).' at '.date('H:i A', strtotime($data->date.' '.$data->times[0]))}}. </p>
+<p>Dear {{$data->name}}, Thank you for booking an appointment with Gargash Autobody on {{date('d-m-Y', strtotime($data->date)).' at '.date('h:i A', strtotime($data->date.' '.$data->times[0]))}}. </p>
 <p>We look forward to welcoming you to a new automotive experience! </p>
 <p>Regards, </p>
 <p>Gargash Autobody</p>

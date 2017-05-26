@@ -9,7 +9,7 @@ class FrontStep2Controller {
     this.car = this.$rootScope.whatCar
     this.selectedSubServiceIndex = 0
 
-    this.$location.hash('step2-top');
+    //this.$location.hash('step2-top');
   }
 	
   $onInit () {
