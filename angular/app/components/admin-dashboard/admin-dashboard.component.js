@@ -56,19 +56,19 @@ class AdminDashboardController {
       this.appointment_total = this.appointment_dashboard.total
     })
 
-    this.API.all('appointments').get('totalcost_dashboard').then((response) => {
+    this.API.all('appointments').get('totalcost_dashboard', {year, month, week}).then((response) => {
       this.totalcost_dashboard = response.plain()
     })
 
-    this.API.all('appointments').get('report_dashboard').then((response) => {
+    /*this.API.all('appointments').get('report_dashboard', {year, month, week}).then((response) => {
       this.report_dashboard = response
-    })
+    })*/
 
-    this.API.all('appointments').get('sub_service_dashboard').then((response) => {
+    /*this.API.all('appointments').get('sub_service_dashboard', {year, month, week}).then((response) => {
       this.sub_service_dashboard = response
-    })
+    })*/
 
-    this.API.all('appointments').get('invoice_dashboard').then((response) => {
+    this.API.all('appointments').get('invoice_dashboard', {year, month, week}).then((response) => {
       this.invoice_dashboard = response
     })
   }

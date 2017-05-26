@@ -502,40 +502,90 @@ class AppointmentsController extends Controller
 	}
 
 	public function getTotalcostDashboard(Request $request){
-		$sub_service = DB::select('select sum(a.price) as total from sub_service as a left join appointment_service as b on a.id = b.sub_service_id where b.is_selected = 1');
+		$where = '';
+		if($request->year != 0){
+			if($request->month != 0){
+				$term = $request->year.'-'.self::makeTerm($request->month);
+				if($request->week != 0){
+					$start = 7 * ($request->week - 1) + 1;
+					$end = 7 * $request->week;
+
+					$startTerm = $term.'-'.self::makeTerm($start).' 00:00:00';
+					$endTerm = $term.'-'.self::makeTerm($end).' 23:59:59';
+
+					$where = "and c.created_at >= '$startTerm' and c.created_at <= '$endTerm'";
+				}else{
+					$where = "and c.created_at like '%".$term."%'";
+				}
+			}else{
+				$where = "and c.created_at like '%".$request->year."%'";
+			}
+		}
+
+		$query1 = 'select sum(a.price) as total from sub_service as a left join appointment_service as b on a.id = b.sub_service_id left join appointment as c on b.appointment_id = c.id where b.is_selected = 1 and c.id!=0 '.$where;
+		$query2 = 'select sum(a.price) as total from option_service as a left join appointment_option_service as b on a.id = b.option_service_id left join appointment as c on b.appointment_id = c.id where b.is_selected = 1 and c.id!=0 '.$where;
+		$query3 = "select sum(a.agreed_total) as total, count(a.id) as total_count from report as a left join appointment as c on a.app_id = c.id where a.status = 1 and c.id!=0 ".$where;
+
+		$sub_service = DB::select($query1);
 
 		$booking1 = $sub_service[0]->total;
 	
-		$option_service = DB::select('select sum(a.price) as total from option_service as a left join appointment_option_service as b on a.id = b.option_service_id where b.is_selected = 1');
+		$option_service = DB::select($query2);
 
 		$booking2 = $option_service[0]->total;
 	
 		$booking = $booking1 + $booking2;
 
-		$report = DB::select('select sum(agreed_total) as total from report where status = 1');
+		$report = DB::select($query3);
 
 		$recommendation = $report[0]->total;
 
 		$return['booking'] = $booking;
 		$return['recommendation'] = $recommendation;
-
+		$return['report_count'] = $report[0]->total_count;
+		$return['sub_service_total'] = $booking1;
+		
 		return $return;
 	}
 
-	public function getReportDashboard(Request $request){
-		$report = DB::select("select count(id) as total from report where status = 1");
+	/*public function getReportDashboard(Request $request){
+		$report = DB::select("select count(a.id) as total from report as a where a.status = 1");
 
 		return $report[0]->total;
-	}
+	}*/
 
-	public function getSubServiceDashboard(Request $request){
+	/*public function getSubServiceDashboard(Request $request){
 		$sub_service = DB::select('select sum(a.price) as total from sub_service as a left join appointment_service as b on a.id = b.sub_service_id where b.is_selected = 1');
 
 		return $sub_service[0]->total;
-	}
+	}*/
 
 	public function getInvoiceDashboard(Request $request){
-		$invoice = DB::select('select sum(invoice) as total from appointment');
+		$where = '';
+
+		if($request->year!=0){
+			if($request->month!=0){
+				$term = $request->year.'-'.self::makeTerm($request->month);
+
+				if($request->week!=0){
+					$start = 7 * ($request->week - 1) + 1;
+					$end = 7 * $request->week;
+
+					$startTerm = $term.'-'.self::makeTerm($start).' 00:00:00';
+					$endTerm = $term.'-'.self::makeTerm($end).' 23:59:59';
+
+					$where="where created_at >= '$startTerm' and created_at <= '$endTerm'";
+				}else{
+					$where="where created_at like '%".$term."%'";
+				}	
+			}else{
+				$where="where created_at like '%".$request->year."%'";
+			}
+		}
+
+		$query = "select sum(invoice) as total from appointment ".$where;
+		
+		$invoice = DB::select($query);
 
 		return $invoice[0]->total;
 	}
