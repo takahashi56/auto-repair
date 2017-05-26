@@ -544,7 +544,7 @@ class AppointmentsController extends Controller
 		$return['recommendation'] = $recommendation;
 		$return['report_count'] = $report[0]->total_count;
 		$return['sub_service_total'] = $booking1;
-		
+
 		return $return;
 	}
 
@@ -937,14 +937,14 @@ class AppointmentsController extends Controller
 			}
 		}
 
-		$sender = Config::get("mail.from");
+		/*$sender = Config::get("mail.from");
 
 	    $message = 'Cron is running.';
 
 	    $data = array(
 			'subject'=>'Autobody Cron',
 			'sender'=>$sender,
-			'emailTo'=>'mickeylee.lee5@gmail.com'
+			'emailTo'=>'test@gmail.com'
 		);
 
 	    Mail::raw($message, function ($m) use ($data){
@@ -952,6 +952,6 @@ class AppointmentsController extends Controller
 			$m->from($sender, 'Gargash Autobody');
 			$m->to($emailTo, 'Tester')->subject($subject);
 		});
-		exit();
+		exit();*/
 	}
 }
