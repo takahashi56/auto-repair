@@ -57,14 +57,16 @@
                 <th align="center" style="text-align:center;">Open Appointments</th>
                 <th align="center" style="text-align:center;">Closed Appointments</th>
                 <th align="center" style="text-align:center;">Total</th>
+                <th align="center" style="text-align:center;">Auto Assign</th>
               </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="advisor in vm.advisors" ui-sref="app.caradvisorappointments({advisorId: {{advisor.id}}})" style="cursor: pointer;">
-              <td align="left">{{advisor.name}}</td>
-              <td align="center">{{advisor.open}}</td>
-              <td align="center">{{advisor.closed}}</td>
-              <td align="center">{{advisor.total}}</td>
+            <tr ng-repeat="advisor in vm.advisors" style="cursor: pointer;">
+              <td align="left" ui-sref="app.caradvisorappointments({advisorId: {{advisor.id}}})">{{advisor.name}}</td>
+              <td align="center" ui-sref="app.caradvisorappointments({advisorId: {{advisor.id}}})">{{advisor.open}}</td>
+              <td align="center" ui-sref="app.caradvisorappointments({advisorId: {{advisor.id}}})">{{advisor.closed}}</td>
+              <td align="center" ui-sref="app.caradvisorappointments({advisorId: {{advisor.id}}})">{{advisor.total}}</td>
+              <td align="center"><input type="checkbox" ng-model="advisor.auto_assign" ng-true-value="1" ng-false-value="0" ng-click="vm.autoAssign(advisor.id, advisor.auto_assign)"/></td>
             </tr>
             </tbody>
           </table>

@@ -122,7 +122,23 @@ class CarAdvisorListsController {
   	    console.log('Modal dismissed at: ' + new Date())
   	  })
   }
-  	
+
+  autoAssign (id, value) {
+    if(value == true)
+      value = 1
+    else
+      value = 0
+
+    let data = {
+      id: id,
+      value: value
+    }
+    this.API.all('appointments/update_auto_assign').post(data).then(() => {
+      console.log("success")
+    }, (res) => {
+      console.log("error") 
+    })
+  }
   $onInit () {}
 }
 

@@ -75,7 +75,7 @@ class AppointmentsController extends Controller
 	}
 	
 	public function getAdvisors() {
-		$advisors = DB::select("select users.id, users.name, sum(appointment.open) as open, 										   sum(appointment.total) as total
+		$advisors = DB::select("select users.auto_assign, users.id, users.name, sum(appointment.open) as open, 										   sum(appointment.total) as total
 		 						from users 
 							    inner join role_user on users.id = role_user.user_id 
 							    inner join roles on role_user.role_id = roles.id 
@@ -97,7 +97,7 @@ class AppointmentsController extends Controller
 	}
 
 	public function getMechanics() {
-		$mechanics = DB::select("select users.id, users.name, sum(appointment.open) as open, 										   sum(appointment.total) as total
+		$mechanics = DB::select("select users.auto_assign, users.id, users.name, sum(appointment.open) as open, 										   sum(appointment.total) as total
 		 						from users 
 							    inner join role_user on users.id = role_user.user_id 
 							    inner join roles on role_user.role_id = roles.id 
@@ -199,6 +199,17 @@ class AppointmentsController extends Controller
         self::updateAppointmentInfo($request->app_id, array('status'=>5, 'report_id'=>$id));
 
         return $id;
+	}
+
+	public function updateAutoAssign(Request $request){
+		$id = $request->id;
+		$value = $request->value;
+
+		DB::table('users')
+		            ->where('id', $id)
+		            ->update(array('auto_assign' => $value));
+
+		return true;
 	}
 
 	public function updateReportMechanic(Request $request) {
@@ -750,6 +761,26 @@ class AppointmentsController extends Controller
 		            ->update(array('mechanic_id' => $request->mechanicId, 'status'=>2));
 		            
 		return response()->success(compact('id'));
+
+		/* Sending email to mechanic */
+		$info = self::getAdvisorInfoPublic($request->mechanicId);
+
+		$sender = Config::get("mail.from");
+
+	    $message = 'New appointment has been assigned to you.';
+
+	    $data = array(
+			'subject'=>'Appointment Assigned',
+			'sender'=>$sender,
+			'emailTo'=>$info->email
+		);
+
+	    Mail::raw($message, function ($m) use ($data){
+			extract($data);
+			$m->from($sender, 'Gargash Autobody');
+			$m->to($emailTo, 'Mechanic')->subject($subject);
+		});
+		/* Sending email to mechanic end */
 	}
 
 	public function sendInvoice(Request $request) {
@@ -783,6 +814,21 @@ class AppointmentsController extends Controller
 		return response()->success(compact('id'));
 	}
 
+	public function getAutoMan($role){
+		$query="select count(a.advisor_id) as total, a.advisor_id as id from appointment as a left join users as b on a.advisor_id = b.id left join role_user as c on b.id=c.user_id left join roles as d on c.role_id=d.id where b.auto_assign=1 and d.slug='$role' order by total desc limit 0,1";
+
+		if($role == 'admin.mechanic'){
+			$query="select count(a.mechanic_id) as total, a.mechanic_id as id from appointment as a left join users as b on a.mechanic_id = b.id left join role_user as c on b.id=c.user_id left join roles as d on c.role_id=d.id where b.auto_assign=1 and d.slug='$role' order by total desc limit 0,1";
+		}
+
+		$user = DB::select($query);
+
+		if($user!=null)
+			return (int)($user[0]->id);
+
+		return 0;
+	}
+
 	public function newAppointment(Request $request) {
 		$car = new Car;
 		if($request->method == 'advanced'){
@@ -814,6 +860,11 @@ class AppointmentsController extends Controller
 		else
 			$appointment->car_id = 0;
 
+		/* Get advisor, mechanic for auto assign */
+		$advisor_id = self::getAutoMan('admin.user');
+		$mechanic_id = self::getAutoMan('admin.mechanic');
+		/* Get advisor, mechanic for auto assign end */
+
 		date_default_timezone_set('Asia/Dubai');
 		$appointment->book_time = date("Y-m-d H:i:s");
 		$appointment->comment = $request->comment;
@@ -821,8 +872,8 @@ class AppointmentsController extends Controller
 		$appointment->contact_method = $request->contact_method;
 		$appointment->report_id = 0;
 		$appointment->form_id = 0;
-		$appointment->advisor_id = 0;
-		$appointment->mechanic_id = 0;
+		$appointment->advisor_id = $advisor_id;
+		$appointment->mechanic_id = $mechanic_id;
 		$appointment->method = $request->method;
 		$appointment->save();
 
@@ -887,6 +938,50 @@ class AppointmentsController extends Controller
 			$m->to($emailTo, 'Admin')->subject($subject);
 		});
 		/* Sending email to admin end */
+
+		if($advisor_id != 0){
+			/* Sending email to advisor */
+			$info = self::getAdvisorInfoPublic($advisor_id);
+
+			$sender = Config::get("mail.from");
+
+		    $message = 'New appointment has been assigned to you.';
+
+		    $data = array(
+				'subject'=>'Appointment Assigned',
+				'sender'=>$sender,
+				'emailTo'=>$info->email
+			);
+
+		    Mail::raw($message, function ($m) use ($data){
+				extract($data);
+				$m->from($sender, 'Gargash Autobody');
+				$m->to($emailTo, 'Advisor')->subject($subject);
+			});
+			/* Sending email to advisor end */
+		}
+
+		if($mechanic_id != 0){
+			/* Sending email to mechanic */
+			$info = self::getAdvisorInfoPublic($mechanic_id);
+
+			$sender = Config::get("mail.from");
+
+		    $message = 'New appointment has been assigned to you.';
+
+		    $data = array(
+				'subject'=>'Appointment Assigned',
+				'sender'=>$sender,
+				'emailTo'=>$info->email
+			);
+
+		    Mail::raw($message, function ($m) use ($data){
+				extract($data);
+				$m->from($sender, 'Gargash Autobody');
+				$m->to($emailTo, 'Mechanic')->subject($subject);
+			});
+			/* Sending email to mechanic end */
+		}
 
 		if($request->phone!=''){
 			$message='Dear '.$request->name.', Thank you for booking an appointment with Gargash Autobody on '.date('d-m-y', strtotime($request->date)).' at '.date('H:i A', strtotime($request->times[0])).'. We look forward to welcoming you to a new automotive experience! Regards, Gargash Autobody';

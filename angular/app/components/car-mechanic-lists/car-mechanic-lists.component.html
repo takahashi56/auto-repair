@@ -57,14 +57,16 @@
                 <th align="center" style="text-align:center;">Open Appointments</th>
                 <th align="center" style="text-align:center;">Closed Appointments</th>
                 <th align="center" style="text-align:center;">Total</th>
+                <th align="center" style="text-align:center;">Auto Assign</th>
               </tr>
             </thead>
             <tbody>
-            <tr ng-repeat="mechanic in vm.mechanics" ui-sref="app.carmechanicappointments({mechanicId: {{mechanic.id}}})" style="cursor: pointer;">
-              <td align="left">{{mechanic.name}}</td>
-              <td align="center">{{mechanic.open}}</td>
-              <td align="center">{{mechanic.closed}}</td>
-              <td align="center">{{mechanic.total}}</td>
+            <tr ng-repeat="mechanic in vm.mechanics" style="cursor: pointer;">
+              <td align="left" ui-sref="app.carmechanicappointments({mechanicId: {{mechanic.id}}})">{{mechanic.name}}</td>
+              <td align="center" ui-sref="app.carmechanicappointments({mechanicId: {{mechanic.id}}})">{{mechanic.open}}</td>
+              <td align="center" ui-sref="app.carmechanicappointments({mechanicId: {{mechanic.id}}})">{{mechanic.closed}}</td>
+              <td align="center" ui-sref="app.carmechanicappointments({mechanicId: {{mechanic.id}}})">{{mechanic.total}}</td>
+              <td align="center"><input type="checkbox" ng-model="mechanic.auto_assign" ng-true-value="1" ng-false-value="0" ng-click="vm.autoAssign(mechanic.id, mechanic.auto_assign)"/></td>
             </tr>
             </tbody>
           </table>

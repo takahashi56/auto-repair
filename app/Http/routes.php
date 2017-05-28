@@ -92,6 +92,7 @@ $api->group(['middleware' => ['api', 'api.auth']], function ($api) {
     $api->post('appointments/appointment_report', 'AppointmentsController@reportAppointmentInfo');
     $api->post('appointments/update_appointment_advisor', 'AppointmentsController@updateAppointmentAdvisor');
     $api->post('appointments/update_appointment_mechanic', 'AppointmentsController@updateAppointmentMechanic');
+    $api->post('appointments/update_auto_assign', 'AppointmentsController@updateAutoAssign');
     $api->post('appointments/send_invoice', 'AppointmentsController@sendInvoice');
 });
 
