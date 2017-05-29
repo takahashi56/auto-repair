@@ -1,5 +1,5 @@
 <?php
-
+namespace App;
 namespace App\Http\Controllers;
 
 use DB;
@@ -1003,8 +1003,8 @@ class AppointmentsController extends Controller
 
 	        try{
 	        	Twilio::message($request->phone, $message);
-	    	}catch(Exception $e){
-	    		return true;
+	    	}catch (Guzzle\Http\Exception\BadResponseException $e) {
+	    		
 	    	}
 	    }
 	}
