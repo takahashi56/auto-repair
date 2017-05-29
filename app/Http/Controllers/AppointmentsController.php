@@ -1006,6 +1006,8 @@ class AppointmentsController extends Controller
 	    		return true;
 	    	}
 	    }
+
+	    return true;
 	}
 
 	public function contact(Request $request) {
