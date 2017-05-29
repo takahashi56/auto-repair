@@ -1027,7 +1027,11 @@ class AppointmentsController extends Controller
 					$message.='You can view our location, https://goo.gl/maps/6Jo42YEQz1q, or alternatively we will get in touch to arrange a pick up. ';
 					$message.=' Regards, Gargash Autobody';
 
-					Twilio::message($info->phone_number, $message);
+					try{
+						Twilio::message($info->phone_number, $message);
+			    	}catch(Exception $e){
+
+			    	}
 			    }
 			}
 		}
