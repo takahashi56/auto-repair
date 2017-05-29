@@ -1003,7 +1003,7 @@ class AppointmentsController extends Controller
 
 	        try{
 	        	Twilio::message($request->phone, $message);
-	    	}catch(Guzzle\Http\Exception\BadResponseException $e){
+	    	}catch(){
 
 	    	}
 	    }
