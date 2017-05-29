@@ -1016,7 +1016,7 @@ class AppointmentsController extends Controller
 		foreach($appointments as $app){
 			$temp = strtotime($app->book_time) - 24*60*60;
 
-			if($time >= $temp && $time <= strtotime($app->book_time)){
+			if($time >= $temp){
 				$info = self::getAppointmentInfoPublic($app->id);
 
 				self::updateAppointmentInfo($app->id, array('is_notified'=>1));
@@ -1032,7 +1032,7 @@ class AppointmentsController extends Controller
 			}
 		}
 
-		$sender = Config::get("mail.from");
+		/*$sender = Config::get("mail.from");
 
 	    $message = 'Cron is running.';
 
@@ -1047,6 +1047,6 @@ class AppointmentsController extends Controller
 			$m->from($sender, 'Gargash Autobody');
 			$m->to($emailTo, 'Tester')->subject($subject);
 		});
-		exit();
+		exit();*/
 	}
 }
