@@ -399,7 +399,8 @@ class AppointmentsController extends Controller
 							->join('appointment_status', 'appointment.status', '=', 'appointment_status.id')
 							->join('customer', 'appointment.customer_id', '=', 'customer.id')
 							->leftjoin('users as users_b', 'appointment.advisor_id', '=', 'users_b.id')
-							->select('appointment.method', 'appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id', 'users_b.name as advisor', 'appointment.form_id')
+							->leftjoin('users as users_c', 'appointment.mechanic_id', '=', 'users_c.id')
+							->select('appointment.method', 'appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id', 'users_b.name as advisor', 'users_c.name as mechanic', 'appointment.form_id')
 							->orderBy('appointment.id', 'desc')
 							->get();
 		}
@@ -407,9 +408,10 @@ class AppointmentsController extends Controller
 			$appointments = DB::table('appointment')
 							->join('appointment_status', 'appointment.status', '=', 'appointment_status.id')
 							->join('customer', 'appointment.customer_id', '=', 'customer.id')
-							->leftjoin('users as users_b', 'appointment.advisor_id', '=', 'users_b.id')	
+							->leftjoin('users as users_b', 'appointment.advisor_id', '=', 'users_b.id')
+							->leftjoin('users as users_c', 'appointment.mechanic_id', '=', 'users_c.id')	
 							->where('appointment.advisor_id', $user->id)
-							->select('appointment.method', 'appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id', 'users_b.name as advisor', 'appointment.form_id')
+							->select('appointment.method', 'appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id', 'users_b.name as advisor', 'users_c.name as mechanic', 'appointment.form_id')
 							->orderBy('appointment.status', 'asc')
 							->orderBy('appointment.id', 'desc')
 							->get();
@@ -417,9 +419,10 @@ class AppointmentsController extends Controller
 			$appointments = DB::table('appointment')
 							->join('appointment_status', 'appointment.status', '=', 'appointment_status.id')
 							->join('customer', 'appointment.customer_id', '=', 'customer.id')
-							->leftjoin('users as users_b', 'appointment.advisor_id', '=', 'users_b.id')	
+							->leftjoin('users as users_b', 'appointment.advisor_id', '=', 'users_b.id')
+							->leftjoin('users as users_c', 'appointment.mechanic_id', '=', 'users_c.id')
 							->where('appointment.mechanic_id', $user->id)
-							->select('appointment.method', 'appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id', 'users_b.name as advisor', 'appointment.form_id')
+							->select('appointment.method', 'appointment.id', 'customer.name', 'appointment.book_time', 'appointment_status.name as status', 'appointment.report_id', 'users_b.name as advisor', 'users_c.name as mechanic', 'appointment.form_id')
 							->orderBy('appointment.status', 'asc')
 							->orderBy('appointment.id', 'desc')
 							->get();
@@ -1011,19 +1014,19 @@ class AppointmentsController extends Controller
 		date_default_timezone_set('Asia/Dubai');
 		$time = strtotime(date("Y-m-d H:i:s"));
 
-		$appointments = DB::select("select id, book_time from appointment where is_notified = 0");
+		$appointments = DB::select("select a.id, b.appointment_time from appointment as a left join appointment_time as b on a.id=b.appointment_id where a.is_notified = 0");
 		
 		foreach($appointments as $app){
-			$temp = strtotime($app->book_time) - 24*60*60;
+			$temp = strtotime($app->appointment_time) - 24*60*60;
 
-			if($time >= $temp){
+			if($time >= $temp && $time <= strtotime($app->appointment_time)){
 				$info = self::getAppointmentInfoPublic($app->id);
 
 				self::updateAppointmentInfo($app->id, array('is_notified'=>1));
 
 				if($info->phone_number!=''){
 		        	$message='Dear '.$info->customer.', ';
-					$message.='Your appointment for '.$info->make.' '.$info->model.' '.$info->year.', '.$info->trim.', is scheduled for tomorrow at '.date('H:i A', strtotime($app->book_time)).'. ';
+					$message.='Your appointment for '.$info->make.' '.$info->model.' '.$info->year.', '.$info->trim.', is scheduled for tomorrow at '.date('H:i A', strtotime($app->appointment_time)).'. ';
 					$message.='You can view our location, https://goo.gl/maps/6Jo42YEQz1q, or alternatively we will get in touch to arrange a pick up. ';
 					$message.=' Regards, Gargash Autobody';
 

@@ -21,6 +21,7 @@
               <th>Time</th>
               <th>Status</th>
               <th>Service Advisor</th>
+              <th>Service Mechanic</th>
               <th>Service Report</th>
               <th>Receiving Form</th>
               <th>Booking Type</th>
@@ -34,6 +35,9 @@
               <td ui-sref="app.carappointmentdetail({appointmentId: {{appointment.id}}})">{{appointment.status}}</td>
               <td ui-sref="app.carappointmentdetail({appointmentId: {{appointment.id}}})">
               	<div ng-if="appointment.advisor != 0">{{appointment.advisor}}</div>
+              </td>
+              <td ui-sref="app.carappointmentdetail({appointmentId: {{appointment.id}}})">
+                <div ng-if="appointment.mechanic != 0">{{appointment.mechanic}}</div>
               </td>
               <td>
                 <a ng-if="appointment.report_id != 0 && appointment.status == 'Closed'" ui-sref="special.reportform({reportSlug: 'digitalreport'+{{appointment.report_id}}})">View Report</a>
