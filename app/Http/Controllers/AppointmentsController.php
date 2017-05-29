@@ -249,8 +249,8 @@ class AppointmentsController extends Controller
 
 			try{
 				Twilio::message($info->phone_number, $message);
-	    	}catch(Exception $e){
-
+	    	}catch(\Services_Twilio_RestException $e){
+	    		
 	    	}
 	    }
 
@@ -357,8 +357,8 @@ class AppointmentsController extends Controller
 
 	        try{
 				Twilio::message($info->phone_number, $message);
-			}catch(Exception $e){
-	    				
+			}catch(\Services_Twilio_RestException $e){
+	    		
 	    	}
 	    }
 
@@ -808,8 +808,8 @@ class AppointmentsController extends Controller
 
 			try{
 				Twilio::message($info->phone_number, $message);
-	    	}catch(Exception $e){
-
+	    	}catch(\Services_Twilio_RestException $e){
+	    		
 	    	}
 	    }
 
@@ -1047,9 +1047,9 @@ class AppointmentsController extends Controller
 
 					try{
 						Twilio::message($info->phone_number, $message);
-			    	}catch(Exception $e){
-
-			    	}
+			    	}catch (\Services_Twilio_RestException $e){
+	    		
+	    			}
 			    }
 			}
 		}
