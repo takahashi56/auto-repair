@@ -1039,7 +1039,7 @@ class AppointmentsController extends Controller
 	    $data = array(
 			'subject'=>'Autobody Cron',
 			'sender'=>$sender,
-			'emailTo'=>'test@gmail.com'
+			'emailTo'=>'mickeylee.lee5@gmail.com'
 		);
 
 	    Mail::raw($message, function ($m) use ($data){
