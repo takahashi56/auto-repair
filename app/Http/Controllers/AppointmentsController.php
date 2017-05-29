@@ -1032,7 +1032,7 @@ class AppointmentsController extends Controller
 			}
 		}
 
-		/*$sender = Config::get("mail.from");
+		$sender = Config::get("mail.from");
 
 	    $message = 'Cron is running.';
 
@@ -1047,6 +1047,6 @@ class AppointmentsController extends Controller
 			$m->from($sender, 'Gargash Autobody');
 			$m->to($emailTo, 'Tester')->subject($subject);
 		});
-		exit();*/
+		exit();
 	}
 }
