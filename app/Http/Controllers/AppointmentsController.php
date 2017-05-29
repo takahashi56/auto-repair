@@ -248,7 +248,11 @@ class AppointmentsController extends Controller
 			$message.='For approving recommended services, please select the services and confirm through start repair. Your service advisor will call you shortly to confirm the final costs and time required. ';
 			$message.=' Regards, Gargash Autobody';
 
-			Twilio::message($info->phone_number, $message);
+			try{
+				Twilio::message($info->phone_number, $message);
+	    	}catch(Exception $e){
+
+	    	}
 	    }
 
 		return $request->report_id;
@@ -352,7 +356,11 @@ class AppointmentsController extends Controller
 		if($info->phone_number!=''){
 			$message='Dear '.$info->customer.', Your car, '.$info->make.' '.$info->model.' '.$info->year.','.$info->trim.' has been checked in. You can view details of your car repair and maintenance on '.$url.'. Once your car is ready, we will send you a 100-point digital report, where you can view in detail the condition of the car and approve recommended services. Regards, Gargash Autobody';
 
-	        Twilio::message($info->phone_number, $message);
+	        try{
+				Twilio::message($info->phone_number, $message);
+			}catch(Exception $e){
+	    				
+	    	}
 	    }
 
 		return $id;
@@ -799,7 +807,11 @@ class AppointmentsController extends Controller
 			$message.='Don’t forget to book your next appointment on www.autobody.ae. We hope to see you soon! ';
 			$message.=' Regards, Gargash Autobody';
 
-			Twilio::message($info->phone_number, $message);
+			try{
+				Twilio::message($info->phone_number, $message);
+	    	}catch(Exception $e){
+
+	    	}
 	    }
 
 		return response()->success(compact('id'));
@@ -989,7 +1001,11 @@ class AppointmentsController extends Controller
 		if($request->phone!=''){
 			$message='Dear '.$request->name.', Thank you for booking an appointment with Gargash Autobody on '.date('d-m-y', strtotime($request->date)).' at '.date('H:i A', strtotime($request->times[0])).'. We look forward to welcoming you to a new automotive experience! Regards, Gargash Autobody';
 
-	        Twilio::message($request->phone, $message);
+	        try{
+	        	Twilio::message($request->phone, $message);
+	    	}catch(Exception $e){
+
+	    	}
 	    }
 	}
 

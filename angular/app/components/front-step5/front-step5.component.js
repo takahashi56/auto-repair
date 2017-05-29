@@ -153,7 +153,7 @@ class FrontStep5Controller {
       return;
     }
 
-    if (this.phonenumber == "") 
+    if (this.phonenumber == "" || this.phonenumber.length != 13) 
       this.isPhone = false;
     else
       this.isPhone = true;
