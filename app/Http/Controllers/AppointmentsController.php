@@ -1003,8 +1003,8 @@ class AppointmentsController extends Controller
 
 	        try{
 	        	Twilio::message($request->phone, $message);
-	    	}catch(){
-
+	    	}catch(Exception $e){
+	    		return true;
 	    	}
 	    }
 	}
