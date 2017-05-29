@@ -1001,13 +1001,11 @@ class AppointmentsController extends Controller
 			$message='Dear '.$request->name.', Thank you for booking an appointment with Gargash Autobody on '.date('d-m-y', strtotime($request->date)).' at '.date('H:i A', strtotime($request->times[0])).'. We look forward to welcoming you to a new automotive experience! Regards, Gargash Autobody';
 
 	        try{
-	        	return Twilio::message($request->phone, $message);
-	    	}catch (Exception $e) {
-	    		return true;
+	        	Twilio::message($request->phone, $message);
+	    	}catch (Services_Twilio_RestException $e) {
+	    		
 	    	}
 	    }
-
-	    return true;
 	}
 
 	public function contact(Request $request) {
