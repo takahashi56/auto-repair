@@ -656,8 +656,8 @@ class AppointmentsController extends Controller
 		$appointment = DB::table('appointment')
 						->join('appointment_status', 'appointment.status', '=', 'appointment_status.id')
 						->leftjoin('users as users_a', 'appointment.advisor_id', '=', 'users_a.id')	
-						->join('customer', 'appointment.customer_id', '=', 'customer.id')
-						->join('car', 'appointment.car_id', '=', 'car.id')	
+						->leftjoin('customer', 'appointment.customer_id', '=', 'customer.id')
+						->leftjoin('car', 'appointment.car_id', '=', 'car.id')	
 						->where('appointment.id', $appointmentId)
 						->select('appointment.id', 'users_a.name as advisor', 'users_a.email as advisor_email', 'customer.name as customer', 'customer.email', 'customer.phone_number', 'appointment.book_time', 'appointment.accept_time', 'appointment_status.name as status', 'appointment.report_id', 'appointment.completion_time', 'appointment.completion_description', 'car.make as make', 'car.model as model', 'car.trim as trim', 'car.year as year')
 						->first();
@@ -1029,7 +1029,7 @@ class AppointmentsController extends Controller
 		date_default_timezone_set('Asia/Dubai');
 		$time = strtotime(date("Y-m-d H:i:s"));
 
-		$appointments = DB::select("select a.id, b.appointment_time from appointment as a left join appointment_time as b on a.id=b.appointment_id where a.is_notified = 0");
+		$appointments = DB::select("select a.id as id, a.method as method, b.appointment_time as appointment_time from appointment as a left join appointment_time as b on a.id=b.appointment_id where a.is_notified = 0");
 		
 		foreach($appointments as $app){
 			$temp = strtotime($app->appointment_time) - 24*60*60;
@@ -1041,13 +1041,19 @@ class AppointmentsController extends Controller
 
 				if($info->phone_number!=''){
 		        	$message='Dear '.$info->customer.', ';
-					$message.='Your appointment for '.$info->make.' '.$info->model.' '.$info->year.', '.$info->trim.', is scheduled for tomorrow at '.date('H:i A', strtotime($app->appointment_time)).'. ';
+		        	
+		        	if($app->method == 'advanced'){
+						$message.='Your appointment for '.$info->make.' '.$info->model.' '.$info->year.', '.$info->trim.', is scheduled for tomorrow at '.date('H:i A', strtotime($app->appointment_time)).'. ';
+					}else{
+						$message.='Your appointment is scheduled for tomorrow at '.date('H:i A', strtotime($app->appointment_time)).'. ';
+					}
+
 					$message.='You can view our location, https://goo.gl/maps/6Jo42YEQz1q, or alternatively we will get in touch to arrange a pick up. ';
 					$message.=' Regards, Gargash Autobody';
 
 					try{
 						Twilio::message($info->phone_number, $message);
-			    	}catch (Exception $e){
+			    	}catch (\Services_Twilio_RestException $e){
 	    		
 	    			}
 			    }
