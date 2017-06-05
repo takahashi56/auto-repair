@@ -105,16 +105,20 @@
         </div>
       </div> <!-- Intro End !-->
       <hr/>
-      <div class="row one-aspect" ng-repeat="aspect in vm.report_aspect">
+      <div class="row one-aspect" ng-repeat="aspect in vm.report_aspect" ng-init="aspect_show=false">
         <div class="col-md-10 col-md-offset-1 clearfix">
-          <div class="one-aspect-header clearfix">
+          <div class="one-aspect-header clearfix" ng-click="aspect_show==true?aspect_show=false:aspect_show=true">
             <h1 class="customLeft font-hnl">{{aspect.title}}</h1>
+            <div class="customRight dropdown">
+              <img src="/img/assets/dropdown_{{aspect_show}}.png" alt=""/>  
+            </div>
             <div class="customRight circle-box" ng-init="count=aspect.status; click=aspect.status">
               <div class="one-circle" ng-mouseleave="count=click" ng-mouseover="count=1" ng-class="{poor:count==1, fair:count==2, good:count==3}" ng-click="click=1; aspect.status=click"></div>
               <div class="one-circle" ng-mouseleave="count=click" ng-mouseover="count=2" ng-class="{good:count==3,fair:count==2,'':count==1}" ng-click="click=2; aspect.status=click"></div>
               <div class="one-circle" ng-mouseleave="count=click" ng-mouseover="count=3" ng-class="count==3?'good':''" ng-click="click=3; aspect.status=click"></div>
             </div>
           </div><!-- One Aspect Header End !-->
+          <div class="one-aspect-table" ng-repeat="detail in aspect.detail" ng-show="aspect_show">
           <table ng-repeat="detail in aspect.detail">
             <thead>
               <tr>
@@ -135,6 +139,7 @@
               </tr>
             </tbody>
           </table>
+          </div>
         </div>
       </div><!-- One Aspect End !-->
     </div><!-- Report Tab End !-->

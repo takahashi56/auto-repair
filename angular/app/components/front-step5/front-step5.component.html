@@ -15,8 +15,10 @@
                         <img src="/img/assets/summary.png"/>
                       </td>
                       <td width="20%" style="text-align: center;">
-                        <h5 style="color: #fff;">Estimated Cost</h5>
-                        <h2 style="margin: 0 !important; color: #fff;">AED {{vm.totalPrice}}</h2>
+                        <div ng-show="vm.method=='advanced'?true:false">
+                          <h5 style="color: #fff;">Estimated Cost</h5>
+                          <h2 style="margin: 0 !important; color: #fff;">AED {{vm.totalPrice}}</h2>
+                        </div>
                       </td>
                       <td width="40%">
                         
@@ -31,11 +33,12 @@
                 <div class="col-md-12" style="height: auto; padding-top: 50px; padding-bottom: 30px;">
                     <table width="100%" height="100%">
                       <tr class="condCon">
-                        <td width="30%" class="clearfix" id="{{vm.method =='advanced'? 'content-pack-left':''}}" ng-show="vm.method == 'advanced'?true:false">
+                        <td width="30%" class="clearfix" id="content-pack-left">
                           <div class="col-md-12 front-step5-div6" style="direction: rtl">
                             <div style="direction: ltr">
                             <h5 class="font-hnLT" style="color:#223345; font-size:18px; font-weight:bold;">Summary</h5>
-                            <h6 style="color: #839DB0">{{vm.car.year}}&nbsp;{{vm.car.make}}&nbsp;{{vm.car.model}}&nbsp;{{vm.car.trim}}</h6>
+                            <h6 style="color: #839DB0" ng-show="vm.method=='advanced'?true:false">{{vm.car.year}}&nbsp;{{vm.car.make}}&nbsp;{{vm.car.model}}&nbsp;{{vm.car.trim}}</h6>
+                            <h6 style="color: #839DB0">{{vm.date}} {{vm.times[0]}}</h6>
                             <h5 class="front-step2-h5" ng-show="vm.services.length > 0">Services</h5>
                             <div class="front-step2-div11">
                               <div ng-repeat="service in vm.services" style="display: block; width: 100%; margin:15px 0; position: relative;">

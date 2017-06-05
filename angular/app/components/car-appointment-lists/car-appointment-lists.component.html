@@ -10,6 +10,9 @@
       <div class="box box-info">
         <div class="box-header with-border">
           <h3 class="box-title">All Appointments</h3>
+          <div class="box-tools pull-right">
+            <input type="checkbox" ng-model="vm.filter" ng-click="vm.doFilter()"/> Show/Hide Closed Appointments
+          </div>
         </div>
         
         <div class="box-body table-responsive">
@@ -24,10 +27,10 @@
               <th>Service Mechanic</th>
               <th>Service Report</th>
               <th>Receiving Form</th>
-              <th>Booking Type</th>
+              <th>Booking</th>
             </tr>
             
-            <tr ng-repeat="appointment in vm.appointments" style="cursor: pointer">
+            <tr ng-show="(appointment.status!='Closed' && vm.filter==true) || (vm.filter==false)?true:false" ng-repeat="appointment in vm.appointments" style="cursor: pointer">
               <td ui-sref="app.carappointmentdetail({appointmentId: {{appointment.id}}})">{{appointment.id}}</td>
               <td ui-sref="app.carappointmentdetail({appointmentId: {{appointment.id}}})">{{appointment.name}} </td>
               <td ui-sref="app.carappointmentdetail({appointmentId: {{appointment.id}}})">{{appointment.book_time1}}</td>
@@ -40,8 +43,8 @@
                 <div ng-if="appointment.mechanic != 0">{{appointment.mechanic}}</div>
               </td>
               <td>
-                <a ng-if="appointment.report_id != 0 && appointment.status == 'Closed'" ui-sref="special.reportform({reportSlug: 'digitalreport'+{{appointment.report_id}}})">View Report</a>
-                <a ng-if="appointment.report_id != 0 && appointment.status != 'Closed'" ui-sref="app.reportform({reportId: {{appointment.report_id}}})">View Mechanic Report</a>
+                <a ng-if="appointment.report_id != 0 && appointment.status != 'Report'" ui-sref="special.reportform({reportSlug: 'digitalreport'+{{appointment.report_id}}})">View Report</a>
+                <a ng-if="appointment.report_id != 0 && appointment.status == 'Report'" ui-sref="app.reportform({reportId: {{appointment.report_id}}})">View Mechanic Report</a>
               </td>
               <td>
                 <a ng-if="appointment.form_id != 0" ui-sref="special.acceptform({formId: {{appointment.form_id}}})">View Form</a></td>

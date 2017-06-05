@@ -1,5 +1,5 @@
 class CarAppointmentDetailController {
-  constructor (API, $state, $stateParams, $scope, $uibModal) {
+  constructor (API, $state, $stateParams, $scope, $location, $uibModal) {
     'ngInject'
     this.API = API
     this.$state = $state
@@ -7,6 +7,8 @@ class CarAppointmentDetailController {
 	this.$uibModal = $uibModal
 	this.services = ""
 	
+  this.$location = $location
+
 	this.appointmentId = $stateParams.appointmentId
 	 
 	let appointmentId = this.appointmentId
@@ -177,10 +179,13 @@ class CarAppointmentDetailController {
 	  })
 	
 	  modalInstance.result.then((advisorId) => {
+      let url = this.$location.absUrl();
+
 	  	let data = {
 	  		appointmentId: this.appointmentId,
-	   		advisorId: advisorId
-	    }
+	   		advisorId: advisorId,
+	      url: url
+      }
 	    
 	    let $state = this.$state
 		
@@ -206,9 +211,12 @@ class CarAppointmentDetailController {
     })
   
     modalInstance.result.then((mechanicId) => {
+      let url = this.$location.absUrl();
+
       let data = {
         appointmentId: this.appointmentId,
-        mechanicId: mechanicId
+        mechanicId: mechanicId,
+        url: url
       }
       
       let $state = this.$state

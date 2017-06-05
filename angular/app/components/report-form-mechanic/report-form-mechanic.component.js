@@ -179,6 +179,8 @@ class AdminReportFormController {
       this.total = 0
       for(var i in data)
         this.total += data[i].price
+
+      this.refreshStatusPack()
     })
   }
 
@@ -223,6 +225,8 @@ class AdminReportFormController {
 
     this.selected_service = temp
     this.total -= service.price
+
+    this.refreshStatusPack()
   }
 
   onSelectStatus (service, status) {
@@ -243,6 +247,25 @@ class AdminReportFormController {
       service.class3 ='good';
     }
     service.status = status
+    
+    this.refreshStatusPack()
+  }
+
+  refreshStatusPack() {
+    this.report.urgent = 0
+    this.report.required = 0
+    this.report.recommended = 0
+
+    for( var i in this.selected_service ){
+      var obj = this.selected_service[i]
+
+      if(obj.status==1)
+        this.report.urgent++
+      else if(obj.status==2)
+        this.report.required++
+      else
+        this.report.recommended++
+    }
   }
 
   reportFunc(isValid) {
@@ -281,7 +304,7 @@ class AdminReportFormController {
       let $state = this.$state
 
       this.API.all('appointments/update_report_mechanic').post(data).then((res) => {
-        $state.go('special.reportform', {reportId:this.reportId})
+        $state.go('special.reportform', {reportSlug:'digitalreport'+this.reportId})
       }, (res) => {
         $state.reload()
       })

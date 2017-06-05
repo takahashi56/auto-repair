@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <base href="/">
+    <link rel="shortcut icon" href="img/assets/icon_autobody32.ico" type="image/x-icon"/>
     <link rel="stylesheet" href="{!! elixir('css/final.css') !!}">
 
     <!--<link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic'>-->
@@ -23,12 +24,6 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-
-    <script>
-        
-    </script>
-</head>
-<body route-bodyclass>
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -37,8 +32,9 @@
 
       ga('create', 'UA-98390984-1', 'auto');
       ga('send', 'pageview');
-
     </script>
+</head>
+<body route-bodyclass>
     <div class="wrapper">
         <div ui-view="layout"></div>
         <div class="control-sidebar-bg"></div>

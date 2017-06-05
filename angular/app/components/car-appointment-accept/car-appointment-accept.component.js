@@ -162,10 +162,14 @@ class CarAppointmentAcceptController {
 
     if(isValid){
       var url = this.$location.absUrl();
+      var app_url = url;
+
       url = url.replace('admin/car-appointment-accept/'+this.appointmentId,'accept-form/');
+      app_url = app_url.replace('car-appointment-accept', 'car-appointment-detail');
 
       let data = {
         url: url,
+        app_url: app_url,
         app_id: this.appointmentId,
         jobno: this.jobno,
         date: this.date,

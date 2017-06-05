@@ -15,7 +15,7 @@ class AdminDashboardController {
     this.selectedYear = this.date.getYear() + 1900
 
     this.yearList = []
-    for( var i = this.selectedYear - 20; i<=this.selectedYear; i++)
+    for( var i = this.selectedYear; i<= this.selectedYear + 20; i++)
       this.yearList.push(i)
 
     this.monthList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]

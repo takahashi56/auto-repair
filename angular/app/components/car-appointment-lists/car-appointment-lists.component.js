@@ -1,11 +1,17 @@
 class CarAppointmentListsController {
-  constructor ($scope, $state, $compile, DTOptionsBuilder, DTColumnBuilder, API) {
+  constructor ($rootScope, $scope, $state, $compile, DTOptionsBuilder, DTColumnBuilder, API) {
     'ngInject'
     this.API = API
     this.$state = $state
   	this.serviceId = 0
   	this.serviceName = ""
-  	
+  	this.$rootScope = $rootScope
+
+    if(this.$rootScope.filter != undefined)
+      this.filter = this.$rootScope.filter
+    else
+      this.filter = false
+
   	this.API.all('appointments').get('all_appointments').then((response) => {
   		this.appointments =  response.plain();
 
@@ -17,9 +23,9 @@ class CarAppointmentListsController {
           this.appointments[i].book_time2 = temp[1];
 
           if(this.appointments[i].method == 'instant')
-            this.appointments[i].booking_type = 'Instant Booking'
+            this.appointments[i].booking_type = 'Instant'
           else
-            this.appointments[i].booking_type = 'Advanced Booking'  
+            this.appointments[i].booking_type = 'Advanced'  
         }
       }
   	})
@@ -29,6 +35,10 @@ class CarAppointmentListsController {
   	
   }
   
+  doFilter() {
+    this.$rootScope.filter = this.filter
+  }
+
   delete (serviceId) {
     let API = this.API
     let $state = this.$state

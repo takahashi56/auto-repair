@@ -53,6 +53,9 @@ class FrontStep5Controller {
     this.totalPrice = this.price;
 
     this.services = this.$rootScope.services;
+    
+    this.date = this.$rootScope.appointmentDate;
+    this.times = this.$rootScope.appointmentTimes;
 
     document.getElementById('mobile_menu').style.display = 'none';
     document.getElementById('toggle_menu_bg').style.display = 'none';
@@ -186,6 +189,9 @@ class FrontStep5Controller {
       optionService_selected[optionService_selected.length] = this.$rootScope.optionServices[i].added;
     }
 
+    let url = this.$location.absUrl();
+    url = url.replace('customer','admin/car-appointment-detail/');
+
     let data = {
       make: this.$rootScope.whatCar.make,
       year: this.$rootScope.whatCar.year,
@@ -202,7 +208,8 @@ class FrontStep5Controller {
       option_services: optionService,
       service_selected: services_selected,
       option_service_selected: optionService_selected,
-      method: this.method
+      method: this.method,
+      url: url
     }
 
     console.log(data);

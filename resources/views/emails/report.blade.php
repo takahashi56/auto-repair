@@ -8,6 +8,7 @@
 <body bgcolor="#f7f7f7">
 <p>Customer Email: {{$data->email}}</p>
 <p>Car: {{$data->make}} {{$data->model}} {{$data->year}}, {{$data->trim}}</p>
+<p>Report URL: <a href="{{$url}}">{{$url}}</a></p>
 <p>Report info#{{$id}} has updated by customer.</p>
 </body>
 </html>

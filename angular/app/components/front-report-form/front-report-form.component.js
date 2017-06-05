@@ -1,5 +1,5 @@
 class FrontReportFormController {
-  constructor ($scope, $state, $stateParams, $compile, DTOptionsBuilder, DTColumnBuilder, API) {
+  constructor ($scope, $state, $location, $stateParams, $compile, DTOptionsBuilder, DTColumnBuilder, API) {
     'ngInject'
     this.API = API
         
@@ -57,6 +57,7 @@ class FrontReportFormController {
 
     this.$scope = $scope
     this.$state = $state
+    this.$location = $location
   }
 	
   $onInit () {}
@@ -74,6 +75,8 @@ class FrontReportFormController {
     if(isValid){
       let $state = this.$state
 
+      let url = this.$location.absUrl();
+      
       let urgent = 0
       let required = 0
       let recommended = 0
@@ -102,7 +105,8 @@ class FrontReportFormController {
           agreed_service: agreed_service,
           urgent: urgent,
           required: required,
-          recommended: recommended
+          recommended: recommended,
+          url: url
         }
 
         this.API.all('appointments/update_report').post(data).then((res) => {

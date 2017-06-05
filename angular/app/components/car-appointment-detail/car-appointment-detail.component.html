@@ -19,8 +19,9 @@
     <h3 class="modal-title">Send Invoice</h3>
   </div>
   <div class="modal-body">
-    <div class="form-group">
-      <input class="form-control" placeholder="Price" ng-model="mvm.price" ng-required="true">
+    <div class="form-group" style="position: relative; font-size: 0; letter-spacing: 0">
+      <span style="display:inline-block; width: 10%; font-size: 14px;">AED </span>
+      <input placeholder="Price" ng-model="mvm.price" ng-required="true" style="display:inline-block; width: 90%; font-size: 14px;">
     </div>
   </div>
   <div class="modal-footer">
@@ -102,9 +103,9 @@
 
             <a ui-sref="app.carappointmentaccept({appointmentId: {{vm.appointmentId}}})" ng-click="vm.onAcceptAppointment()" class="btn btn-block btn-success btn-xs" ng-if="vm.appointment.data.form_id == 0 && vm.role.includes('user')" style="display:inline;"><i class="fa fa-plus"></i> Accept Appointment</a>
 
-            <a ui-sref="app.carappointmentreport({appointmentId: {{vm.appointmentId}}})" class="btn btn-block btn-success btn-xs" ng-if="vm.appointment.data.report_id == 0 && vm.role.includes('mechanic')"><i class="fa fa-plus"></i> Create Service Report</a>
+            <a ui-sref="app.carappointmentreport({appointmentId: {{vm.appointmentId}}})" class="btn btn-block btn-success btn-xs" ng-if="vm.appointment.data.report_id == 0 && vm.appointment.data.form_id !=0 && vm.role.includes('mechanic')"><i class="fa fa-plus"></i> Create Service Report</a>
             
-            <a ng-click="vm.onSendInvoice()" class="btn btn-block btn-success btn-xs" ng-if="vm.appointment.data.invoice == 0 && vm.role.includes('user') && vm.appointment.data.status=='Closed'" style="display:inline;"><i class="fa fa-plus"></i> Send Invoice</a>
+            <a ng-click="vm.onSendInvoice()" class="btn btn-block btn-success btn-xs" ng-if="vm.appointment.data.invoice == 0 && vm.role.includes('user') && (vm.appointment.data.status=='Closed' || vm.appointment.data.status=='Feedback')" style="display:inline;"><i class="fa fa-plus"></i> Send Invoice</a>
           </div>
         </div>
         
@@ -145,8 +146,8 @@
           	<tr>
               <th width="2%"></th>
               <th></th>
-              <th></th>
-              <th>Total: {{vm.getTotal()}}</th>
+              <th>Booking Total: AED {{vm.getTotal()}}</th>
+              <th>Invoice: AED {{vm.appointment.data.invoice}}</th>
             </tr>
             
             <tr>
