@@ -372,7 +372,7 @@ class AppointmentsController extends Controller
 		$sender = Config::get("mail.from");
 		$url .= $id;
 
-		$info = $app;
+		$info = self::getAppointmentInfoPublic($request->app_id);
 
 		$data = array(
 			'subject'=>'Your Car Has Checked In',
