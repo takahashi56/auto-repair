@@ -70,8 +70,13 @@ class CarAppointmentAcceptController {
     this.API.all('services').get('alloptionservices').then((response) => {
       this.optional_services =  response.plain().option_services;
       
-      for(var i in this.optional_services)
-        this.optional_services[i].selected = 0
+      for(var i in this.optional_services){
+        if(this.optional_services[i].type == '2'){
+          this.optional_services[i].selected = 1
+        }else{
+          this.optional_services[i].selected = 0
+        }
+      }
     })
 
     $scope.files = []
