@@ -293,8 +293,6 @@ class AppointmentsController extends Controller
 	public function addAccept(Request $request) {
 		$url = $request->url;
 
-		date_default_timezone_set('Asia/Dubai');
-
 		$id = DB::table('accept')
 		    ->insertGetId(array('app_id' => $request->app_id, 'jobno' => $request->jobno, 'date' => $request->date, 'time' => $request->time, 'customer' => $request->customer, 'vin' => $request->vin, 'advisor' => $request->advisor, 'telephone' => $request->telephone, 'model' => $request->model, 'km' => $request->km, 'email' => $request->email, 'plate' => $request->plate, 'fuel' => $request->fuel, 'primaryreq' => $request->primaryreq, 'secondaryreq' => $request->secondaryreq, 'inspection' => $request->inspection, 'file'=> $request->file, 'sign1'=>$request->sign1, 'sign2'=>$request->sign2));
 		
@@ -311,6 +309,8 @@ class AppointmentsController extends Controller
 			$mechanic_id = $info->mechanic_id;
 		}
 
+		date_default_timezone_set('Asia/Dubai');
+		
 		self::updateAppointmentInfo($request->app_id, array('status'=>3, 'accept_time'=>date('Y-m-d H:i:s'), 'form_id'=>$id, 'mechanic_id' => $mechanic_id));
 
 		/* Do some actions if method is instant */
