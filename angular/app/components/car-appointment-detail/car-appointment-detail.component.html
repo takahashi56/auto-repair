@@ -105,7 +105,7 @@
 
             <a ui-sref="app.carappointmentreport({appointmentId: {{vm.appointmentId}}})" class="btn btn-block btn-success btn-xs" ng-if="vm.appointment.data.report_id == 0 && vm.appointment.data.form_id !=0 && vm.role.includes('mechanic')"><i class="fa fa-plus"></i> Create Service Report</a>
             
-            <a ng-click="vm.onSendInvoice()" class="btn btn-block btn-success btn-xs" ng-if="vm.appointment.data.invoice == 0 && vm.role.includes('user') && (vm.appointment.data.status=='Closed' || vm.appointment.data.status=='Feedback')" style="display:inline;"><i class="fa fa-plus"></i> Send Invoice</a>
+            <a ng-click="vm.onSendInvoice()" class="btn btn-block btn-success btn-xs" ng-if="vm.appointment.data.invoice == 0 && vm.role.includes('user') && (vm.appointment.data.status=='Closed' || vm.appointment.data.status=='Feedback' || vm.appointment.data.status=='Approved')" style="display:inline;"><i class="fa fa-plus"></i> Send Invoice</a>
           </div>
         </div>
         

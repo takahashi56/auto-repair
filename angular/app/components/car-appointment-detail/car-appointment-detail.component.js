@@ -19,7 +19,9 @@ class CarAppointmentDetailController {
 	
   this.API.all('appointments').get('appointment_info', {appointmentId}).then((response) => {
 		this.appointment = API.copy(response)
-    console.log(this.appointment.data)
+
+    this.appointment.data.book_time = this.makeTime(this.appointment.data.book_time);
+    this.appointment.data.accept_time = this.makeTime(this.appointment.data.accept_time);
 	})
 
   this.API.all('appointments').get('appointment_times', {appointmentId}).then((response) => {
@@ -30,7 +32,15 @@ class CarAppointmentDetailController {
 		this.services =  response.plain();
 	})
   }
- 
+  
+  makeTime(time){
+    var temp = time.split(' ');
+    var temp1 = temp[0].split('-');
+
+    var new_time = temp1[2]+'-'+temp1[1]+'-'+temp1[0]+' '+temp[1];
+    return new_time;
+  }
+
   advisorcontroller ($scope, $uibModalInstance, API) {
   	  'ngInject'
   	  

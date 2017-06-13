@@ -262,7 +262,7 @@ class AppointmentsController extends Controller
 
 		date_default_timezone_set('Asia/Dubai');
 
-        self::updateAppointmentInfo($request->appointmentId, array('status'=>4, 'completion_time'=>date('Y-m-d H:i:s')));
+        self::updateAppointmentInfo($request->appointmentId, array('status'=>7, 'completion_time'=>date('Y-m-d H:i:s')));
 
 		$advisor_email = $appointment->advisor_email;
 
@@ -344,8 +344,20 @@ class AppointmentsController extends Controller
 				$aos->is_selected = 1;
 				$aos->save();
 			}
+		}else{ /* Do some actions if method is advanced */
+			$temp = explode(' ', $request->model);
+
+			DB::table('car')
+		            ->where('id', $info->car_id)
+		            ->update(array('make'=>$temp[0], 'model'=>$temp[1], 'year'=>$temp[2], 'trim'=>$request->plate));
 		}
-		/* Do some actions if method is instant end */
+		/* Do some actions if method is advanced end */
+
+		/* Update Customer */
+		DB::table('customer')
+		            ->where('id', $info->customer_id)
+		            ->update(array('name'=>$request->customer, 'email'=>$request->email));
+		/* Update Customer End */
 
 		/* Sending email to mechanic if auto assigned */
 		if($info->mechanic_id == 0 && $mechanic_id != 0){
@@ -695,7 +707,7 @@ class AppointmentsController extends Controller
 						->leftjoin('customer', 'appointment.customer_id', '=', 'customer.id')
 						->leftjoin('car', 'appointment.car_id', '=', 'car.id')	
 						->where('appointment.id', $appointmentId)
-						->select('appointment.id', 'appointment.mechanic_id', 'users_a.name as advisor', 'users_a.email as advisor_email', 'customer.name as customer', 'customer.email', 'customer.phone_number', 'appointment.book_time', 'appointment.accept_time', 'appointment_status.name as status', 'appointment.report_id', 'appointment.completion_time', 'appointment.completion_description', 'car.make as make', 'car.model as model', 'car.trim as trim', 'car.year as year')
+						->select('appointment.id', 'appointment.mechanic_id', 'users_a.name as advisor', 'users_a.email as advisor_email', 'customer.name as customer', 'customer.email', 'customer.phone_number', 'appointment.book_time', 'appointment.accept_time', 'appointment_status.name as status', 'appointment.report_id', 'appointment.completion_time', 'appointment.completion_description', 'car.make as make', 'car.model as model', 'car.trim as trim', 'car.year as year', 'car.id as car_id', 'customer.id as customer_id')
 						->first();
 
 		return $appointment;
@@ -989,11 +1001,11 @@ class AppointmentsController extends Controller
 			extract($data);
 			$m->from($sender, 'Gargash Autobody');
 			$m->to($emailTo, 'Admin')->subject($subject);
-		});
+		}); 
 		/* Sending email to admin end */
 
 		if($advisor_id != 0){
-			/* Sending email to advisor */
+			// Sending email to advisor 
 			$info = self::getAdvisorInfoPublic($advisor_id);
 
 			$sender = Config::get("mail.from");
@@ -1012,7 +1024,7 @@ class AppointmentsController extends Controller
 				$m->from($sender, 'Gargash Autobody');
 				$m->to($emailTo, 'Advisor')->subject($subject);
 			});
-			/* Sending email to advisor end */
+			// Sending email to advisor end 
 		}
 
 		if($request->phone!=''){

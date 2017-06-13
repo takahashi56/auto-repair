@@ -23,6 +23,7 @@ class CarAppointmentAcceptController {
     this.API.all('appointments').get('appointment_times_raw', {appointmentId}).then((response) => {
       this.appointment_times =  response.plain();
 
+      this.appointment_times.data[0].appointment_time = this.makeTime(this.appointment_times.data[0].appointment_time);
       var temp = this.appointment_times.data[0].appointment_time.split(' ');
       
       this.date = temp[0]
@@ -107,6 +108,14 @@ class CarAppointmentAcceptController {
     this.$scope = $scope
   }
 	
+  makeTime(time){
+    var temp = time.split(' ');
+    var temp1 = temp[0].split('-');
+
+    var new_time = temp1[2]+'-'+temp1[1]+'-'+temp1[0]+' '+temp[1];
+    return new_time;
+  }
+
   $onInit () {}
 
   toggleSelection(id) {
@@ -165,6 +174,12 @@ class CarAppointmentAcceptController {
       return;
     }
 
+    /* Make Time To Original */
+    let date = this.date;
+    let temp = date.split('-');
+    date = temp[2]+'-'+temp[1]+'-'+temp[0];
+    /* Make Time To Original End */
+
     if(isValid){
       var url = this.$location.absUrl();
       var app_url = url;
@@ -177,7 +192,7 @@ class CarAppointmentAcceptController {
         app_url: app_url,
         app_id: this.appointmentId,
         jobno: this.jobno,
-        date: this.date,
+        date: date,
         time: this.time,
         customer: this.customer,
         vin: this.vin,

@@ -56,6 +56,8 @@ class AdminReportFormController {
           this.$rootScope.custom_service.push(this.report.service[i])    
       }
 
+      this.report.time = this.makeTime(this.report.time);
+
       this.selected_service = this.report.service
       this.total = this.report.total
       
@@ -90,6 +92,14 @@ class AdminReportFormController {
     })
   }
 	
+  makeTime(time){
+    var temp = time.split(' ');
+    var temp1 = temp[0].split('-');
+
+    var new_time = temp1[2]+'-'+temp1[1]+'-'+temp1[0]+' '+temp[1];
+    return new_time;
+  }
+  
   modalcontroller (API, $scope, $rootScope, $uibModalInstance) {
       'ngInject'
       this.API = API

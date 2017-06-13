@@ -15,6 +15,8 @@ class FrontReportFormController {
     this.API.all('appointments').get('get_report', {reportId}).then((response) => {
       this.report =  response.plain()[0];
       
+      this.report.time = this.makeTime(this.report.time);
+
       for (var i in this.report.aspect ){
         for ( var j in this.report.aspect[i].detail){
           for ( var k in this.report.aspect[i].detail[j].sub){
@@ -60,6 +62,14 @@ class FrontReportFormController {
     this.$location = $location
   }
 	
+  makeTime(time){
+    var temp = time.split(' ');
+    var temp1 = temp[0].split('-');
+
+    var new_time = temp1[2]+'-'+temp1[1]+'-'+temp1[0]+' '+temp[1];
+    return new_time;
+  }
+  
   $onInit () {}
 
   onSelectService (service) {

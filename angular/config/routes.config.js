@@ -14,7 +14,7 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider, $locationProvi
   }
 
   $urlRouterProvider.otherwise('/')
-  $locationProvider.html5Mode(true);
+  //$locationProvider.html5Mode(true);
 
   $stateProvider
     .state('special', {

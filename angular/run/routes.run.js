@@ -1,4 +1,4 @@
-export function RoutesRun ($rootScope, $state, $auth, AclService, $timeout, API, ContextService) {
+export function RoutesRun ($rootScope, $location, $state, $auth, AclService, $timeout, API, ContextService) {
   'ngInject'
 
   AclService.resume()

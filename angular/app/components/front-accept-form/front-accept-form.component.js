@@ -26,6 +26,9 @@ class FrontAcceptFormController {
         if(this.data.file[i]=='' || this.data.file[i]==undefined)
           this.data.file[i]='img/assets/upload'+(i+1)+'.jpg'
       }
+
+      temp = this.data.date.split('-');
+      this.data.date = temp[2]+'-'+temp[1]+'-'+temp[0];
     })
 
     this.API.all('appointments').get('appointment_inspection').then((response) => {
