@@ -44,7 +44,7 @@ class Handler extends ExceptionHandler
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $e){
-        /*if ($e instanceof ModelNotFoundException) {
+        if ($e instanceof ModelNotFoundException) {
             $e = new NotFoundHttpException($e->getMessage(), $e);
         }
 
@@ -55,6 +55,6 @@ class Handler extends ExceptionHandler
             return response()->redirectTo($angular_url);
         }
         
-        return parent::render($request, $e);*/
+        return parent::render($request, $e);
     }
 }
