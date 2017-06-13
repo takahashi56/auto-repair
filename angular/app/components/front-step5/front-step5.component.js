@@ -23,7 +23,7 @@ class FrontStep5Controller {
 	
   $onInit () {
     if (this.$rootScope.whatCar == undefined || this.$rootScope.method == undefined) {
-      this.$state.go('front.home');
+      this.$state.go('frontmain.home');
       return;
     }
 
@@ -224,7 +224,7 @@ class FrontStep5Controller {
         confirmButtonText: 'OK',
         closeOnConfirm: true
       }, function () {
-        $state.go('front.home');
+        $state.go('frontmain.home');
       })
     }, (res) => {
       // error

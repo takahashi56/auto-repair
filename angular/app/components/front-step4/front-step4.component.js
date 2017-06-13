@@ -14,7 +14,7 @@ class FrontStep4Controller {
 	
   $onInit () {
     if (this.$rootScope.whatCar == undefined) {
-      this.$state.go('front.home');
+      this.$state.go('frontmain.home');
       return;
     }
 

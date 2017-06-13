@@ -13,6 +13,10 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider, $locationProvi
     return `./views/app/pages/front-layout/${layout}.page.html`
   }
 
+  var getFrontLayoutHome = (layout) => {
+    return `./views/app/pages/front-layout-home/${layout}.page.html`
+  }
+
   $urlRouterProvider.otherwise('/')
   $locationProvider.html5Mode(true);
 
@@ -594,6 +598,24 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider, $locationProvi
         bodyClass: 'hold-transition skin-blue'
       }
     })
+    .state('frontmain', {
+      abstract: true,
+      views: {
+        'layout': {
+          templateUrl: getFrontLayoutHome('front-layout-home')
+        },
+        'header@frontmain': {
+          templateUrl: getView('front-header')
+        },
+        'footer@frontmain': {
+          templateUrl: getView('front-footer')
+        },
+        main: {}
+      },
+      data: {
+        bodyClass: 'hold-transition skin-blue'
+      }
+    })
     .state('app.carappointmentaccept', {
       url: '/admin/car-appointment-accept/:appointmentId',
       data: {
@@ -640,13 +662,13 @@ export function RoutesConfig ($stateProvider, $urlRouterProvider, $locationProvi
         }
       }
     })
-    .state('front.home', {
+    .state('frontmain.home', {
       url: '/',
       data: {
         bodyClass: 'hold-transition login-page sidebar-collapse'
       },
       views: {
-        'main@front': {
+        'main@frontmain': {
           template: '<front-home></front-home>'
         }
       }

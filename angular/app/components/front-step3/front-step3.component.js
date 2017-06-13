@@ -17,12 +17,12 @@ class FrontStep3Controller {
 	
   $onInit () {
     if (this.$rootScope.currentMainService == undefined && this.$rootScope.method == 'advanced') {
-      this.$state.go('front.home');
+      this.$state.go('frontmain.home');
       return;
     }
 
     if(this.$rootScope.method == undefined){
-      this.$state.go('front.home');
+      this.$state.go('frontmain.home');
       return;
     }
 

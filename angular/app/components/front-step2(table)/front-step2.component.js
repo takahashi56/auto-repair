@@ -11,7 +11,7 @@ class FrontStep2Controller {
 	
   $onInit () {
     if (this.$rootScope.currentMainService == undefined) {
-      this.$state.go('front.home');
+      this.$state.go('frontmain.home');
       return;
     }
 

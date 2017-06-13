@@ -12,7 +12,7 @@ class FrontStep1Controller {
 	
   $onInit () {
     if (this.$rootScope.main_services == undefined) {
-      this.$state.go('front.home');
+      this.$state.go('frontmain.home');
       return;
     }
     document.getElementById('mobile_menu').style.display = 'none';
