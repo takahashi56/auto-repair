@@ -21,8 +21,8 @@ class AdminDashboardController {
     this.monthList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     this.weekList = [1, 2, 3, 4, 5]
 
-    this.year = 0
-    this.month = 0
+    this.year = this.date.getFullYear()
+    this.month = this.date.getMonth() + 1
     this.week = 0
 
     this.filter()
