@@ -887,10 +887,14 @@ class AppointmentsController extends Controller
 
 		$user = DB::select($query);
 
-		if($user!=null)
-			return (int)($user[0]->id);
+		if($user!=null && count($user) == 1){
+			$id = (int)($user[0]->id);
+			
+			if($id != 0)
+				return $id;
+		}
 
-		$query = "select a.id as id from users as a left join role_users as b on a.id = b.user_id left join roles as c on b.role_id = c.id where a.auto_assign=1 and c.slug='$role' order by a.id asc limit 1";
+		$query = "select a.id as id from users as a left join role_user as b on b.user_id = a.id left join roles as c on c.id = b.role_id where a.auto_assign=1 and c.slug='$role' order by a.id asc limit 1";
 
 		$user = DB::select($query);
 
